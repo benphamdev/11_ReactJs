@@ -21,28 +21,45 @@ class MyComponent extends React.Component {
 
         this.setState({
             name: "pham duy chien",
-            age: Math.floor(Math.random() * (100 - 10 + 1) + 10)
+            age: Math.floor(Math.random() * (100 - 10 + 1) + 10),
         });
 
-
-        // react class => merge state 
+        // react class => merge state
         this.setState({
             address: Math.floor(Math.random() * (100 - 10 + 1) + 10),
         });
     }
+
+    handleOnChange = (event) => {
+        this.setState({
+            name: event.target.value,
+        });
+        console.log(event, event.target.value);
+    };
+
+    handleOnSubmit = (event) => {
+        event.preventDefault(); // default có sẵn ngăn được alert ko ngăn được console.log
+        // alert("oke");
+        console.log(this.state);
+    };
+
     // jsx
     render() {
         return (
             <div>
                 My name is {this.state.name} and i from {this.state.address}
-                <button onClick={this.handleClick}>On click</button>
-                <button
+                {/* <button onClick={this.handleClick}>On click</button> */}
+                {/* <button
                     onMouseOver={(event) => {
                         this.handleMouseOver(event);
                     }}
                 >
                     Mouse over
-                </button>
+                </button> */}
+                <form onSubmit={(event) => this.handleOnSubmit(event)}>
+                    <input type="text" onChange={(event) => this.handleOnChange(event)} />
+                    <button>Submit</button>
+                </form>
             </div>
         );
     }
