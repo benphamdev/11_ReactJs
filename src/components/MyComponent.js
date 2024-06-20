@@ -30,8 +30,14 @@ class MyComponent extends Component {
     };
     // jsx
     render() {
+        const test = {
+            name: "chien",
+            age: 21,
+        };
         return (
             <>
+                {JSON.stringify(test)}  
+                {/* note : boolean not render  */}
                 <UserInfo handleAddUser={this.handleAddUser} />
                 <br />
                 <br />

@@ -38,6 +38,7 @@ export default class DisplayInfo extends Component {
                     </span>
                 </div>
                 {/* // conditional rendering */}
+                {/* note : boolean not render  */}
                 {this.state.flag && (
                     <>
                         {listUsers.map((user, index) => {
