@@ -1,14 +1,11 @@
-import logo from "./logo.svg";
-import "./App.css";
-import { useDispatch, useSelector } from "react-redux";
-import { increaseCounter, decreaseCounter } from "./redux/action/counterAction";
-import MyComponent from "./components/MyComponent";
 import { Component } from "react";
+import "./App.scss";
+import MyComponent from "./components/MyComponent";
 
 class App extends Component {
     render() {
         return (
-            <div>
+            <div className="app-container">
                 hello world
                 <MyComponent></MyComponent>
             </div>

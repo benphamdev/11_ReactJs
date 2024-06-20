@@ -2,8 +2,6 @@
 // function component
 
 import { Component } from "react";
-
-import DisplayInfo from "./DisplayInfo";
 import genId from "../utils/generateId.js";
 
 class UserInfo extends Component {

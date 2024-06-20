@@ -1,4 +1,6 @@
 import { Component } from "react";
+import logo from "./../logo.svg";
+import "./DisplayInfo.scss";
 
 export default class DisplayInfo extends Component {
     state = {
@@ -28,7 +30,8 @@ export default class DisplayInfo extends Component {
         // destructuring object
         let { listUsers } = this.props;
         return (
-            <div>
+            <div className="display-info-container">
+                <img src={logo} alt="" />
                 <div>
                     <span onClick={() => this.handleToggle()}>
                         {this.state.flag ? "Hide" : "Show"} list user :
@@ -36,11 +39,11 @@ export default class DisplayInfo extends Component {
                 </div>
                 {/* // conditional rendering */}
                 {this.state.flag && (
-                    <div>
+                    <>
                         {listUsers.map((user, index) => {
                             return (
                                 <div className={user.age < 30 ? "red" : "green"} key={user.id}>
-                                    <p>ID : {user.id}</p>
+                                    <div style={{ color: "purple", paddingTop: "5px" }}>ID : {user.id}</div>
                                     <p>Name : {user.name}</p>
                                     <p>Address : {user.address}</p>
                                     <p>Age : {user.age}</p>
@@ -48,7 +51,7 @@ export default class DisplayInfo extends Component {
                                 </div>
                             );
                         })}
-                    </div>
+                    </>
                 )}
             </div>
         );

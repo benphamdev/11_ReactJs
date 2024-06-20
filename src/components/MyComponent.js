@@ -1,9 +1,9 @@
 // class component
 // function component
 
+import { Component } from "react";
 import DisplayInfo from "./DisplayInfo";
 import UserInfo from "./UserInfo";
-import { Component } from "react";
 
 class MyComponent extends Component {
     state = {
@@ -31,12 +31,12 @@ class MyComponent extends Component {
     // jsx
     render() {
         return (
-            <div>
+            <>
                 <UserInfo handleAddUser={this.handleAddUser} />
                 <br />
                 <br />
                 <DisplayInfo listUsers={this.state.listUsers} />
-            </div>
+            </>
         );
     }
 
