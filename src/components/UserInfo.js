@@ -4,13 +4,69 @@
 import { Component } from "react";
 
 import DisplayInfo from "./DisplayInfo";
+import genId from "../utils/generateId.js";
 
 class UserInfo extends Component {
     state = {
-        name: "bendev",
-        address: "thai binh",
-        age: 21,
+        id: genId(10),
+        name: "",
+        address: "",
+        age: Math.floor(Math.random() * (100 - 10 + 1) + 10),
     };
+
+    // jsx
+    render() {
+        let myAge = 26,
+            arr = ["pham", "chien"];
+        return (
+            <div>
+                My name is {this.state.name} and i from {this.state.address}
+                {/* <button onClick={this.handleClick}>On click</button> */}
+                {/* <button
+                    onMouseOver={(event) => {
+                        this.handleMouseOver(event);
+                    }}
+                >
+                    Mouse over
+                </button> */}
+                <form onSubmit={(event) => this.handleOnSubmit(event)}>
+                    <label htmlFor="">Your name : </label>
+
+                    <input
+                        type="text"
+                        name="name"
+                        value={this.state.name}
+                        onChange={(event) => this.handleOnChange(event)}
+                    />
+
+                    <br />
+
+                    <label htmlFor="">Your age : </label>
+                    <input
+                        type="text"
+                        name="age"
+                        value={this.state.age}
+                        onChange={(event) => this.handleOnChange(event)}
+                    />
+
+                    <br />
+                    <label htmlFor="">Your address : </label>
+                    <input
+                        type="text"
+                        name="address"
+                        value={this.state.address}
+                        onChange={(event) => this.handleOnChange(event)}
+                    />
+
+                    <br />
+                    <button>Submit</button>
+                </form>
+                <br />
+                <br />
+                {/* <DisplayInfo name={this.state.name} age={this.state.age} arr={arr} />; */}
+            </div>
+        );
+    }
 
     handleClick() {
         console.log("hello world");
@@ -42,57 +98,21 @@ class UserInfo extends Component {
             [event.target.name]: event.target.value,
         });
 
-        console.log(event, event.target.value);
+        // console.log(event, event.target.value);
     };
 
     handleOnSubmit = (event) => {
         event.preventDefault(); // default có sẵn ngăn được alert ko ngăn được console.log
         // alert("oke");
-        console.log(this.state);
+
+        // generate id => don't correct because it's operation async
+        this.setState({
+            id: genId(10),
+        });
+
+        // call function from parent
+        this.props.handleAddUser(this.state);
     };
-
-    // jsx
-    render() {
-        let myAge = 26,
-            arr = ["pham", "chien"];
-        return (
-            <div>
-                My name is {this.state.name} and i from {this.state.address}
-                {/* <button onClick={this.handleClick}>On click</button> */}
-                {/* <button
-                    onMouseOver={(event) => {
-                        this.handleMouseOver(event);
-                    }}
-                >
-                    Mouse over
-                </button> */}
-                <form onSubmit={(event) => this.handleOnSubmit(event)}>
-                    <label htmlFor="">Your name : </label>
-
-                    <input
-                        type="text"
-                        name="name"
-                        value={this.state.name}
-                        onChange={(event) => this.handleOnChange(event)}
-                    />
-
-                    <br />
-                    <label htmlFor="">Your age : </label>
-                    <input
-                        type="text"
-                        name="age"
-                        value={this.state.age}
-                        onChange={(event) => this.handleOnChange(event)}
-                    />
-
-                    <button>Submit</button>
-                </form>
-                <br />
-                <br />
-                {/* <DisplayInfo name={this.state.name} age={this.state.age} arr={arr} />; */}
-            </div>
-        );
-    }
 }
 
 export default UserInfo;

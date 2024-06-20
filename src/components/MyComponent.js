@@ -32,13 +32,20 @@ class MyComponent extends Component {
     render() {
         return (
             <div>
-                <UserInfo />
+                <UserInfo handleAddUser={this.handleAddUser} />
                 <br />
                 <br />
                 <DisplayInfo listUsers={this.state.listUsers} />
             </div>
         );
     }
+
+    handleAddUser = (userObj) => {
+        // console.log(userObj);
+        this.setState({
+            listUsers: [userObj, ...this.state.listUsers],
+        });
+    };
 }
 
 export default MyComponent;
