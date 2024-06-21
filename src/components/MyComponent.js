@@ -1,13 +1,12 @@
 // class component
 // function component
 
-import {Component} from "react";
+import {useState} from "react";
 import DisplayInfo from "./DisplayInfo";
 import UserInfo from "./UserInfo";
 
-class MyComponent extends Component {
-    state = {
-        listUsers: [
+export default function MyComponent() {
+    const [listUsers, setListUser] = useState([
             {
                 id: 1,
                 name: "bendev",
@@ -25,47 +24,31 @@ class MyComponent extends Component {
                 name: "duy chien",
                 address: "thai binh",
                 age: 23,
-            },
-        ],
+            }
+        ]
+    );
+
+    const handleAddUser = (userObj) => {
+        setListUser([userObj, ...listUsers]);
     };
 
-    // jsx
-    render() {
-        // const test = {
-        //     name: "chien",
-        //     age: 21,
-        // };
-        return (
-            <>
-                {/* {JSON.stringify(test)}   */}
-                {/* note : boolean not render  */}
-                <UserInfo handleAddUser={this.handleAddUser}/>
-                <br/>
-                <br/>
-                <DisplayInfo
-                    listUsers={this.state.listUsers}
-                    handleDeleteUser={this.handleDeleteUser}
-                />
-            </>
-        );
-    }
+    const handleDeleteUser = (userId) => {
+        setListUser(listUsers.filter((user) => user.id !== userId));
 
-    handleAddUser = (userObj) => {
-        // console.log(userObj);
-        this.setState({
-            // add front
-            listUsers: [userObj, ...this.state.listUsers],
-            // add back
-            // listUsers: [userObj, ...this.state.listUsers],
-        });
+        // setListUser(() => {
+        //     return listUsers.filter((user) => user.id !== userId)
+        // });
     };
 
-    handleDeleteUser = (userId) => {
-        this.setState({
-            listUsers: this.state.listUsers.filter((user) => user.id !== userId),
-        });
-    };
-
+    return (
+        <>
+            <UserInfo handleAddUser={handleAddUser}/>
+            <br/>
+            <br/>
+            <DisplayInfo
+                listUsers={listUsers}
+                handleDeleteUser={handleDeleteUser}
+            />
+        </>
+    );
 }
-
-export default MyComponent;
