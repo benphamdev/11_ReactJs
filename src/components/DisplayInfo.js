@@ -10,8 +10,25 @@ export default class DisplayInfo extends Component {
     // babel compiler
     constructor(props) {
         super(props);
+        console.log("constructor")
         this.state = {
             flag: true
+        }
+    }
+
+    componentDidMount() {
+        console.log("componentDidMount")
+        setTimeout(() => {
+            document.title = "Display Info";
+        }, 3000);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log("componentDidUpdate", prevProps, prevState, snapshot);
+
+        if (this.props.listUsers !== prevProps.listUsers) {
+            if (this.props.listUsers.length === 5)
+                alert("You got 5 users");
         }
     }
 
@@ -35,6 +52,7 @@ export default class DisplayInfo extends Component {
         //     </div>
         // );
 
+        console.log("render")
         // destructuring object
         const {listUsers} = this.props;
         return (
