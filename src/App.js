@@ -7,7 +7,7 @@ class App extends Component {
         return (
             <div className="app-container">
                 hello world
-                <MyComponent></MyComponent>
+                <MyComponent />
             </div>
         );
     }
