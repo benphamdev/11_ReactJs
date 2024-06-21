@@ -1,5 +1,6 @@
 import "./DisplayInfo.scss";
 import logo from "./../logo.svg";
+import {useState} from "react";
 
 // stateless vs stateful
 // class component
@@ -96,17 +97,30 @@ import logo from "./../logo.svg";
 // }
 
 // stateless
-// function component => don't has state
+// function component => don't state
+// => reactjs 18 has new feature is reactjs using function component && has state
 const DisplayInfo = (props) => {
     // destructuring object
     const {listUsers} = props;
+
+    //destructuring assignment
+    const [isToggle, set] = useState(true);
+
+    const handleToggle = () => {
+        set(!isToggle);
+    };
+
     return (
         <div className="display-info-container">
             <img src={logo} alt=""/>
-
+            <div>
+                 <span onClick={() => handleToggle()}>
+                    {isToggle ? "Hide" : "Show"} list user :
+				</span>
+            </div>
             {/* // conditional rendering */}
             {/* note : boolean not render  */}
-            {true && (
+            {(isToggle &&
                 <>
                     {listUsers.map((user, index) => {
                         return (
