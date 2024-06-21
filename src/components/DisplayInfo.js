@@ -1,6 +1,6 @@
 import "./DisplayInfo.scss";
 import logo from "./../logo.svg";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 export default function DisplayInfo(props) {
     // destructuring object
@@ -13,6 +13,16 @@ export default function DisplayInfo(props) {
         set(!isToggle);
     };
 
+    useEffect(() => {
+        // console.log("use effect")
+        // setTimeout(() => document.title = "Anh Chien", 1000);
+
+        if (listUsers.length === 0) {
+            alert("You don't have any users");
+            console.log("use effect")
+        }
+    }, [listUsers])
+
     return (
         <div className="display-info-container">
             <img src={logo} alt=""/>
@@ -21,7 +31,7 @@ export default function DisplayInfo(props) {
                     {isToggle ? "Hide" : "Show"} list user :
 				</span>
             </div>
-            
+
             {(isToggle &&
                 <>
                     {listUsers.map((user, index) => {

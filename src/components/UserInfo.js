@@ -13,43 +13,19 @@ const UserInfo = (props) => {
     });
 
     let handleOnChange = (event) => {
-        // bad code
-        // this.setState.event = event.target.value
-
-        // good code
-        setUserInfo({
-            ...userInfo,
-            [event.target.name]: event.target.value,
-        });
-
-        // console.log(event, event.target.value);
+        setUserInfo({...userInfo, [event.target.name]: event.target.value,});
     };
 
     let handleOnSubmit = (event) => {
-        event.preventDefault(); // default có sẵn ngăn được alert ko ngăn được console.log
-        // alert("oke");
-
-        // generate id => don't correct because it's operation async
-        setUserInfo({
-            ...userInfo,
-            id: genId(10),
-        });
-
-        // call function from parent
+        event.preventDefault();
+        setUserInfo({...userInfo, id: genId(10),});
         props.handleAddUser(userInfo);
     };
 
     return (
         <div>
             My name is {userInfo.name} and i from {userInfo.address}
-            {/* <button onClick={this.handleClick}>On click</button> */}
-            {/* <button
-                    onMouseOver={(event) => {
-                        this.handleMouseOver(event);
-                    }}
-                >
-                    Mouse over
-                </button> */}
+
             <form onSubmit={(event) => handleOnSubmit(event)}>
                 <label htmlFor="">Your name : </label>
 
