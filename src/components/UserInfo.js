@@ -1,7 +1,7 @@
 // class component
 // function component
 
-import {useState} from "react";
+import { useState } from "react";
 import genId from "../utils/generateId.js";
 
 const UserInfo = (props) => {
