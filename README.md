@@ -84,4 +84,5 @@ here: [https://facebook.github.io/create-react-app/docs/deployment](https://face
 This section has moved
 here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-npm install --save-exact react-router-dom@6.3.0 react-bootstrap@2.4.0 bootstrap@5.2.0 
+npm install --save-exact react-router-dom@6.3.0 react-bootstrap@2.4.0 bootstrap@5.2.0
+npm install --save-exact axios@1.7.2 react-toastify@10.0.5 react-paginate@8.2.0

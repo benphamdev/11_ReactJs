@@ -1,8 +1,10 @@
 import 'react-pro-sidebar/dist/css/styles.css';
 import {Menu, MenuItem, ProSidebar, SidebarContent, SidebarFooter, SidebarHeader, SubMenu,} from 'react-pro-sidebar';
 
-import {FaGem, FaGithub, FaRegLaughWink, FaTachometerAlt} from 'react-icons/fa';
+import {FaGem, FaGithub, FaTachometerAlt} from 'react-icons/fa';
 import sidebarBg from '../../assets/img/bg2.jpg';
+import {FaReact} from "react-icons/fa6";
+import "./SideBar.scss"
 
 const SideBar = (props) => {
     const {image, collapsed, toggled, handleToggleSidebar} = props;
@@ -28,7 +30,8 @@ const SideBar = (props) => {
                             whiteSpace: 'nowrap',
                         }}
                     >
-                        Ben Pham
+                        <FaReact size={"2em"} color={"#1360cd"} style={{marginRight: '12px'}}/>
+                        BenPhamDev
                     </div>
                 </SidebarHeader>
 
@@ -38,18 +41,17 @@ const SideBar = (props) => {
                             icon={<FaTachometerAlt/>}
                             suffix={<span className="badge red">New</span>}
                         >
-                            dashboard
+                            Dashboard
                         </MenuItem>
-                        <MenuItem icon={<FaGem/>}> components </MenuItem>
-                    </Menu>
-                    <Menu iconShape="circle">
+
                         <SubMenu
+                            title="Features"
+                            icon={<FaGem/>}
                             suffix={<span className="badge yellow">3</span>}
-                            icon={<FaRegLaughWink/>}
                         >
-                            <MenuItem> 1</MenuItem>
-                            <MenuItem> 2</MenuItem>
-                            <MenuItem> 3</MenuItem>
+                            <MenuItem>Manage Users</MenuItem>
+                            <MenuItem>Manage Quizzes</MenuItem>
+                            <MenuItem>Manage Questions</MenuItem>
                         </SubMenu>
 
                     </Menu>
@@ -63,14 +65,14 @@ const SideBar = (props) => {
                         }}
                     >
                         <a
-                            href="https://github.com/azouaoui-med/react-pro-sidebar"
+                            href="https://github.com/benphamdev"
                             target="_blank"
                             className="sidebar-btn"
                             rel="noopener noreferrer"
                         >
                             <FaGithub/>
                             <span style={{whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden'}}>
-                                viewSource
+                                ViewSource
                             </span>
                         </a>
                     </div>
