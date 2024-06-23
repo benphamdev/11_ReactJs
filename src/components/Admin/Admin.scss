@@ -6,4 +6,23 @@
       height: 100vh !important;
     }
   }
+
+  .admin-content {
+    width: 100%;
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background-color: #f4f4f4;
+      height: 40px;
+      border: 1px solid red;
+    }
+
+    .admin-main {
+      padding: 1rem;
+      border: 1px solid green;
+    }
+  }
 }
