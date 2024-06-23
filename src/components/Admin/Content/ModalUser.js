@@ -1,16 +1,63 @@
 import {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import 'react-toastify/dist/ReactToastify.css';
+import {toast} from "react-toastify";
+import {createNewUser} from "../../../services/api/apiService";
 
-function ModalUser() {
-    const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+function ModalUser(props) {
+    const {show, setShow} = props;
     const handleUploadImage = (event) => {
         if (event) {
             setPreviewImage((URL.createObjectURL(event.target.files[0])));
             setAvatar(event.target.files[0]);
+        }
+    }
+
+    const handleClose = () => {
+        setShow(false)
+        setEmail('')
+        setPassword('')
+        setUserName('')
+        setRole('USER')
+        setAvatar('')
+        setPreviewImage('')
+    };
+
+    const validateEmail = (email) => {
+        return String(email)
+            .toLowerCase()
+            .match(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            );
+    };
+
+    const handleSave = async () => {
+        // alert("Save user")
+        // validate
+        if (!validateEmail(email)) {
+            toast.error("Email is invalid");
+            return;
+        }
+
+        if (password.length < 6) {
+            toast.error("Password must be at least 6 characters");
+            return;
+        }
+
+        // call api
+        let data = {email: email, password: password, username: username, role: role, userImage: avatar}
+
+        try {
+            const response = await createNewUser(data);
+            if (response.EC === 0) {
+                toast.success("Add user successfully")
+                handleClose()
+            } else {
+                toast.error(response.EM);
+            }
+        } catch (e) {
+            toast.error(e.message);
         }
     }
 
@@ -21,13 +68,8 @@ function ModalUser() {
     const [avatar, setAvatar] = useState('');
     const [previewImage, setPreviewImage] = useState('');
 
-
     return (
         <>
-            <Button variant="primary" onClick={handleShow}>
-                Add new user
-            </Button>
-
             <Modal
                 show={show}
                 onHide={handleClose}
@@ -39,6 +81,7 @@ function ModalUser() {
                 <Modal.Header closeButton>
                     <Modal.Title>Add user</Modal.Title>
                 </Modal.Header>
+
                 <Modal.Body>
                     {/*<FormExample/>*/}
 
@@ -50,7 +93,7 @@ function ModalUser() {
                                    placeholder="benphamdev" value={username}
                                    onChange={(e) => setUserName(e.target.value)}
                             />
-                            <div className="valid-feedback">
+                            <div className="valid-tooltip">
                                 Looks good!
                             </div>
                         </div>
@@ -60,9 +103,8 @@ function ModalUser() {
                             <input type="password" className="form-control" id="validationCustom02" required
                                    placeholder="1234556789" value={password}
                                    onChange={(e) => setPassword(e.target.value)}
-
                             />
-                            <div className="valid-feedback">
+                            <div className="valid-tooltip">
                                 Looks good!
                             </div>
                         </div>
@@ -76,7 +118,7 @@ function ModalUser() {
                                        placeholder="benphamdev@gmail.com" value={email}
                                        onChange={(e) => setEmail(e.target.value)}
                                 />
-                                <div className="invalid-feedback">
+                                <div className="invalid-tooltip">
                                     Please choose a email.
                                 </div>
                             </div>
@@ -84,13 +126,13 @@ function ModalUser() {
 
                         <div className="col-md-3">
                             <label htmlFor="validationCustom04" className="form-label">Role</label>
-                            <select className="form-select" id="validationCustom04" required
+                            <select className="form-select" id="validationCustom04" required value={role}
                                     onChange={(e) => setRole(e.target.value)}>
                                 <option value="USER">USER</option>
                                 <option value="ADMIN">ADMIN</option>
                             </select>
-                            <div className="invalid-feedback">
-                                Please select a valid state.
+                            <div className="invalid-tooltip">
+                                Please select a valid role.
                             </div>
                         </div>
 
@@ -112,7 +154,7 @@ function ModalUser() {
                                 <label className="form-check-label" htmlFor="invalidCheck">
                                     Agree to terms and conditions
                                 </label>
-                                <div className="invalid-feedback">
+                                <div className="invalid-tooltip">
                                     You must agree before submitting.
                                 </div>
                             </div>
@@ -121,10 +163,12 @@ function ModalUser() {
                             <button className="btn btn-primary" type="submit">Submit form</button>
                         </div>
                     </form>
+
+
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>Close</Button>
-                    <Button variant="primary">Save</Button>
+                    <Button variant="primary" onClick={handleSave}>Save</Button>
                 </Modal.Footer>
             </Modal>
         </>
