@@ -2,7 +2,7 @@ import ModalUser from "./ModalUser";
 import './ManageUser.scss';
 import {useEffect, useState} from "react";
 import TableUser from "./TableUser";
-import {getParticipantsWithPagination} from "../../../services/api/ApiService";
+import {getParticipants, getParticipantsWithPagination} from "../../../services/api/ApiService";
 import ModalDeleteUser from "./ModalDeleteUser";
 
 const ManageUser = (props) => {
@@ -15,13 +15,14 @@ const ManageUser = (props) => {
     const [infoUser, setInfoUser] = useState(null);
     const [isView, setIsView] = useState(false);
     const [pageCount, setPageCount] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
 
     // constants
-    const LIMIT_PAGE = 5;
+    const LIMIT_PAGE = 1;
 
     useEffect(() => {
         // console.log("ManageUser.js useEffect")
-        fetchUsersWithPagination(1)
+        fetchUsersWithPagination(currentPage);
     }, []);
 
     const fetchUsers = async () => {
@@ -38,6 +39,11 @@ const ManageUser = (props) => {
         if (res.EC === 0) {
             setUsers(res.DT.users);
             setPageCount(res.DT.totalPages);
+            console.log("pageCount : ", page)
+            // when set current page , it will render TableUser component
+            // if set current page user live in current page, user will be page 1
+            // because force page attribute in TableUser component
+            setCurrentPage(page);
         }
     }
 
@@ -76,23 +82,34 @@ const ManageUser = (props) => {
                 </div>
 
                 <div className="table-users-container">
-                    <TableUser users={users}
-                               handleBtnUpdate={handleBtnUpdate}
-                               handleBtnView={handleBtnView}
-                               handelBtnDelete={handelBtnDelete}
-                               fetchUsersWithPagination={fetchUsersWithPagination}
-                               pageCount={pageCount}
+                    <TableUser
+                        users={users}
+                        handleBtnUpdate={handleBtnUpdate}
+                        handleBtnView={handleBtnView}
+                        handelBtnDelete={handelBtnDelete}
+                        fetchUsersWithPagination={fetchUsersWithPagination}
+                        pageCount={pageCount}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
                     />
                 </div>
 
-                <ModalUser show={show} setShow={setShow} fetchUsers={fetchUsers}
-                           infoUser={infoUser} setInfoUser={setInfoUser}
-                           isView={isView} setIsView={setIsView}
+                <ModalUser
+                    show={show} setShow={setShow}
+                    fetchUsersWithPagination={fetchUsersWithPagination}
+                    infoUser={infoUser} setInfoUser={setInfoUser}
+                    isView={isView} setIsView={setIsView}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
                 />
 
-                <ModalDeleteUser show={showDeleteUser} setShow={setShowDeleteUser}
-                                 fetchUsers={fetchUsers}
-                                 infoUser={infoUser} setInfoUser={setInfoUser}/>
+                <ModalDeleteUser
+                    show={showDeleteUser} setShow={setShowDeleteUser}
+                    fetchUsersWithPagination={fetchUsersWithPagination}
+                    infoUser={infoUser} setInfoUser={setInfoUser}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                />
             </div>
 
         </div>

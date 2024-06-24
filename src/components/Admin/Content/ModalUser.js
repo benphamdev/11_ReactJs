@@ -9,7 +9,7 @@ import {validateEmail} from "../../../utils/ValidateEmail";
 function ModalUser(props) {
     // props
     const {
-        show, setShow, fetchUsers,
+        show, setShow, fetchUsersWithPagination,
         infoUser, setInfoUser,
         isView, setIsView
     } = props;
@@ -86,7 +86,8 @@ function ModalUser(props) {
             if (response.EC === 0) {
                 toast.success(`${isUpdate ? "Update" : "Add"} user successfully`)
                 handleClose()
-                await fetchUsers();
+                props.setCurrentPage(1);
+                await fetchUsersWithPagination(props.currentPage);
             } else {
                 toast.error(response.EM);
             }

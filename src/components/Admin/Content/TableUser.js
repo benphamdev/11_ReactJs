@@ -4,11 +4,13 @@ import ReactPaginate from "react-paginate";
 const TableUser = (props) => {
     const {
         users, handleBtnUpdate, handleBtnView, handelBtnDelete,
-        fetchUsersWithPagination, pageCount
+        fetchUsersWithPagination, pageCount,
+        currentPage, setCurrentPage,
     } = props;
 
     const handlePageClick = (event) => {
         console.log(`User requested page number ${event.selected}`);
+        setCurrentPage(event.selected + 1);
         fetchUsersWithPagination(event.selected + 1);
     };
 
@@ -80,6 +82,7 @@ const TableUser = (props) => {
                 containerClassName="pagination d-flex justify-content-center"
                 activeClassName="active"
                 renderOnZeroPageCount={null}
+                forcePage={currentPage - 1}
             />
         </>
     );
