@@ -7,7 +7,11 @@ import {createNewUser, updateUser} from "../../../services/api/apiService";
 
 function ModalUser(props) {
     // props
-    const {show, setShow, fetchUsers, infoUpdateUser, setInfoUpdateUser} = props;
+    const {
+        show, setShow, fetchUsers,
+        infoUpdateUser, setInfoUpdateUser,
+        isView, setIsView
+    } = props;
 
     // state
     const [username, setUserName] = useState('');
@@ -51,6 +55,7 @@ function ModalUser(props) {
         setAvatar('')
         setPreviewImage('')
         setInfoUpdateUser(null)
+        setIsView(false)
     };
 
     const validateEmail = (email) => {
@@ -112,7 +117,7 @@ function ModalUser(props) {
             >
                 <Modal.Header closeButton>
                     <Modal.Title>
-                        {!isUpdate ? "Add" : "Update"} user
+                        {!isView ? (!isUpdate ? "Add" : "Update") : "View"} user
                     </Modal.Title>
                 </Modal.Header>
 
@@ -155,6 +160,7 @@ function ModalUser(props) {
                             <label htmlFor="validationCustom01" className="form-label">Username</label>
                             <input type="text" className="form-control" id="validationCustom01" required
                                    autoComplete={"username"}
+                                   disabled={isView}
                                    placeholder="benphamdev" value={username}
                                    onChange={(e) => setUserName(e.target.value)}
                             />
@@ -162,10 +168,13 @@ function ModalUser(props) {
                                 Looks good!
                             </div>
                         </div>
+
                         <div className="col-md-3">
                             <label htmlFor="validationCustom04" className="form-label">Role</label>
                             <select className="form-select" id="validationCustom04" required value={role}
-                                    onChange={(e) => setRole(e.target.value)}>
+                                    onChange={(e) => setRole(e.target.value)}
+                                    disabled={isView}
+                            >
                                 <option value="USER">USER</option>
                                 <option value="ADMIN">ADMIN</option>
                             </select>
@@ -174,38 +183,43 @@ function ModalUser(props) {
                             </div>
                         </div>
 
-                        <div className="input-group mb-3">
-                            <input type="file" className="form-control" id="inputGroupFile02"
-                                   onChange={(e) => handleUploadImage(e)}/>
-                            <label className="input-group-text" htmlFor="inputGroupFile02">Upload</label>
-                        </div>
+                        {
+                            !isView && <div className="input-group mb-3">
+                                <input type="file" className="form-control" id="inputGroupFile02"
+                                       onChange={(e) => handleUploadImage(e)}/>
+                                <label className="input-group-text" htmlFor="inputGroupFile02">Upload</label>
+                            </div>
+                        }
 
                         <div className="col-md-12 img-preview">
                             {previewImage ? <img src={previewImage}/> : <span>Preview Image</span>}
                         </div>
-
-
-                        <div className="col-12">
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="" id="invalidCheck"
-                                       required/>
-                                <label className="form-check-label" htmlFor="invalidCheck">
-                                    Agree to terms and conditions
-                                </label>
-                                <div className="invalid-tooltip">
-                                    You must agree before submitting.
+                        {
+                            !isView && <div className="col-12">
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" value="" id="invalidCheck"
+                                           required/>
+                                    <label className="form-check-label" htmlFor="invalidCheck">
+                                        Agree to terms and conditions
+                                    </label>
+                                    <div className="invalid-tooltip">
+                                        You must agree before submitting.
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="col-12">
-                            <button className="btn btn-primary" type="submit">Submit form</button>
-                        </div>
+                            &&
+                            <div className="col-12">
+                                <button className="btn btn-primary" type="submit">Submit form</button>
+                            </div>
+                        }
                     </form>
 
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>Close</Button>
-                    <Button variant="primary" onClick={handleSave}>Save</Button>
+                    {
+                        !isView && <Button variant="primary" onClick={handleSave}>Save</Button>
+                    }
                 </Modal.Footer>
             </Modal>
         </>

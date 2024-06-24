@@ -9,6 +9,7 @@ const ManageUser = (props) => {
     const [show, setShow] = useState(false);
     const [users, setUsers] = useState([])
     const [infoUpdateUser, setInfoUpdateUser] = useState(null);
+    const [isView, setIsView] = useState(false);
 
     useEffect(() => {
         // console.log("ManageUser.js useEffect")
@@ -17,16 +18,25 @@ const ManageUser = (props) => {
 
     const fetchUsers = async () => {
         let res = await getParticipants();
-        console.log("ManageUsers list users : ", res);
+        // console.log("ManageUsers list users : ", res);
         if (res.EC === 0) {
             setUsers(res.DT);
         }
     }
 
-    const handleBtnUpdate = (user) => {
+    const showInfo = (user) => {
         setShow(true);
         setInfoUpdateUser(user);
     }
+    const handleBtnUpdate = (user) => {
+        showInfo(user)
+    }
+
+    const handleBtnView = (user) => {
+        showInfo(user)
+        setIsView(true)
+    }
+
 
     return (
         <div className="manage-user-container">
@@ -44,11 +54,15 @@ const ManageUser = (props) => {
                 </div>
 
                 <div className="table-users-container">
-                    <TableUser users={users} handleBtnUpdate={handleBtnUpdate}/>
+                    <TableUser users={users} handleBtnUpdate={handleBtnUpdate}
+                               handleBtnView={handleBtnView}
+                    />
                 </div>
 
                 <ModalUser show={show} setShow={setShow} fetchUsers={fetchUsers}
-                           infoUpdateUser={infoUpdateUser} setInfoUpdateUser={setInfoUpdateUser}/>
+                           infoUpdateUser={infoUpdateUser} setInfoUpdateUser={setInfoUpdateUser}
+                           isView={isView} setIsView={setIsView}
+                />
 
             </div>
 
