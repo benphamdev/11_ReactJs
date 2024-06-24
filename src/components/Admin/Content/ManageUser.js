@@ -2,19 +2,26 @@ import ModalUser from "./ModalUser";
 import './ManageUser.scss';
 import {useEffect, useState} from "react";
 import TableUser from "./TableUser";
-import {getParticipants} from "../../../services/api/ApiService";
+import {getParticipantsWithPagination} from "../../../services/api/ApiService";
 import ModalDeleteUser from "./ModalDeleteUser";
 
 const ManageUser = (props) => {
+    // props
+
+    // state
     const [show, setShow] = useState(false);
     const [showDeleteUser, setShowDeleteUser] = useState(false);
     const [users, setUsers] = useState([])
     const [infoUser, setInfoUser] = useState(null);
     const [isView, setIsView] = useState(false);
+    const [pageCount, setPageCount] = useState(0);
+
+    // constants
+    const LIMIT_PAGE = 5;
 
     useEffect(() => {
         // console.log("ManageUser.js useEffect")
-        fetchUsers()
+        fetchUsersWithPagination(1)
     }, []);
 
     const fetchUsers = async () => {
@@ -22,6 +29,15 @@ const ManageUser = (props) => {
         // console.log("ManageUsers list users : ", res);
         if (res.EC === 0) {
             setUsers(res.DT);
+        }
+    }
+
+    const fetchUsersWithPagination = async (page) => {
+        let res = await getParticipantsWithPagination(page, LIMIT_PAGE);
+        console.log("ManageUsers list users : ", res);
+        if (res.EC === 0) {
+            setUsers(res.DT.users);
+            setPageCount(res.DT.totalPages);
         }
     }
 
@@ -64,6 +80,8 @@ const ManageUser = (props) => {
                                handleBtnUpdate={handleBtnUpdate}
                                handleBtnView={handleBtnView}
                                handelBtnDelete={handelBtnDelete}
+                               fetchUsersWithPagination={fetchUsersWithPagination}
+                               pageCount={pageCount}
                     />
                 </div>
 
