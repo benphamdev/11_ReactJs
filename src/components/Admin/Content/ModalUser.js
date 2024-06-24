@@ -3,13 +3,14 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import 'react-toastify/dist/ReactToastify.css';
 import {toast} from "react-toastify";
-import {createNewUser, updateUser} from "../../../services/api/apiService";
+import {createNewUser, updateUser} from "../../../services/api/ApiService";
+import {validateEmail} from "../../../utils/ValidateEmail";
 
 function ModalUser(props) {
     // props
     const {
         show, setShow, fetchUsers,
-        infoUpdateUser, setInfoUpdateUser,
+        infoUser, setInfoUser,
         isView, setIsView
     } = props;
 
@@ -27,17 +28,16 @@ function ModalUser(props) {
     const [isUpdate, setIsUpdate] = useState(false);
 
     useEffect(() => {
-        console.log("useEffect : ", infoUpdateUser);
-        setIsUpdate(infoUpdateUser !== null);
-        if (infoUpdateUser !== null) {
-            setUserName(infoUpdateUser?.username || '');
-            setEmail(infoUpdateUser?.email || '');
-            setRole(infoUpdateUser?.role || 'USER');
-            if (infoUpdateUser?.image)
-                setPreviewImage(`data:image/svg+xml+jpeg+png;base64,${infoUpdateUser.image}`);
+        // console.log("useEffect : ", infoUpdateUser);
+        setIsUpdate(infoUser !== null);
+        if (infoUser !== null) {
+            setUserName(infoUser?.username || '');
+            setEmail(infoUser?.email || '');
+            setRole(infoUser?.role || 'USER');
+            if (infoUser?.image)
+                setPreviewImage(`data:image/svg+xml+jpeg+png;base64,${infoUser.image}`);
         }
-    }, [infoUpdateUser]);
-
+    }, [infoUser]);
 
     const handleUploadImage = (event) => {
         if (event) {
@@ -54,16 +54,8 @@ function ModalUser(props) {
         setRole('USER')
         setAvatar('')
         setPreviewImage('')
-        setInfoUpdateUser(null)
+        setInfoUser(null)
         setIsView(false)
-    };
-
-    const validateEmail = (email) => {
-        return String(email)
-            .toLowerCase()
-            .match(
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            );
     };
 
     const handleSave = async () => {
@@ -84,7 +76,7 @@ function ModalUser(props) {
 
         try {
             if (isUpdate) {
-                data = {id: infoUpdateUser.id, username: username, role: role, userImage: avatar}
+                data = {id: infoUser.id, username: username, role: role, userImage: avatar}
                 response = await updateUser(data);
             } else {
                 data = {email: email, password: password, username: username, role: role, userImage: avatar}
@@ -122,10 +114,7 @@ function ModalUser(props) {
                 </Modal.Header>
 
                 <Modal.Body>
-                    {/*<FormExample/>*/}
-
                     <form className="row g-3 needs-validation">
-
 
                         <div className="col-md-6">
                             <label htmlFor="validationCustomUsername" className="form-label">Email</label>
@@ -133,8 +122,7 @@ function ModalUser(props) {
                                 <span className="input-group-text" id="inputGroupPrepend">@</span>
                                 <input type="text" className="form-control" id="validationCustomUsername"
                                        aria-describedby="inputGroupPrepend" required
-                                       disabled={isUpdate}
-                                       placeholder="benphamdev@gmail.com" value={email}
+                                       disabled={isUpdate} placeholder="benphamdev@gmail.com" value={email}
                                        onChange={(e) => setEmail(e.target.value)}
                                 />
                                 <div className="invalid-tooltip">
@@ -146,8 +134,7 @@ function ModalUser(props) {
                         <div className="col-md-6">
                             <label htmlFor="validationCustom02" className="form-label">Password</label>
                             <input type="password" className="form-control" id="validationCustom02" required
-                                   disabled={isUpdate}
-                                   autoComplete={"current-password"}
+                                   disabled={isUpdate} autoComplete={"current-password"}
                                    placeholder="1234556789" value={password}
                                    onChange={(e) => setPassword(e.target.value)}
                             />
@@ -159,9 +146,7 @@ function ModalUser(props) {
                         <div className="col-md-6">
                             <label htmlFor="validationCustom01" className="form-label">Username</label>
                             <input type="text" className="form-control" id="validationCustom01" required
-                                   autoComplete={"username"}
-                                   disabled={isView}
-                                   placeholder="benphamdev" value={username}
+                                   autoComplete={"username"} disabled={isView} placeholder="benphamdev" value={username}
                                    onChange={(e) => setUserName(e.target.value)}
                             />
                             <div className="valid-tooltip">
@@ -173,8 +158,7 @@ function ModalUser(props) {
                             <label htmlFor="validationCustom04" className="form-label">Role</label>
                             <select className="form-select" id="validationCustom04" required value={role}
                                     onChange={(e) => setRole(e.target.value)}
-                                    disabled={isView}
-                            >
+                                    disabled={isView}>
                                 <option value="USER">USER</option>
                                 <option value="ADMIN">ADMIN</option>
                             </select>
@@ -217,9 +201,7 @@ function ModalUser(props) {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>Close</Button>
-                    {
-                        !isView && <Button variant="primary" onClick={handleSave}>Save</Button>
-                    }
+                    {!isView && <Button variant="primary" onClick={handleSave}>Save</Button>}
                 </Modal.Footer>
             </Modal>
         </>

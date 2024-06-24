@@ -1,4 +1,4 @@
-import axios from '../../utils/axiosCustomize';
+import axios from '../../utils/AxiosCustomize.js';
 
 const createNewUser = async (data) => {
     return await axios.post("api/v1/participant", data, {
@@ -33,4 +33,19 @@ const updateUser = async (data) => {
         return Promise.reject(err);
     })
 }
-export {createNewUser, getParticipants, updateUser};
+
+const deleteUser = async (data) => {
+    return await axios({
+        method: 'delete',
+        url: "api/v1/participant",
+        data: data
+    }).then(res => {
+        console.log("api service : ", res);
+        return res;
+    }).catch(err => {
+        console.log(err)
+        return Promise.reject(err);
+    })
+}
+
+export {createNewUser, getParticipants, updateUser, deleteUser};
