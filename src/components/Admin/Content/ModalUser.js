@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import 'react-toastify/dist/ReactToastify.css';
@@ -6,7 +6,35 @@ import {toast} from "react-toastify";
 import {createNewUser} from "../../../services/api/apiService";
 
 function ModalUser(props) {
-    const {show, setShow} = props;
+    // props
+    const {show, setShow, fetchUsers, updateUser} = props;
+
+    // state
+    const [username, setUserName] = useState('');
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [role, setRole] = useState('USER');
+    const [avatar, setAvatar] = useState('');
+    const [previewImage, setPreviewImage] = useState('');
+
+    // flag is to show update or add user form
+    // can be used to check if user is updating or adding
+    // or you can check user is null or not
+    const [isUpdate, setIsUpdate] = useState(false);
+
+    useEffect(() => {
+        // console.log("useEffect : ", "ModalUser");
+        setIsUpdate(updateUser !== null);
+        if (updateUser !== null) {
+            setUserName(updateUser?.username || '');
+            setEmail(updateUser?.email || '');
+            setRole(updateUser?.role || 'USER');
+            if (updateUser?.image)
+                setPreviewImage(`data:image/svg+xml+jpeg+png;base64,${updateUser.image}`);
+        }
+    }, [updateUser]);
+
+
     const handleUploadImage = (event) => {
         if (event) {
             setPreviewImage((URL.createObjectURL(event.target.files[0])));
@@ -53,6 +81,7 @@ function ModalUser(props) {
             if (response.EC === 0) {
                 toast.success("Add user successfully")
                 handleClose()
+                await fetchUsers();
             } else {
                 toast.error(response.EM);
             }
@@ -61,13 +90,7 @@ function ModalUser(props) {
         }
     }
 
-    const [username, setUserName] = useState('');
-    const [password, setPassword] = useState('');
-    const [email, setEmail] = useState('');
-    const [role, setRole] = useState('USER');
-    const [avatar, setAvatar] = useState('');
-    const [previewImage, setPreviewImage] = useState('');
-
+    // console.log("render modal user")
     return (
         <>
             <Modal
@@ -79,7 +102,9 @@ function ModalUser(props) {
                 className={"modal-user"}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Add user</Modal.Title>
+                    <Modal.Title>
+                        {!isUpdate ? "Add" : "Update"} user
+                    </Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
@@ -90,6 +115,8 @@ function ModalUser(props) {
                         <div className="col-md-6">
                             <label htmlFor="validationCustom01" className="form-label">Username</label>
                             <input type="text" className="form-control" id="validationCustom01" required
+                                   disabled={isUpdate}
+                                   autoComplete={"username"}
                                    placeholder="benphamdev" value={username}
                                    onChange={(e) => setUserName(e.target.value)}
                             />
@@ -101,6 +128,8 @@ function ModalUser(props) {
                         <div className="col-md-6">
                             <label htmlFor="validationCustom02" className="form-label">Password</label>
                             <input type="password" className="form-control" id="validationCustom02" required
+                                   disabled={isUpdate}
+                                   autoComplete={"current-password"}
                                    placeholder="1234556789" value={password}
                                    onChange={(e) => setPassword(e.target.value)}
                             />
@@ -164,7 +193,6 @@ function ModalUser(props) {
                         </div>
                     </form>
 
-
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>Close</Button>
@@ -172,8 +200,7 @@ function ModalUser(props) {
                 </Modal.Footer>
             </Modal>
         </>
-    )
-        ;
+    );
 }
 
 export default ModalUser;
