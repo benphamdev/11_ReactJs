@@ -8,7 +8,7 @@ import {getParticipants} from "../../../services/api/apiService";
 const ManageUser = (props) => {
     const [show, setShow] = useState(false);
     const [users, setUsers] = useState([])
-    const [updateUser, setUpdateUser] = useState(null);
+    const [infoUpdateUser, setInfoUpdateUser] = useState(null);
 
     useEffect(() => {
         // console.log("ManageUser.js useEffect")
@@ -25,7 +25,7 @@ const ManageUser = (props) => {
 
     const handleBtnUpdate = (user) => {
         setShow(true);
-        setUpdateUser(user);
+        setInfoUpdateUser(user);
     }
 
     return (
@@ -37,7 +37,7 @@ const ManageUser = (props) => {
                 <div className="btn-add-user">
                     <button className="btn btn-primary" onClick={() => {
                         setShow(true)
-                        setUpdateUser(null)
+                        setInfoUpdateUser(null)
                     }}>
                         Add new user
                     </button>
@@ -47,7 +47,8 @@ const ManageUser = (props) => {
                     <TableUser users={users} handleBtnUpdate={handleBtnUpdate}/>
                 </div>
 
-                <ModalUser show={show} setShow={setShow} fetchUsers={fetchUsers} updateUser={updateUser}/>
+                <ModalUser show={show} setShow={setShow} fetchUsers={fetchUsers}
+                           infoUpdateUser={infoUpdateUser} setInfoUpdateUser={setInfoUpdateUser}/>
 
             </div>
 

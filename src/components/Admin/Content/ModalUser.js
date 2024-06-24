@@ -3,11 +3,11 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import 'react-toastify/dist/ReactToastify.css';
 import {toast} from "react-toastify";
-import {createNewUser} from "../../../services/api/apiService";
+import {createNewUser, updateUser} from "../../../services/api/apiService";
 
 function ModalUser(props) {
     // props
-    const {show, setShow, fetchUsers, updateUser} = props;
+    const {show, setShow, fetchUsers, infoUpdateUser, setInfoUpdateUser} = props;
 
     // state
     const [username, setUserName] = useState('');
@@ -23,16 +23,16 @@ function ModalUser(props) {
     const [isUpdate, setIsUpdate] = useState(false);
 
     useEffect(() => {
-        // console.log("useEffect : ", "ModalUser");
-        setIsUpdate(updateUser !== null);
-        if (updateUser !== null) {
-            setUserName(updateUser?.username || '');
-            setEmail(updateUser?.email || '');
-            setRole(updateUser?.role || 'USER');
-            if (updateUser?.image)
-                setPreviewImage(`data:image/svg+xml+jpeg+png;base64,${updateUser.image}`);
+        console.log("useEffect : ", infoUpdateUser);
+        setIsUpdate(infoUpdateUser !== null);
+        if (infoUpdateUser !== null) {
+            setUserName(infoUpdateUser?.username || '');
+            setEmail(infoUpdateUser?.email || '');
+            setRole(infoUpdateUser?.role || 'USER');
+            if (infoUpdateUser?.image)
+                setPreviewImage(`data:image/svg+xml+jpeg+png;base64,${infoUpdateUser.image}`);
         }
-    }, [updateUser]);
+    }, [infoUpdateUser]);
 
 
     const handleUploadImage = (event) => {
@@ -50,6 +50,7 @@ function ModalUser(props) {
         setRole('USER')
         setAvatar('')
         setPreviewImage('')
+        setInfoUpdateUser(null)
     };
 
     const validateEmail = (email) => {
@@ -68,23 +69,31 @@ function ModalUser(props) {
             return;
         }
 
-        if (password.length < 6) {
+        if (!isUpdate && password.length < 6) {
             toast.error("Password must be at least 6 characters");
             return;
         }
 
         // call api
-        let data = {email: email, password: password, username: username, role: role, userImage: avatar}
+        let data, response;
 
         try {
-            const response = await createNewUser(data);
+            if (isUpdate) {
+                data = {id: infoUpdateUser.id, username: username, role: role, userImage: avatar}
+                response = await updateUser(data);
+            } else {
+                data = {email: email, password: password, username: username, role: role, userImage: avatar}
+                response = await createNewUser(data);
+            }
+
             if (response.EC === 0) {
-                toast.success("Add user successfully")
+                toast.success(`${isUpdate ? "Update" : "Add"} user successfully`)
                 handleClose()
                 await fetchUsers();
             } else {
                 toast.error(response.EM);
             }
+
         } catch (e) {
             toast.error(e.message);
         }
@@ -112,16 +121,20 @@ function ModalUser(props) {
 
                     <form className="row g-3 needs-validation">
 
+
                         <div className="col-md-6">
-                            <label htmlFor="validationCustom01" className="form-label">Username</label>
-                            <input type="text" className="form-control" id="validationCustom01" required
-                                   disabled={isUpdate}
-                                   autoComplete={"username"}
-                                   placeholder="benphamdev" value={username}
-                                   onChange={(e) => setUserName(e.target.value)}
-                            />
-                            <div className="valid-tooltip">
-                                Looks good!
+                            <label htmlFor="validationCustomUsername" className="form-label">Email</label>
+                            <div className="input-group has-validation">
+                                <span className="input-group-text" id="inputGroupPrepend">@</span>
+                                <input type="text" className="form-control" id="validationCustomUsername"
+                                       aria-describedby="inputGroupPrepend" required
+                                       disabled={isUpdate}
+                                       placeholder="benphamdev@gmail.com" value={email}
+                                       onChange={(e) => setEmail(e.target.value)}
+                                />
+                                <div className="invalid-tooltip">
+                                    Please choose a email.
+                                </div>
                             </div>
                         </div>
 
@@ -139,20 +152,16 @@ function ModalUser(props) {
                         </div>
 
                         <div className="col-md-6">
-                            <label htmlFor="validationCustomUsername" className="form-label">Email</label>
-                            <div className="input-group has-validation">
-                                <span className="input-group-text" id="inputGroupPrepend">@</span>
-                                <input type="text" className="form-control" id="validationCustomUsername"
-                                       aria-describedby="inputGroupPrepend" required
-                                       placeholder="benphamdev@gmail.com" value={email}
-                                       onChange={(e) => setEmail(e.target.value)}
-                                />
-                                <div className="invalid-tooltip">
-                                    Please choose a email.
-                                </div>
+                            <label htmlFor="validationCustom01" className="form-label">Username</label>
+                            <input type="text" className="form-control" id="validationCustom01" required
+                                   autoComplete={"username"}
+                                   placeholder="benphamdev" value={username}
+                                   onChange={(e) => setUserName(e.target.value)}
+                            />
+                            <div className="valid-tooltip">
+                                Looks good!
                             </div>
                         </div>
-
                         <div className="col-md-3">
                             <label htmlFor="validationCustom04" className="form-label">Role</label>
                             <select className="form-select" id="validationCustom04" required value={role}

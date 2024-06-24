@@ -22,4 +22,15 @@ const getParticipants = async () => {
     })
 }
 
-export {createNewUser, getParticipants};
+const updateUser = async (data) => {
+    return await axios.put("api/v1/participant", data, {
+        headers: {'Content-Type': 'multipart/form-data'}
+    }).then(res => {
+        console.log("api service : ", res);
+        return res;
+    }).catch(err => {
+        console.log(err)
+        return Promise.reject(err);
+    })
+}
+export {createNewUser, getParticipants, updateUser};
