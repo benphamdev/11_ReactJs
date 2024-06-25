@@ -27,11 +27,17 @@
 
     .btn {
       width: 100%;
-      background-color: #0a0505;
+      background-color: #1c0e0e;
 
       &:hover {
         background-color: #acd9ac;
+        color: #242323;
+      }
+
+      &:disabled {
+        background-color: #d3d3d3;
         color: #000000;
+        cursor: no-drop !important;
       }
     }
 
@@ -39,11 +45,25 @@
     }
 
     span {
-      text-decoration: underline;
       cursor: pointer;
-      color: #846b6b;
+      color: #9a7979;
       text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
       font-size: 12px;
+    }
+
+    .loader-icon {
+      margin-right: 8px;
+      top: 2px;
+      animation: spin 1s infinite linear;
+    }
+
+    @keyframes spin {
+      from {
+        transform: scale(1) rotate(0deg);
+      }
+      to {
+        transform: scale(1) rotate(360deg);
+      }
     }
   }
 }

@@ -5,6 +5,8 @@ import {useNavigate} from "react-router-dom";
 import {login} from "../../services/api/ApiService";
 import {toast} from "react-toastify";
 import {useDispatch} from "react-redux";
+import {doLogin} from "../../redux/action/UserAction";
+import {ImSpinner8} from "react-icons/im";
 
 export const Login = () => {
     // state
@@ -12,13 +14,13 @@ export const Login = () => {
     const [password, setPassword] = useState('');
     const [userNameError, setUserNameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
-
+    const [isValid, setIsValid] = useState(false);
     // hooks
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const validateUsername = (value) => {
-        if (value === '' && !validateEmail(value)) {
+        if (value === '' || !validateEmail(value)) {
             setUserNameError('Please enter a valid username. It contains only letters, numbers, and underscores.');
             return false;
         }
@@ -35,26 +37,31 @@ export const Login = () => {
         return true;
     }
 
+    // if use useEffect to able button login when username and password is valid, but i can solve it
+    // when conflict icon loading . i will solve it later
+    // useEffect(() => {
+    //     setIsValid(!validateUsername(username) || !validatePassword(password));
+    // });
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const isValidUsername = validateUsername(username);
         const isValidPassword = validatePassword(password);
 
         if (isValidUsername && isValidPassword) {
-            let data = {email: username, password};
+            setIsValid(true)
+            let data = {email: username, password, delay: 5000};
             let response = await login(data);
-            // console.log("response : ", response)
+            console.log("response : ", response)
 
             if (response && response.EC == 0) {
                 toast.success('Login successfully');
-                navigateToHome();
-                dispatch({
-                    type: 'FETCH_USER_INFO',
-                    payload: response.DT
-                })
+                // navigateToHome();
+                dispatch(doLogin(response.DT));
             } else {
                 toast.error(response.EM);
             }
+            setIsValid(false)
         }
     }
 
@@ -134,10 +141,18 @@ export const Login = () => {
 
                 <div className="col-12">
                     <button
-                        className="btn btn-primary" type="submit"
+                        className="btn btn-primary btn-login" type="submit"
                         onClick={(e) => handleSubmit(e)}
+                        disabled={isValid}
                     >
-                        Login
+                        {
+                            isValid
+                                ? <div>
+                                    <ImSpinner8 className={"loader-icon"}/>
+                                    <a>Loading</a>
+                                </div>
+                                : <a>Login</a>
+                        }
                     </button>
                 </div>
 
