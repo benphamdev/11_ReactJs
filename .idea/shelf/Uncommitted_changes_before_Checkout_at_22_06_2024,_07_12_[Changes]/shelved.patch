@@ -1,0 +1,315 @@
+Index: src/components/DisplayInfo.scss
+===================================================================
+diff --git a/src/components/DisplayInfo.scss b/src/components/DisplayInfo.scss
+deleted file mode 100644
+--- a/src/components/DisplayInfo.scss	(revision a1410d76845dff7532b7d539e08b1dc878008e57)
++++ /dev/null	(revision a1410d76845dff7532b7d539e08b1dc878008e57)
+@@ -1,14 +0,0 @@
+-.display-info-container {
+-    .red {
+-        color: red;
+-    }
+-
+-    .green {
+-        color: green;
+-    }
+-
+-    img{
+-        width: 300px;
+-        height: 300px;
+-    }
+-}
+Index: src/components/MyComponent.js
+===================================================================
+diff --git a/src/components/MyComponent.js b/src/components/MyComponent.js
+deleted file mode 100644
+--- a/src/components/MyComponent.js	(revision a1410d76845dff7532b7d539e08b1dc878008e57)
++++ /dev/null	(revision a1410d76845dff7532b7d539e08b1dc878008e57)
+@@ -1,50 +0,0 @@
+-// class component
+-// function component
+-
+-import { useState } from "react";
+-import DisplayInfo from "./DisplayInfo";
+-import UserInfo from "./UserInfo";
+-
+-export default function MyComponent() {
+-	const [listUsers, setListUser] = useState([
+-		{
+-			id: 1,
+-			name: "bendev",
+-			address: "thai binh",
+-			age: 35,
+-		},
+-		{
+-			id: 2,
+-			name: "pham duy chien",
+-			address: "thai binh",
+-			age: 22,
+-		},
+-		{
+-			id: 3,
+-			name: "duy chien",
+-			address: "thai binh",
+-			age: 23,
+-		},
+-	]);
+-
+-	const handleAddUser = (userObj) => {
+-		setListUser([userObj, ...listUsers]);
+-	};
+-
+-	const handleDeleteUser = (userId) => {
+-		setListUser(listUsers.filter((user) => user.id !== userId));
+-
+-		// setListUser(() => {
+-		//     return listUsers.filter((user) => user.id !== userId)
+-		// });
+-	};
+-
+-	return (
+-		<>
+-			<UserInfo handleAddUser={handleAddUser} />
+-			<br />
+-			<br />
+-			<DisplayInfo listUsers={listUsers} handleDeleteUser={handleDeleteUser} />
+-		</>
+-	);
+-}
+Index: src/components/DisplayInfo.js
+===================================================================
+diff --git a/src/components/DisplayInfo.js b/src/components/DisplayInfo.js
+deleted file mode 100644
+--- a/src/components/DisplayInfo.js	(revision a1410d76845dff7532b7d539e08b1dc878008e57)
++++ /dev/null	(revision a1410d76845dff7532b7d539e08b1dc878008e57)
+@@ -1,60 +0,0 @@
+-import {useEffect, useState} from "react";
+-import logo from "./../logo.svg";
+-import "./DisplayInfo.scss";
+-
+-export default function DisplayInfo(props) {
+-    // destructuring object
+-    const {listUsers} = props;
+-
+-    //destructuring assignment
+-    const [isToggle, set] = useState(true);
+-
+-    const handleToggle = () => {
+-        set(!isToggle);
+-    };
+-
+-    useEffect(() => {
+-        // console.log("use effect")
+-        // setTimeout(() => document.title = "Anh Chien", 1000);
+-
+-        if (listUsers.length === 0) {
+-            alert("You don't have any users");
+-            console.log("use effect");
+-        }
+-    }, [listUsers]);
+-
+-    return (
+-        <div className="display-info-container">
+-            <img src={logo} alt=""/>
+-            <div>
+-				<span onClick={() => handleToggle()}>
+-					{isToggle ? "Hide" : "Show"} list user :
+-				</span>
+-            </div>
+-
+-            {isToggle && (
+-                <>
+-                    {listUsers.map((user, index) => {
+-                        return (
+-                            <div className={user.age < 30 ? "red" : "green"} key={user.id}>
+-                                <div style={{color: "purple", paddingTop: "5px"}}>
+-                                    ID : {user.id}
+-                                </div>
+-                                <p>Name : {user.name}</p>
+-                                <p>Address : {user.address}</p>
+-                                <p>Age : {user.age}</p>
+-                                <br/>
+-                                <div>
+-                                    <button onClick={() => props.handleDeleteUser(user.id)}>
+-                                        Delete user
+-                                    </button>
+-                                </div>
+-                                <hr/>
+-                            </div>
+-                        );
+-                    })}
+-                </>
+-            )}
+-        </div>
+-    );
+-}
+Index: src/components/UserInfo.js
+===================================================================
+diff --git a/src/components/UserInfo.js b/src/components/UserInfo.js
+deleted file mode 100644
+--- a/src/components/UserInfo.js	(revision a1410d76845dff7532b7d539e08b1dc878008e57)
++++ /dev/null	(revision a1410d76845dff7532b7d539e08b1dc878008e57)
+@@ -1,68 +0,0 @@
+-// class component
+-// function component
+-
+-import { useState } from "react";
+-import genId from "../utils/generateId.js";
+-
+-const UserInfo = (props) => {
+-    const [userInfo, setUserInfo] = useState({
+-        id: genId(10),
+-        name: "",
+-        address: "",
+-        age: Math.floor(Math.random() * (100 - 10 + 1) + 10),
+-    });
+-
+-    let handleOnChange = (event) => {
+-        setUserInfo({...userInfo, [event.target.name]: event.target.value,});
+-    };
+-
+-    let handleOnSubmit = (event) => {
+-        event.preventDefault();
+-        setUserInfo({...userInfo, id: genId(10),});
+-        props.handleAddUser(userInfo);
+-    };
+-
+-    return (
+-        <div>
+-            My name is {userInfo.name} and i from {userInfo.address}
+-
+-            <form onSubmit={(event) => handleOnSubmit(event)}>
+-                <label htmlFor="">Your name : </label>
+-
+-                <input
+-                    type="text"
+-                    name="name"
+-                    value={userInfo.name}
+-                    onChange={(event) => handleOnChange(event)}
+-                />
+-
+-                <br/>
+-
+-                <label htmlFor="">Your age : </label>
+-                <input
+-                    type="text"
+-                    name="age"
+-                    value={userInfo.age}
+-                    onChange={(event) => handleOnChange(event)}
+-                />
+-
+-                <br/>
+-                <label htmlFor="">Your address : </label>
+-                <input
+-                    type="text"
+-                    name="address"
+-                    value={userInfo.address}
+-                    onChange={(event) => handleOnChange(event)}
+-                />
+-
+-                <br/>
+-                <button>Submit</button>
+-            </form>
+-            <br/>
+-            <br/>
+-            {/* <DisplayInfo name={userInfo.name} age={userInfo.age} arr={arr} />; */}
+-        </div>
+-    );
+-}
+-
+-export default UserInfo;
+Index: README.md
+===================================================================
+diff --git a/README.md b/README.md
+deleted file mode 100644
+--- a/README.md	(revision a1410d76845dff7532b7d539e08b1dc878008e57)
++++ /dev/null	(revision a1410d76845dff7532b7d539e08b1dc878008e57)
+@@ -1,87 +0,0 @@
+-#Node.js v14.17.0
+-
+-# Getting Started with Create React App
+-
+-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+-
+-## Available Scripts
+-
+-In the project directory, you can run:
+-
+-### `npm start`
+-
+-Runs the app in the development mode.\
+-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+-
+-The page will reload when you make changes.\
+-You may also see any lint errors in the console.
+-
+-### `npm test`
+-
+-Launches the test runner in the interactive watch mode.\
+-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more
+-information.
+-
+-### `npm run build`
+-
+-Builds the app for production to the `build` folder.\
+-It correctly bundles React in production mode and optimizes the build for the best performance.
+-
+-The build is minified and the filenames include the hashes.\
+-Your app is ready to be deployed!
+-
+-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+-
+-### `npm run eject`
+-
+-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+-
+-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will
+-remove the single build dependency from your project.
+-
+-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right
+-into your project so you have full control over them. All of the commands except `eject` will still work, but they will
+-point to the copied scripts so you can tweak them. At this point you're on your own.
+-
+-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you
+-shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't
+-customize it when you are ready for it.
+-
+-## Learn More
+-
+-You can learn more in
+-the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+-
+-To learn React, check out the [React documentation](https://reactjs.org/).
+-
+-### Code Splitting
+-
+-This section has moved
+-here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+-
+-### Analyzing the Bundle Size
+-
+-This section has moved
+-here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+-
+-### Making a Progressive Web App
+-
+-This section has moved
+-here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+-
+-### Advanced Configuration
+-
+-This section has moved
+-here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+-
+-### Deployment
+-
+-This section has moved
+-here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+-
+-### `npm run build` fails to minify
+-
+-This section has moved
+-here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+-
+-npm install --save-exact react-router-dom@6.3.0 react-bootstrap@2.4.0 bootstrap@5.2.0 
+\ No newline at end of file
