@@ -4,12 +4,18 @@ import {validateEmail} from "../../utils/ValidateEmail";
 import {useNavigate} from "react-router-dom";
 import {login} from "../../services/api/ApiService";
 import {toast} from "react-toastify";
+import {useDispatch} from "react-redux";
 
 export const Login = () => {
+    // state
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [userNameError, setUserNameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+
+    // hooks
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const validateUsername = (value) => {
         if (value === '' && !validateEmail(value)) {
@@ -42,13 +48,15 @@ export const Login = () => {
             if (response && response.EC == 0) {
                 toast.success('Login successfully');
                 navigateToHome();
+                dispatch({
+                    type: 'FETCH_USER_INFO',
+                    payload: response.DT
+                })
             } else {
                 toast.error(response.EM);
             }
         }
     }
-
-    const navigate = useNavigate();
 
     const navigateToHome = () => {
         navigate('/');

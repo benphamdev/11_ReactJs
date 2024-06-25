@@ -2,11 +2,17 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import {NavLink, useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {NavDropdown} from "react-bootstrap";
 
 
 function Header() {
     const navigate = useNavigate();
-    
+    const accountSelector = useSelector((state) => state.userReducer.account);
+    const isAuthenticated = useSelector((state) => state.userReducer.isAuthenticated);
+
+    console.log("accountSelector : ", accountSelector)
+
     const handleLogin = () => {
         navigate("/login");
     }
@@ -32,16 +38,21 @@ function Header() {
                     </Nav>
 
                     <Nav>
-                        <button className="btn-login" onClick={() => handleLogin()}> Login</button>
-                        <button className="btn-signup" onClick={handleRegister}> Signup</button>
-                        {/*<NavDropdown title="Settings" id="basic-nav-setting">*/}
-                        {/*    <NavDropdown.Item>Profile</NavDropdown.Item>*/}
-                        {/*    <NavDropdown.Item>Login</NavDropdown.Item>*/}
-                        {/*    <NavDropdown.Divider/>*/}
-                        {/*    <NavDropdown.Item>*/}
-                        {/*        Log out*/}
-                        {/*    </NavDropdown.Item>*/}
-                        {/*</NavDropdown>*/}
+                        {
+                            !isAuthenticated
+                                ? <>
+                                    <button className="btn-login" onClick={() => handleLogin()}> Login</button>
+                                    <button className="btn-signup" onClick={handleRegister}> Signup</button>
+                                </>
+                                : <NavDropdown title="Settings" id="basic-nav-setting">
+                                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                                    <NavDropdown.Item>Login</NavDropdown.Item>
+                                    <NavDropdown.Divider/>
+                                    <NavDropdown.Item>
+                                        Log out
+                                    </NavDropdown.Item>
+                                </NavDropdown>
+                        }
                     </Nav>
                 </Navbar.Collapse>
             </Container>
