@@ -1,7 +1,7 @@
 import axios from '../../utils/AxiosCustomize.js';
 
-const createNewUser = async (data) => {
-    return await axios.post("api/v1/participant", data, {
+const createNewUser = (data) => {
+    return axios.post("api/v1/participant", data, {
         headers: {'Content-Type': 'multipart/form-data'}
     }).then(res => {
         console.log("api service : ", res);
@@ -12,8 +12,8 @@ const createNewUser = async (data) => {
     })
 }
 
-const getParticipants = async () => {
-    return await axios.get("api/v1/participant/all").then(res => {
+const getParticipants = () => {
+    return axios.get("api/v1/participant/all").then(res => {
         console.log("api service : ", res);
         return res;
     }).catch(err => {
@@ -22,8 +22,8 @@ const getParticipants = async () => {
     })
 }
 
-const getParticipantsWithPagination = async (page, limit) => {
-    return await axios.get("api/v1/participant", {
+const getParticipantsWithPagination = (page, limit) => {
+    return axios.get("api/v1/participant", {
         params: {
             page: page, limit: limit
         }
@@ -36,8 +36,8 @@ const getParticipantsWithPagination = async (page, limit) => {
     })
 }
 
-const updateUser = async (data) => {
-    return await axios.put("api/v1/participant", data, {
+const updateUser = (data) => {
+    return axios.put("api/v1/participant", data, {
         headers: {'Content-Type': 'multipart/form-data'}
     }).then(res => {
         console.log("api service : ", res);
@@ -48,8 +48,8 @@ const updateUser = async (data) => {
     })
 }
 
-const deleteUser = async (data) => {
-    return await axios({
+const deleteUser = (data) => {
+    return axios({
         method: 'delete',
         url: "api/v1/participant",
         data: data
@@ -62,4 +62,15 @@ const deleteUser = async (data) => {
     })
 }
 
-export {createNewUser, getParticipants, getParticipantsWithPagination, updateUser, deleteUser};
+const login = (data) => {
+    return axios.post("api/v1/login", data)
+        .then(res => {
+            console.log("api service : ", res);
+            return res;
+        }).catch(err => {
+            console.log(err)
+            return Promise.reject(err);
+        })
+}
+
+export {createNewUser, getParticipants, getParticipantsWithPagination, updateUser, deleteUser, login};

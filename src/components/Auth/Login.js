@@ -1,6 +1,9 @@
 import './Login.scss'
 import {useState} from "react";
 import {validateEmail} from "../../utils/ValidateEmail";
+import {useNavigate} from "react-router-dom";
+import {login} from "../../services/api/ApiService";
+import {toast} from "react-toastify";
 
 export const Login = () => {
     const [username, setUsername] = useState('');
@@ -19,27 +22,44 @@ export const Login = () => {
 
     const validatePassword = (value) => {
         if (value === '') {
-            setPasswordError('Password is required. It contains only letters, numbers, and underscores.');
+            setPasswordError('It contains only letters, numbers, and underscores.');
             return false;
         }
         setPasswordError('');
         return true;
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const isValidUsername = validateUsername(username);
         const isValidPassword = validatePassword(password);
+
         if (isValidUsername && isValidPassword) {
-            alert('Login success');
+            let data = {email: username, password};
+            let response = await login(data);
+            // console.log("response : ", response)
+
+            if (response && response.EC == 0) {
+                toast.success('Login successfully');
+                navigateToHome();
+            } else {
+                toast.error(response.EM);
+            }
         }
+    }
+
+    const navigate = useNavigate();
+    const navigateToHome = () => {
+        navigate('/');
     }
 
     return (
         <div className={"login-container"}>
 
             <div className={"header"}>
-                Don't have an account yet? Sign up Contact us
+                <span>Don't have an account yet?</span>
+                <button className={"btn btn-dark mx-3"}>Sign up</button>
+                <span>Contact us</span>
             </div>
 
             <div className={"title col-4 mx-auto"}>
@@ -60,7 +80,7 @@ export const Login = () => {
                         <div className="input-group has-validation">
                             <input
                                 type="email" className={`form-control ${userNameError ? 'is-invalid' : ''}`}
-                                id="validationTooltipUsername"
+                                id="validationTooltipUsername" autoComplete={"username"}
                                 aria-describedby="validationTooltipUsernamePrepend" required
                                 value={username}
                                 placeholder={"phamchien@gmail.com"}
@@ -78,22 +98,23 @@ export const Login = () => {
                         <label htmlFor="validationCustom02" className="form-label">
                             <b>Password</b>
                         </label>
-                        <input
-                            type="password" className={`form-control ${passwordError ? 'is-invalid' : ''}`}
-                            id="validationCustom02" required
-                            aria-describedby="validationTooltipPasswordPrepend"
-                            autoComplete={"current-password"}
-                            placeholder="At least 8 characters"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            onBlur={validatePassword}
-                        />
+                        <div className="input-group has-validation">
+                            <input
+                                type="password" className={`form-control ${passwordError ? 'is-invalid' : ''}`}
+                                id="validationCustom02" required
+                                aria-describedby="validationTooltipPasswordPrepend"
+                                autoComplete={"current-password"}
+                                placeholder="At least 8 characters"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                onBlur={validatePassword}
+                            />
 
-                        <div className="invalid-tooltip">
-                            {passwordError}
+                            <div className="invalid-tooltip">
+                                {passwordError}
+                            </div>
                         </div>
                     </div>
-
                 </form>
 
                 <span>Forgot password?</span>
@@ -105,6 +126,10 @@ export const Login = () => {
                     >
                         Login
                     </button>
+                </div>
+
+                <div className={"back-home"}>
+                    <span onClick={navigateToHome}> &#60;&#60; &#160; Go to back home</span>
                 </div>
             </div>
         </div>

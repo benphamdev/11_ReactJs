@@ -15,7 +15,7 @@ function ModalDeleteUser(props) {
         let data = {id: infoDeleteUser.id};
         try {
             let response = await deleteUser(data);
-            if (response.EC == 0) {
+            if (response && response.EC == 0) {
                 toast.success(`Delete user has user id ${infoDeleteUser.id} successfully`)
                 handleClose()
                 props.setCurrentPage(1);

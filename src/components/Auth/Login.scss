@@ -2,8 +2,9 @@
   .header {
     height: 45px;
     text-align: right;
-    border-bottom: 1px solid red;
+    //border-bottom: 1px solid red;
     line-height: 45px;
+    padding: 0 28px;
   }
 
   .title {
@@ -19,7 +20,7 @@
   }
 
   .content-form {
-    border: 1px solid green;
+    //border: 1px solid green;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -32,6 +33,17 @@
         background-color: #acd9ac;
         color: #000000;
       }
+    }
+
+    .back-home {
+    }
+
+    span {
+      text-decoration: underline;
+      cursor: pointer;
+      color: #846b6b;
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+      font-size: 12px;
     }
   }
 }
