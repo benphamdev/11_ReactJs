@@ -28,7 +28,7 @@ function ModalUser(props) {
     const [isUpdate, setIsUpdate] = useState(false);
 
     useEffect(() => {
-        // console.log("useEffect : ", infoUpdateUser);
+        console.log("Modal useEffect : ", infoUser);
         setIsUpdate(infoUser !== null);
         if (infoUser !== null) {
             setUserName(infoUser?.username || '');
@@ -80,18 +80,21 @@ function ModalUser(props) {
                 response = await updateUser(data);
             } else {
                 data = {email: email, password: password, username: username, role: role, userImage: avatar}
+                props.setCurrentPage(1);
                 response = await createNewUser(data);
             }
 
-            if (response.EC === 0) {
+            if (response && response.EC === 0) {
                 toast.success(`${isUpdate ? "Update" : "Add"} user successfully`)
-                handleClose()
-                props.setCurrentPage(1);
-                await fetchUsersWithPagination(props.currentPage);
+                console.log("current page : ", props.currentPage)
+                if (isUpdate)
+                    await fetchUsersWithPagination(props.currentPage);
+                else
+                    await fetchUsersWithPagination(1);
             } else {
                 toast.error(response.EM);
             }
-
+            handleClose()
         } catch (e) {
             toast.error(e.message);
         }

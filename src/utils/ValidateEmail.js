@@ -6,4 +6,10 @@ const validateEmail = (email) => {
         );
 };
 
-export {validateEmail}
+const validatePass = (password) => {
+    return String(email)
+        .toLowerCase()
+        .match(/^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!#$%&? "]).*$/);
+}
+
+export {validateEmail, validatePass}

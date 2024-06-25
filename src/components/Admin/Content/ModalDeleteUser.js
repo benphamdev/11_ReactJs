@@ -4,25 +4,25 @@ import {deleteUser} from "../../../services/api/ApiService";
 import {toast} from "react-toastify";
 
 function ModalDeleteUser(props) {
-    const {show, setShow, fetchUsersWithPagination, infoUser, setInfoUser} = props;
+    const {show, setShow, fetchUsersWithPagination, infoDeleteUser, setInfoDeleteUser} = props;
 
     const handleClose = () => {
         setShow(false)
-        setInfoUser(null)
+        setInfoDeleteUser(null)
     }
 
     const handleConfirm = async () => {
-        handleClose();
-        let data = {id: infoUser.id};
+        let data = {id: infoDeleteUser.id};
         try {
             let response = await deleteUser(data);
             if (response.EC == 0) {
-                toast.success(`Delete user has user id ${infoUser.id} successfully`)
+                toast.success(`Delete user has user id ${infoDeleteUser.id} successfully`)
                 handleClose()
                 props.setCurrentPage(1);
                 await fetchUsersWithPagination(props.currentPage);
             } else {
                 toast.error(response.EM);
+                handleClose();
             }
         } catch (e) {
             console.log("error : ", e);
@@ -44,7 +44,7 @@ function ModalDeleteUser(props) {
                 </Modal.Header>
                 <Modal.Body>
                     Do you want to delete this user . Email
-                    <b> {infoUser ? infoUser.email : ""}< /b> ?
+                    <b> {infoDeleteUser ? infoDeleteUser.email : ""}< /b> ?
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>

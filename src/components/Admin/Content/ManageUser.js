@@ -13,12 +13,13 @@ const ManageUser = (props) => {
     const [showDeleteUser, setShowDeleteUser] = useState(false);
     const [users, setUsers] = useState([])
     const [infoUser, setInfoUser] = useState(null);
+    const [infoDeleteUser, setInfoDeleteUser] = useState(null);
     const [isView, setIsView] = useState(false);
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
 
     // constants
-    const LIMIT_PAGE = 1;
+    const LIMIT_PAGE = 3;
 
     useEffect(() => {
         // console.log("ManageUser.js useEffect")
@@ -43,7 +44,7 @@ const ManageUser = (props) => {
             // when set current page , it will render TableUser component
             // if set current page user live in current page, user will be page 1
             // because force page attribute in TableUser component
-            setCurrentPage(page);
+            // setCurrentPage(page);
         }
     }
 
@@ -63,7 +64,7 @@ const ManageUser = (props) => {
 
     const handelBtnDelete = (user) => {
         setShowDeleteUser(true)
-        setInfoUser(user)
+        setInfoDeleteUser(user)
     }
 
     return (
@@ -106,7 +107,7 @@ const ManageUser = (props) => {
                 <ModalDeleteUser
                     show={showDeleteUser} setShow={setShowDeleteUser}
                     fetchUsersWithPagination={fetchUsersWithPagination}
-                    infoUser={infoUser} setInfoUser={setInfoUser}
+                    infoDeleteUser={infoDeleteUser} setInfoDeleteUser={setInfoDeleteUser}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                 />
