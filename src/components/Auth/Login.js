@@ -49,8 +49,13 @@ export const Login = () => {
     }
 
     const navigate = useNavigate();
+
     const navigateToHome = () => {
         navigate('/');
+    }
+
+    const navigateToRegister = () => {
+        navigate('/register')
     }
 
     return (
@@ -58,7 +63,7 @@ export const Login = () => {
 
             <div className={"header"}>
                 <span>Don't have an account yet?</span>
-                <button className={"btn btn-dark mx-3"}>Sign up</button>
+                <button className={"btn btn-dark mx-3"} onClick={navigateToRegister}>Sign up</button>
                 <span>Contact us</span>
             </div>
 

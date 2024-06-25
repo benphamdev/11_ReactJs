@@ -73,4 +73,17 @@ const login = (data) => {
         })
 }
 
-export {createNewUser, getParticipants, getParticipantsWithPagination, updateUser, deleteUser, login};
+const register = (data) => {
+    return axios.post("api/v1/register", data)
+        .then(res => {
+            console.log("api service : ", res);
+            return res;
+        }).catch(err => {
+            console.log(err)
+            return Promise.reject(err);
+        })
+}
+export {
+    createNewUser, getParticipants, getParticipantsWithPagination, updateUser, deleteUser,
+    login, register
+};

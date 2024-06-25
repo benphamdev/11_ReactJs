@@ -8,6 +8,7 @@ import ManageUser from "./components/Admin/Content/ManageUser";
 import {Login} from "./components/Auth/Login";
 import React from "react";
 import {ToastContainer} from "react-toastify";
+import {Register} from "./components/Auth/Register";
 
 export const Layout = () => {
     return (
@@ -24,6 +25,8 @@ export const Layout = () => {
                 </Route>
 
                 <Route path="/login" element={<Login/>}/>
+                
+                <Route path="/register" element={<Register/>}/>
             </Routes>
 
             <ToastContainer
