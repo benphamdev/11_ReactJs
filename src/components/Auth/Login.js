@@ -56,7 +56,7 @@ export const Login = () => {
 
             if (response && response.EC == 0) {
                 toast.success('Login successfully');
-                // navigateToHome();
+                navigateToHome();
                 dispatch(doLogin(response.DT));
             } else {
                 toast.error(response.EM);

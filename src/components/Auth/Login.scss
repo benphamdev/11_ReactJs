@@ -35,9 +35,9 @@
       }
 
       &:disabled {
+        cursor: no-drop !important;
         background-color: #d3d3d3;
         color: #000000;
-        cursor: no-drop !important;
       }
     }
 
@@ -49,6 +49,11 @@
       color: #9a7979;
       text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
       font-size: 12px;
+
+      &:hover {
+        color: #000000;
+        text-decoration: underline;
+      }
     }
 
     .loader-icon {

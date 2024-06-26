@@ -25,13 +25,13 @@ export const Layout = () => {
                 </Route>
 
                 <Route path="/login" element={<Login/>}/>
-                
+
                 <Route path="/register" element={<Register/>}/>
             </Routes>
 
             <ToastContainer
                 position="top-center"
-                autoClose={5000}
+                autoClose={4000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
