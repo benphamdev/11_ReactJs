@@ -83,6 +83,7 @@ const register = (data) => {
             return Promise.reject(err);
         })
 }
+
 export {
     createNewUser, getParticipants, getParticipantsWithPagination, updateUser, deleteUser,
     login, register

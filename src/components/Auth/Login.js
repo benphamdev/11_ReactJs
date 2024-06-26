@@ -1,5 +1,5 @@
 import './Login.scss'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {validateEmail} from "../../utils/ValidateEmail";
 import {useNavigate} from "react-router-dom";
 import {login} from "../../services/api/ApiService";
@@ -15,12 +15,13 @@ export const Login = () => {
     const [userNameError, setUserNameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [isValid, setIsValid] = useState(false);
+
     // hooks
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const validateUsername = (value) => {
-        if (value === '' || !validateEmail(value)) {
+        if (value === null || !validateEmail(value)) {
             setUserNameError('Please enter a valid username. It contains only letters, numbers, and underscores.');
             return false;
         }
@@ -29,8 +30,9 @@ export const Login = () => {
     }
 
     const validatePassword = (value) => {
-        if (value === '') {
-            setPasswordError('It contains only letters, numbers, and underscores.');
+        if (value.length === 0) {// || !validatePass(value)
+            setPasswordError('Please enter a valid password. ' +
+                'It contains at least 8 characters, 1 letter, 1 number, and 1 special character.');
             return false;
         }
         setPasswordError('');
@@ -39,9 +41,9 @@ export const Login = () => {
 
     // if use useEffect to able button login when username and password is valid, but i can solve it
     // when conflict icon loading . i will solve it later
-    // useEffect(() => {
-    //     setIsValid(!validateUsername(username) || !validatePassword(password));
-    // });
+    useEffect(() => {
+        validateEmail(username);
+    });
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -50,7 +52,7 @@ export const Login = () => {
 
         if (isValidUsername && isValidPassword) {
             setIsValid(true)
-            let data = {email: username, password, delay: 5000};
+            let data = {email: username, password, delay: 2000};
             let response = await login(data);
             console.log("response : ", response)
 
@@ -104,8 +106,16 @@ export const Login = () => {
                                 aria-describedby="validationTooltipUsernamePrepend" required
                                 value={username}
                                 placeholder={"phamchien@gmail.com"}
-                                onChange={(e) => setUsername(e.target.value)}
-                                onBlur={validateUsername}
+                                onChange={(e) => {
+                                    setUsername(e.target.value)
+                                    validateUsername(e.target.value)
+                                }}
+
+                                onBlur={() => {
+                                    // if (username && !validateEmail(username)) {
+                                    validateUsername(username);
+                                    // }
+                                }}
                             />
 
                             <div className="invalid-tooltip">
@@ -126,8 +136,15 @@ export const Login = () => {
                                 autoComplete={"current-password"}
                                 placeholder="At least 8 characters"
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                onBlur={validatePassword}
+                                onChange={(e) => {
+                                    setPassword(e.target.value)
+                                    validatePassword(e.target.value)
+                                }}
+
+                                onBlur={() => {
+                                    validatePassword(password)
+                                }}
+
                             />
 
                             <div className="invalid-tooltip">

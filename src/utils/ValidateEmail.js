@@ -7,7 +7,7 @@ const validateEmail = (email) => {
 };
 
 const validatePass = (password) => {
-    return String(email)
+    return String(password)
         .toLowerCase()
         .match(/^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!#$%&? "]).*$/);
 }
