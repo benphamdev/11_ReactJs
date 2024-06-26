@@ -1,4 +1,4 @@
-import axios from '../../utils/AxiosCustomize.js';
+import axios from '../../configs/AxiosCustomize.js';
 
 const createNewUser = (data) => {
     return axios.post("api/v1/participant", data, {

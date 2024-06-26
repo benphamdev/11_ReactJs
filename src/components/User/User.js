@@ -1,7 +1,9 @@
+import {Quiz} from "./Quiz";
+
 const User = (props) => {
     return (
         <div>
-            user component
+            <Quiz/>
         </div>
     )
 }

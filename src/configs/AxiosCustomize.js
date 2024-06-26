@@ -2,17 +2,20 @@
 import axios from "axios";
 import 'nprogress/nprogress.css';
 import nprogress from 'nprogress';
-import '../configs/nprogressConfig';
+import './nprogressConfig';
+import {store} from "../redux/store";
 
 const instance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL
+    baseURL: process.env.REACT_APP_BASE_URL,
 });
 
 // Alter defaults after instance has been created
 // Add a request interceptor
 instance.interceptors.request.use(function (config) {
-    // NProgress.start();
     // Do something before request is sent
+    // console.log("state", store.getState());
+    const token = store.getState()?.userReducer?.account?.access_token;
+    if (token) config.headers['Authorization'] = `Bearer ${token}`;
     nprogress.start();
     return config;
 }, function (error) {
@@ -32,6 +35,5 @@ instance.interceptors.response.use(function (response) {
     // Do something with response error
     return error && error.response && error.response.data ? error.response.data : Promise.reject(error);
 });
-
 
 export default instance;
