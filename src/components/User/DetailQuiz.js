@@ -3,13 +3,18 @@ import {useEffect, useState} from "react";
 import {useLocation, useParams} from "react-router-dom";
 import {getQuestionByQuizId} from "../../services/api/QuizService";
 import "./DetailQuizz.scss";
+import {Question} from "./Question";
 
 export const DetailQuiz = () => {
+    // hooks
     const params = useParams();
     const quizId = params.quizId;
     const location = useLocation();
     const quizName = location?.state?.quizName;
+
+    // state
     const [questions, setQuestions] = useState([]);
+    const [currentQuestion, setCurrentQuestion] = useState(0);
 
     useEffect(() => {
         fetchQuestions();
@@ -23,10 +28,10 @@ export const DetailQuiz = () => {
 
             // way not using lodash
             // console.log("raw questions", rawQuestions);
-            const groupQuestions = Map.groupBy(
-                rawQuestions,
-                (question) => question.id,
-            );
+            // const groupQuestions = Map.groupBy(
+            //     rawQuestions,
+            //     (question) => question.id,
+            // );
             // console.log("group questions", groupQuestions);
             // let ans = Array.from(groupQuestions, ([key, value]) => {
             //     let answers = value.map(question => ({
@@ -46,7 +51,11 @@ export const DetailQuiz = () => {
                 .groupBy("id")
                 .map((value, key) => {
                     const answers = [];
-                    value.forEach((item) => answers.push(item.answers));
+                    value.forEach((item) => {
+                        item.answers.isSelected = false;
+                        answers.push(item.answers);
+                    });
+
                     return {
                         questionId: key,
                         description: value[0].description || "",
@@ -59,6 +68,30 @@ export const DetailQuiz = () => {
             setQuestions(ans);
         }
     };
+
+    const handleCheckAnswer = (e, questionId, answerId) => {
+        console.log(e.target.checked, questionId, answerId);
+        let cloneQuestions = _.cloneDeep(questions);
+        let question = cloneQuestions.find((question) => +question.questionId === +questionId);
+
+        if (question && question.answers) {
+            let answer = question.answers.find((answer) => +answer.id === +answerId);
+            answer.isSelected = e.target.checked;
+            setQuestions(cloneQuestions);
+        }
+    }
+
+    const handleNextQuestion = () => {
+        if (currentQuestion < questions.length - 1) {
+            setCurrentQuestion(currentQuestion + 1);
+        }
+    }
+
+    const handlePrevQuestion = () => {
+        if (currentQuestion > 0) {
+            setCurrentQuestion(currentQuestion - 1);
+        }
+    }
 
     return (
         <>
@@ -76,34 +109,32 @@ export const DetailQuiz = () => {
                     </div>
 
                     <div className={"q-content"}>
-                        <div className={"question"}>
-                            <h4>Question 1</h4>
-                            <p>What is the capital of Vietnam?</p>
-                        </div>
+                        <Question
+                            question={
+                                (questions && questions.length > 0)
+                                    ? questions[currentQuestion] : []
+                            }
 
-                        <div className={"q-answers"}>
-                            <div className={"q-answer"}>
-                                <input type={"radio"} name={"answer"} value={"Hanoi"}/>
-                                <label>Hanoi</label>
-                            </div>
-                            <div className={"q-answer"}>
-                                <input type={"radio"} name={"answer"} value={"Hanoi"}/>
-                                <label>Hanoi</label>
-                            </div>
-                            <div className={"q-answer"}>
-                                <input type={"radio"} name={"answer"} value={"Hanoi"}/>
-                                <label>Hanoi</label>
-                            </div>
-                            <div className={"q-answer"}>
-                                <input type={"radio"} name={"answer"} value={"Hanoi"}/>
-                                <label>Hanoi</label>
-                            </div>
-                        </div>
+                            handleCheckAnswer={handleCheckAnswer}
+                        />
                     </div>
 
                     <div className={"footer"}>
-                        <button className={"btn btn-secondary"}>Prev</button>
-                        <button className={"btn btn-pr"}>Next</button>
+                        <button className={"btn btn-secondary"}
+                                onClick={handlePrevQuestion}
+                        >
+                            Prev
+                        </button>
+
+                        <button className={"btn btn-primary"}
+                                onClick={handleNextQuestion}
+                        >Next
+                        </button>
+
+                        <button className={"btn btn-warning"}
+                                onClick={handleNextQuestion}
+                        >Finish
+                        </button>
                     </div>
                 </div>
 
