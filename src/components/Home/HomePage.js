@@ -6,7 +6,6 @@ const HomePage = (props) => {
     const isAuthenticated = useSelector((state) => state.userReducer.isAuthenticated);
     const navigate = useNavigate();
 
-    console.log("accountSelector : ", accountSelector)
     return (
         <div className="homepage-container">
             <video autoPlay loop muted width="750px" height="500px">
@@ -25,7 +24,7 @@ const HomePage = (props) => {
                     {
                         isAuthenticated
                             ? <button onClick={() => navigate("/users")}>Get started now</button>
-                            : <button onClick={() => navigate("/register")}>Get started-it's free</button>
+                            : <button onClick={() => navigate("/login")}>Get started-it's free</button>
                     }
                 </div>
             </div>

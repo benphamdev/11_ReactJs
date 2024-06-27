@@ -1,9 +1,10 @@
+import {DECREMENT, INCREMENT} from '../action/counterAction';
 
-import { INCREMENT, DECREMENT } from '../action/counterAction';
 const INITIAL_STATE = {
     count: 0,
     name: 'Eric'
 };
+
 const countReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case INCREMENT:
@@ -15,7 +16,8 @@ const countReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state, count: state.count - 1,
             };
-        default: return state;
+        default:
+            return state;
     }
 };
 

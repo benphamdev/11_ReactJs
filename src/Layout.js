@@ -9,6 +9,8 @@ import React from "react";
 import {ToastContainer} from "react-toastify";
 import {Register} from "./components/Auth/Register";
 import {Quiz} from "./components/User/Quiz";
+import {PageNotFound} from "./components/PageNotFound";
+import {DetailQuiz} from "./components/User/DetailQuiz";
 
 export const Layout = () => {
     return (
@@ -27,6 +29,10 @@ export const Layout = () => {
                 <Route path="/login" element={<Login/>}/>
 
                 <Route path="/register" element={<Register/>}/>
+
+                <Route path="/quiz/:quizId" element={<DetailQuiz/>}/>
+
+                <Route path="*" element={<PageNotFound/>}/>
             </Routes>
 
             <ToastContainer

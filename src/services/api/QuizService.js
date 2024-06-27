@@ -1,10 +1,7 @@
 import axios from "../../configs/AxiosCustomize";
 
-const url = "api/v1/quiz-by-participant";
-// const accountSelector = useSelector((state) => state.userReducer.account);
-
 const getQuizByParticipantId = () => {
-    return axios.get(url)
+    return axios.get("api/v1/quiz-by-participant")
         .then(res => {
             console.log("quiz service : ", res);
             return res;
@@ -14,4 +11,15 @@ const getQuizByParticipantId = () => {
         })
 }
 
-export {getQuizByParticipantId};
+const getQuestionByQuizId = (quizId) => {
+    return axios({method: 'get', url: 'api/v1/questions-by-quiz', params: {quizId}})
+        .then(res => {
+            console.log("quiz service : ", res);
+            return res;
+        })
+        .catch(err => {
+            return Promise.reject(err);
+        });
+}
+
+export {getQuizByParticipantId, getQuestionByQuizId};
