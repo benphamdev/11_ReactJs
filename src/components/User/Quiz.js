@@ -29,7 +29,14 @@ export const Quiz = () => {
                                 <div className="card-body">
                                     <h5 className="card-title">{quiz.id}</h5>
                                     <p className="card-text">{quiz.description}</p>
-                                    <button className="btn btn-primary" onClick={() => navigate(`/quiz/${quiz.id}`)}>Start
+                                    <button className="btn btn-primary"
+                                            onClick={() =>
+                                                navigate(`/quiz/${quiz.id}`, {
+                                                    state: {quizName: quiz.description}
+                                                })
+                                            }
+                                    >
+                                        Start
                                     </button>
                                 </div>
                             </div>
