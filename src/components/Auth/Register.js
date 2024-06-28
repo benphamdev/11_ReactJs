@@ -1,12 +1,12 @@
 import {useState} from "react";
-import {validateEmail} from "../../utils/ValidateEmail";
 import {useNavigate} from "react-router-dom";
-import {register} from "../../services/api/ApiService";
+import {register} from "../../services/api/AuthService";
 import {toast} from "react-toastify";
 import Form from 'react-bootstrap/Form';
 import InputGroup from "react-bootstrap/InputGroup";
 import {BiHide, BiShow} from "react-icons/bi";
 import './Register.scss';
+import {validateEmail} from "../../utils/Utils";
 
 export const Register = () => {
     const [email, setEmail] = useState('');
@@ -83,7 +83,6 @@ export const Register = () => {
     const navigateToHome = () => {
         navigate('/');
     }
-
 
     return (
         <div className={"register-container"}>

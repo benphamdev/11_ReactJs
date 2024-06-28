@@ -3,7 +3,7 @@ import App from "./App";
 import HomePage from "./components/Home/HomePage";
 import Admin from "./components/Admin/Admin";
 import DashBoard from "./components/Admin/Content/DashBoard";
-import ManageUser from "./components/Admin/Content/ManageUser";
+import ManageUser from "./components/Admin/Content/User/ManageUser";
 import {Login} from "./components/Auth/Login";
 import React from "react";
 import {ToastContainer} from "react-toastify";
@@ -11,6 +11,7 @@ import {Register} from "./components/Auth/Register";
 import {Quiz} from "./components/User/Quiz";
 import {PageNotFound} from "./components/PageNotFound";
 import {DetailQuiz} from "./components/User/DetailQuiz";
+import {ManageQuiz} from "./components/Admin/Content/Quiz/ManageQuiz";
 
 export const Layout = () => {
     return (
@@ -24,6 +25,7 @@ export const Layout = () => {
                 <Route path="/admins/" element={<Admin/>}>
                     <Route index element={<DashBoard/>}/>
                     <Route path="manage-users" element={<ManageUser/>}/>
+                    <Route path="manage-quizzes" element={<ManageQuiz/>}/>
                 </Route>
 
                 <Route path="/login" element={<Login/>}/>

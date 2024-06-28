@@ -2,7 +2,7 @@ export const Question = (props) => {
     const {question, handleCheckAnswer} = props;   // question = {questionId, description, image, answers}
     if (question === undefined || question.length === 0) return (<></>);
 
-    console.log("question", question)
+    // console.log("question", question)
 
     return (
         <>

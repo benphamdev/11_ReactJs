@@ -5,10 +5,12 @@ import {FaGem, FaGithub, FaTachometerAlt} from 'react-icons/fa';
 import sidebarBg from '../../assets/img/bg2.jpg';
 import {FaReact} from "react-icons/fa6";
 import "./SideBar.scss"
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const SideBar = (props) => {
     const {image, collapsed, toggled, handleToggleSidebar} = props;
+    const navigate = useNavigate();
+
     return (
         <>
             <ProSidebar
@@ -30,9 +32,10 @@ const SideBar = (props) => {
                             textOverflow: 'ellipsis',
                             whiteSpace: 'nowrap',
                         }}
+                        onClick={() => navigate('/')}
                     >
                         <FaReact size={"2em"} color={"#1360cd"} style={{marginRight: '12px'}}/>
-                        BenPhamDev
+                        React Admin
                     </div>
                 </SidebarHeader>
 
@@ -54,9 +57,11 @@ const SideBar = (props) => {
                             <MenuItem>Manage Users
                                 <Link to="/admins/manage-users"/>
                             </MenuItem>
+
                             <MenuItem>Manage Quizzes
-                                <Link to="/admins"/>
+                                <Link to="/admins/manage-quizzes"/>
                             </MenuItem>
+
                             <MenuItem>Manage Questions
                                 <Link to="/admins"/>
                             </MenuItem>

@@ -3,8 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import 'react-toastify/dist/ReactToastify.css';
 import {toast} from "react-toastify";
-import {createNewUser, updateUser} from "../../../services/api/ApiService";
-import {validateEmail} from "../../../utils/ValidateEmail";
+import {createNewUser, updateUser} from "../../../../services/api/AuthService";
+import {validateEmail} from "../../../../utils/Utils";
 
 function ModalUser(props) {
     // props
@@ -38,13 +38,6 @@ function ModalUser(props) {
                 setPreviewImage(`data:image/svg+xml+jpeg+png;base64,${infoUser.image}`);
         }
     }, [infoUser]);
-
-    const handleUploadImage = (event) => {
-        if (event) {
-            setPreviewImage((URL.createObjectURL(event.target.files[0])));
-            setAvatar(event.target.files[0]);
-        }
-    }
 
     const handleClose = () => {
         setShow(false)
@@ -97,6 +90,12 @@ function ModalUser(props) {
             handleClose()
         } catch (e) {
             toast.error(e.message);
+        }
+    }
+    const handleUploadImage = (event) => {
+        if (event) {
+            setPreviewImage((URL.createObjectURL(event.target.files[0])));
+            setAvatar(event.target.files[0]);
         }
     }
 

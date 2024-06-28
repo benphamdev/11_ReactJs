@@ -4,6 +4,9 @@ import {useLocation, useParams} from "react-router-dom";
 import {getQuestionByQuizId} from "../../services/api/QuizService";
 import "./DetailQuizz.scss";
 import {Question} from "./Question";
+import {submitAnswer} from "../../services/api/AnswerService";
+import {toast} from "react-toastify";
+import ModalSubmitAnswer from "./ModalSubmitAnswer";
 
 export const DetailQuiz = () => {
     // hooks
@@ -15,6 +18,8 @@ export const DetailQuiz = () => {
     // state
     const [questions, setQuestions] = useState([]);
     const [currentQuestion, setCurrentQuestion] = useState(0);
+    const [showModalSubmitAnswer, setShowModalSubmitAnswer] = useState(false);
+    const [answerQuiz, setAnswerQuiz] = useState({});
 
     useEffect(() => {
         fetchQuestions();
@@ -64,13 +69,13 @@ export const DetailQuiz = () => {
                     };
                 })
                 .value();
-            console.log("ans", ans);
+            // console.log("ans", ans);
             setQuestions(ans);
         }
     };
 
     const handleCheckAnswer = (e, questionId, answerId) => {
-        console.log(e.target.checked, questionId, answerId);
+        // console.log(e.target.checked, questionId, answerId);
         let cloneQuestions = _.cloneDeep(questions);
         let question = cloneQuestions.find((question) => +question.questionId === +questionId);
 
@@ -90,6 +95,37 @@ export const DetailQuiz = () => {
     const handlePrevQuestion = () => {
         if (currentQuestion > 0) {
             setCurrentQuestion(currentQuestion - 1);
+        }
+    }
+
+    const handleSubmit = async () => {
+        let payload = {
+            quizId: +quizId,
+            answers: []
+        };
+
+        questions.forEach((question) => {
+            let answers = [];
+            question.answers.forEach((answer) => {
+                if (answer.isSelected) answers.push(+answer.id)
+            });
+            payload.answers.push({
+                questionId: +question.questionId,
+                userAnswerId: answers
+            });
+        })
+
+        // console.log("payload", payload)
+
+        let response = await submitAnswer(payload);
+        if (response && response.EC === 0) {
+            toast.success("Submit answer successfully");
+            console.log("detail quiz", response);
+            setShowModalSubmitAnswer(true);
+            let res = response.DT;
+            setAnswerQuiz(res)
+        } else {
+            toast.error("Submit answer failed");
         }
     }
 
@@ -120,25 +156,21 @@ export const DetailQuiz = () => {
                     </div>
 
                     <div className={"footer"}>
-                        <button className={"btn btn-secondary"}
-                                onClick={handlePrevQuestion}
-                        >
-                            Prev
-                        </button>
+                        <button className={"btn btn-secondary"} onClick={handlePrevQuestion}>Prev</button>
 
-                        <button className={"btn btn-primary"}
-                                onClick={handleNextQuestion}
-                        >Next
-                        </button>
+                        <button className={"btn btn-primary"} onClick={handleNextQuestion}>Next</button>
 
-                        <button className={"btn btn-warning"}
-                                onClick={handleNextQuestion}
-                        >Finish
-                        </button>
+                        <button className={"btn btn-warning"} onClick={handleSubmit}>Submit</button>
                     </div>
                 </div>
 
                 <div className={"right-content"}>count down</div>
+
+                <ModalSubmitAnswer
+                    show={showModalSubmitAnswer}
+                    setShow={setShowModalSubmitAnswer}
+                    answerQuiz={answerQuiz}
+                />
             </div>
         </>
     );
