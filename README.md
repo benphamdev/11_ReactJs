@@ -89,4 +89,4 @@ npm install --save-exact axios@1.7.2 react-toastify@10.0.5 react-paginate@8.2.0
 npm install --save-exact nprogress@0.2.0
 npm install --save-exact redux-persist
 npm install --save-exact react-select@5.8.0
-
+npm install --save-exact react-perfect-scrollbar
