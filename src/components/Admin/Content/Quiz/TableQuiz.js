@@ -2,6 +2,8 @@ import Table from 'react-bootstrap/Table';
 import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import {retrieveAllQuiz} from "../../../../services/api/QuizService";
+import ModalQuiz from "./ModalQuiz";
+import ModalDeleteQuiz from "./ModalDeleteQuiz";
 
 const TableQuiz = (props) => {
 
@@ -12,12 +14,17 @@ const TableQuiz = (props) => {
     // };
 
     const [quizzes, setQuizzes] = useState([]);
+    const [quiz, setQuiz] = useState(null);
+    const [show, setShow] = useState(false);
+    const [isView, setIsView] = useState(false);
+    const [isDelete, setIsDelete] = useState(false);
+    const [quizDelete, setQuizDelete] = useState(null);
 
     // if (_.isEmpty(quizzes)) return;
 
     useEffect(() => {
         getAllQuiz();
-    }, []);
+    }, [props.isAdd]);
 
     const getAllQuiz = async () => {
         let response = await retrieveAllQuiz();
@@ -29,6 +36,26 @@ const TableQuiz = (props) => {
         }
     }
 
+    const showQuiz = (quiz) => {
+        setQuiz(quiz)
+        setShow(true);
+    }
+
+    const handleBtnUpdate = (quiz) => {
+        showQuiz(quiz)
+    }
+
+    const handleBtnView = (quiz) => {
+        showQuiz(quiz);
+        setIsView(true);
+    }
+
+    const handelBtnDelete = (quiz) => {
+        setIsDelete(true);
+        setQuizDelete(quiz);
+    }
+
+    console.log("render TableQuiz", quiz);
     return (
         <>
             <div>List quizzes</div>
@@ -38,7 +65,6 @@ const TableQuiz = (props) => {
                     <th>No</th>
                     <th>Name</th>
                     <th>Description</th>
-                    <th>Image</th>
                     <th>Difficulty</th>
                     <th>Action</th>
                 </tr>
@@ -52,19 +78,24 @@ const TableQuiz = (props) => {
                                 <td className={"col-1"}>{quiz.id}</td>
                                 <td className={"col-2"}>{quiz.name}</td>
                                 <td className={"col-2"}>{quiz.description}</td>
-                                <td className={"col-1"}></td>
                                 <td className={"col-1"}>{quiz.difficulty}</td>
                                 <td className={"col-3"}>
 
-                                    <button className={"btn btn-secondary"}>
+                                    <button className={"btn btn-secondary"} onClick={() => {
+                                        handleBtnView(quiz)
+                                    }}>
                                         View
                                     </button>
 
-                                    <button className={"btn btn-warning mx-3"}>
+                                    <button className={"btn btn-warning mx-3"} onClick={() => {
+                                        handleBtnUpdate(quiz)
+                                    }}>
                                         Update
                                     </button>
 
-                                    <button className={"btn btn-danger"}>
+                                    <button className={"btn btn-danger"} onClick={() => {
+                                        handelBtnDelete(quiz)
+                                    }}>
                                         Delete
                                     </button>
 
@@ -81,6 +112,19 @@ const TableQuiz = (props) => {
 
                 </tbody>
             </Table>
+
+            <ModalQuiz
+                show={show} setShow={setShow}
+                getAllQuiz={getAllQuiz}
+                quiz={quiz} setQuiz={setQuiz}
+                isView={isView} setIsView={setIsView}
+            />
+
+            <ModalDeleteQuiz
+                show={isDelete} setShow={setIsDelete}
+                getAllQuiz={getAllQuiz}
+                quiz={quizDelete} setQuiz={setQuizDelete}
+            />
 
             {/*<ReactPaginate*/}
             {/*    nextLabel="next >"*/}

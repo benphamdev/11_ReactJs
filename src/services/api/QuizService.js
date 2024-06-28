@@ -45,4 +45,32 @@ const retrieveAllQuiz = () => {
         })
 }
 
-export {getQuizByParticipantId, getQuestionByQuizId, createNewQuiz, retrieveAllQuiz};
+const deleteQuizById = (quizId) => {
+    return axios({
+        method: 'delete',
+        url: `api/v1/quiz/${quizId}`,
+    }).then(res => {
+        console.log("quiz service : ", res);
+        return res;
+    }).catch(err => {
+        console.log(err)
+        return Promise.reject(err);
+    })
+}
+
+const updateQuiz = (data) => {
+    return axios.put("api/v1/quiz", data, {
+        headers: {'Content-Type': 'multipart/form-data'}
+    }).then(res => {
+        console.log("api service : ", res);
+        return res;
+    }).catch(err => {
+        console.log(err)
+        return Promise.reject(err);
+    })
+}
+
+export {
+    getQuizByParticipantId, getQuestionByQuizId, createNewQuiz, retrieveAllQuiz,
+    deleteQuizById, updateQuiz
+};

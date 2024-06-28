@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import 'react-toastify/dist/ReactToastify.css';
@@ -21,7 +21,6 @@ function ModalUser(props) {
     const [role, setRole] = useState('USER');
     const [avatar, setAvatar] = useState('');
     const [previewImage, setPreviewImage] = useState('');
-    const inputRef = useRef(null);
 
     // flag is to show update or add user form
     // can be used to check if user is updating or adding
@@ -50,7 +49,6 @@ function ModalUser(props) {
         setPreviewImage('')
         setInfoUser(null)
         setIsView(false)
-        inputRef.current.value = null;
     };
 
     const handleSave = async () => {
@@ -175,7 +173,6 @@ function ModalUser(props) {
                         {
                             !isView && <div className="input-group mb-3">
                                 <input type="file" className="form-control" id="inputGroupFile02"
-                                       ref={inputRef}
                                        onChange={(e) => handleUploadImage(e)}/>
                                 <label className="input-group-text" htmlFor="inputGroupFile02">Upload</label>
                             </div>
