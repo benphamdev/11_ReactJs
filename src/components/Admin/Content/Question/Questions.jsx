@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React, {useState} from "react";
+import Lightbox from "react-awesome-lightbox";
 import {FloatingLabel} from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import {FaRegImage} from "react-icons/fa";
@@ -11,7 +12,7 @@ import {v4 as uuidv4} from 'uuid'
 export const Questions = () => {
     // state
     const [selectedQuiz, setSelectedQuiz] = useState({});
-
+    const [isZoomed, setIsZoomed] = useState(null)
     const [questions, setQuestions] = useState([
         {
             id: uuidv4(),
@@ -28,9 +29,9 @@ export const Questions = () => {
     ]);
 
     const options = [
-        {value: 'chocolate', label: 'Chocolate'},
-        {value: 'strawberry', label: 'Strawberry'},
-        {value: 'vanilla', label: 'Vanilla'},
+        {value: 'EASY', label: 'EASY'},
+        {value: 'MEDIUM', label: 'MEDIUM'},
+        {value: 'HARD', label: 'HARD'},
     ];
 
     // const
@@ -80,13 +81,15 @@ export const Questions = () => {
         setQuestions(cloneQuestions);
     }
 
-    const handleChange = (e, string, arrId, value) => {
+    const handleChange = (e, type, arrId, value) => {
         let cloneQuestions = _.cloneDeep(questions);
         let newQuestion = cloneQuestions.find((question) => question.id === arrId[0]);
 
-        if (string === typeChange[0]) {
+        if (!newQuestion) return;
+
+        if (type === typeChange[0]) {
             newQuestion.description = value;
-        } else if (string === typeChange[1]) {
+        } else if (type === typeChange[1]) {
             let newAnswer = newQuestion.answers.find((answer) => answer.id === arrId[1]);
             if (e.target.type === 'checkbox')
                 newAnswer.isCorrect = value;
@@ -100,10 +103,10 @@ export const Questions = () => {
     const handleUploadImage = (event, questionId) => {
         if (event && event.target.files[0]) {
             // setPreviewImage((URL.createObjectURL(event.target.files[0])));
-            // setAvatar(event.target.files[0]);s
+            // setAvatar(event.target.files[0]);
             let cloneQuestions = _.cloneDeep(questions);
             let newQuestion = cloneQuestions.find((question) => question.id === questionId);
-            newQuestion.imageFile = URL.createObjectURL(event.target.files[0]);
+            newQuestion.imageFile = event.target.files[0];
             newQuestion.imageName = event.target.files[0].name;
             setQuestions(cloneQuestions);
         }
@@ -136,11 +139,9 @@ export const Questions = () => {
 
                     {
                         questions && questions.length > 0 && questions.map((question, index) => {
-
                             return (
                                 <div className={'create-question my-4'} key={question.id}>
                                     <div className={'question-content'}>
-
                                         <div className={'form-floating description'}>
                                             <FloatingLabel
                                                 controlId="floatingInput"
@@ -163,14 +164,15 @@ export const Questions = () => {
                                             <input
                                                 id={`${question.id}`}
                                                 type={'file'} hidden
-                                                onClick={(e) => handleUploadImage(e, question.id)}
+                                                onChange={(e) => handleUploadImage(e, question.id)}
                                             />
                                             {
                                                 question.imageFile
-                                                    ? <span>{question.imageName}</span>
+                                                    ? <span onClick={() => setIsZoomed(question)}>
+                                                        {question.imageName}
+                                                    </span>
                                                     : <span>No file upload</span>
                                             }
-
                                         </div>
 
                                         <div className={'gr-btn'}>
@@ -180,8 +182,8 @@ export const Questions = () => {
                                             {
                                                 questions.length > 1 &&
                                                 <span onClick={() => handleQuestion(typeAction[1], question.id)}>
-                                                <LuBadgeMinus className={'btn-remove'}/>
-                                             </span>
+                                                    <LuBadgeMinus className={'btn-remove'}/>
+                                                </span>
                                             }
 
                                         </div>
@@ -191,7 +193,7 @@ export const Questions = () => {
                                         question.answers && question.answers.length > 0 &&
                                         question.answers.map((answer, index) => {
                                             return (
-                                                <div className={"answer-content"} key={question.answers.id}>
+                                                <div className={"answer-content"} key={answer.id}>
                                                     <input
                                                         className="form-check-input isCorrect" type="checkbox"
                                                         id="flexCheckDefault"
@@ -236,12 +238,23 @@ export const Questions = () => {
                             );
                         })
                     }
+
+
                     <button
                         className={'btn btn-warning'}
                         onClick={handleSubmitQuiz}
                     >
                         Submit
                     </button>
+
+                    {
+                        !_.isNull(isZoomed) &&
+                        <Lightbox
+                            image={URL.createObjectURL(isZoomed.imageFile)}
+                            title={isZoomed.imageName}
+                            onClose={() => setIsZoomed(null)}
+                        />
+                    }
                 </div>
             </div>
         </>

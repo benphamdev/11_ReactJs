@@ -1,18 +1,20 @@
+import React from "react";
 import {Route, Routes} from "react-router-dom";
+import {ToastContainer} from "react-toastify";
 import App from "./App";
-import HomePage from "./components/Home/HomePage";
 import Admin from "./components/Admin/Admin";
 import DashBoard from "./components/Admin/Content/DashBoard";
+import {Questions} from "./components/Admin/Content/Question/Questions";
+import {ManageQuiz} from "./components/Admin/Content/Quiz/ManageQuiz";
 import ManageUser from "./components/Admin/Content/User/ManageUser";
 import {Login} from "./components/Auth/Login";
-import React from "react";
-import {ToastContainer} from "react-toastify";
 import {Register} from "./components/Auth/Register";
-import {Quiz} from "./components/User/Quiz";
+import HomePage from "./components/Home/HomePage";
 import {PageNotFound} from "./components/PageNotFound";
 import {DetailQuiz} from "./components/User/DetailQuiz";
-import {ManageQuiz} from "./components/Admin/Content/Quiz/ManageQuiz";
-import {Questions} from "./components/Admin/Content/Question/Questions";
+import {Quiz} from "./components/User/Quiz";
+import 'react-medium-image-zoom/dist/styles.css'
+import "react-awesome-lightbox/build/style.css";
 
 export const Layout = () => {
     return (
