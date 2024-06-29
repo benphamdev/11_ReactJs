@@ -8,7 +8,7 @@ function ModalDeleteQuiz(props) {
 
     const handleClose = () => {
         setShow(false)
-        setQuiz(null);
+        // setQuiz(null);
     }
 
     const handleConfirm = async () => {

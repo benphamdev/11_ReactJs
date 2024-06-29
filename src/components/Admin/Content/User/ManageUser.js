@@ -15,7 +15,7 @@ const ManageUser = (props) => {
     const [infoUser, setInfoUser] = useState(null);
     const [infoDeleteUser, setInfoDeleteUser] = useState(null);
     const [isView, setIsView] = useState(false);
-    const [pageCount, setPageCount] = useState(0);
+    const [pageCount, setPageCount] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
 
     // constants

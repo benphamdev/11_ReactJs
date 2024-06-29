@@ -68,20 +68,22 @@ export const ManageQuiz = () => {
                                 <fieldset className="border rounded-3 p-3">
                                     <legend className="float-none w-auto px-3">New Quiz</legend>
                                     <div className="form-floating mb-3">
-                                        <input type="Name" className="form-control" id="floatingInput"
-                                               placeholder="name"
-                                               value={name}
-                                               onChange={(e) => setName(e.target.value)}
+                                        <input
+                                            type="Name" className="form-control" id="floatingInput"
+                                            placeholder="name"
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
                                         />
 
                                         <label htmlFor="floatingInput">Name</label>
                                     </div>
 
                                     <div className="form-floating">
-                                        <input type="text" className="form-control" id="floatingDescription"
-                                               placeholder="Description"
-                                               value={description}
-                                               onChange={(e) => setDescription(e.target.value)}
+                                        <input
+                                            type="text" className="form-control" id="floatingDescription"
+                                            placeholder="Description"
+                                            value={description}
+                                            onChange={(e) => setDescription(e.target.value)}
                                         />
                                         <label htmlFor="floatingDescription">Description</label>
                                     </div>
@@ -96,9 +98,10 @@ export const ManageQuiz = () => {
                                     </div>
 
                                     <div className="input-group mb-3">
-                                        <input type="file" className="form-control" id="inputGroupFile02"
-                                               ref={inputRef}
-                                               onChange={(e) => handleUploadImage(e)}/>
+                                        <input
+                                            type="file" className="form-control" id="inputGroupFile02"
+                                            ref={inputRef}
+                                            onChange={(e) => handleUploadImage(e)}/>
                                         <label className="input-group-text" htmlFor="inputGroupFile02">Upload</label>
                                     </div>
 

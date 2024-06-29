@@ -7,7 +7,7 @@ const TableUser = (props) => {
         fetchUsersWithPagination, pageCount,
         currentPage, setCurrentPage,
     } = props;
-
+    
     const handlePageClick = (event) => {
         console.log(`User requested page number ${event.selected}`);
         setCurrentPage(event.selected + 1);

@@ -8,7 +8,7 @@ function ModalDeleteUser(props) {
 
     const handleClose = () => {
         setShow(false)
-        setInfoDeleteUser(null)
+        // setInfoDeleteUser(null)
     }
 
     const handleConfirm = async () => {
