@@ -12,4 +12,14 @@ const submitAnswer = (data) => {
         })
 }
 
-export {submitAnswer};
+const createAnswerByQuestionId = async data => {
+    return await axios.post("api/v1/answer", data)
+        .then(res => {
+            console.log("answer service : ", res);
+            return res;
+        }).catch(err => {
+            console.log(err)
+            return Promise.reject(err);
+        })
+}
+export {submitAnswer, createAnswerByQuestionId};

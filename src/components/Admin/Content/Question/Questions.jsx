@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Lightbox from "react-awesome-lightbox";
 import {FloatingLabel} from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
@@ -7,7 +7,11 @@ import {FaRegImage} from "react-icons/fa";
 import {LuBadgeMinus, LuBadgePlus} from "react-icons/lu";
 import "./Questions.scss";
 import Select from "react-select";
+import {toast} from "react-toastify";
 import {v4 as uuidv4} from 'uuid'
+import {createAnswerByQuestionId} from "../../../../services/api/AnswerService";
+import {createQuestionByQuizId} from "../../../../services/api/QuestionService";
+import {retrieveAllQuiz} from "../../../../services/api/QuizService";
 
 export const Questions = () => {
     // state
@@ -27,16 +31,31 @@ export const Questions = () => {
                 },]
         },
     ]);
-
-    const options = [
-        {value: 'EASY', label: 'EASY'},
-        {value: 'MEDIUM', label: 'MEDIUM'},
-        {value: 'HARD', label: 'HARD'},
-    ];
+    const [quizzes, setQuizzes] = useState([])
 
     // const
     const typeAction = ['ADD', 'REMOVE'];
     const typeChange = ['QUESTION', 'ANSWER'];
+
+    useEffect(() => {
+        getAllQuiz();
+    }, []);
+
+    const getAllQuiz = async () => {
+        let response = await retrieveAllQuiz();
+        console.log('response', response)
+        if (response && response.EC === 0) {
+            let data = response.DT;
+            let temp = []
+            data.forEach((item) => {
+                return temp.push({value: `${item.id}`, label: `${item.id} ${item.name}`})
+            })
+            setQuizzes(temp);
+        } else {
+            console.log(response);
+            toast.error(response.EM);
+        }
+    }
 
     const handleQuestion = (type, id) => {
         switch (type) {
@@ -112,8 +131,29 @@ export const Questions = () => {
         }
     }
 
-    const handleSubmitQuiz = () => {
-        console.log('questions', questions);
+    const handleSubmitQuiz = async () => {
+        // console.log('questions', questions, selectedQuiz);
+
+        for await (const question of questions) {
+            let data = {
+                quiz_id: selectedQuiz.value,
+                description: question.description,
+                questionImage: question.imageFile
+            };
+            let response = await createQuestionByQuizId(data);
+
+            // console.log('response', response);
+
+            for await (const answer of question.answers) {
+                let dataAnswer = {
+                    question_id: response.DT.id,
+                    description: answer.description,
+                    correct_answer: answer.isCorrect
+                };
+                let resAnswer = await createAnswerByQuestionId(dataAnswer);
+                // console.log('resAnswer', resAnswer)
+            }
+        }
     }
 
     return (
@@ -128,8 +168,8 @@ export const Questions = () => {
                         <label> Select quiz</label>
                         <Select
                             value={selectedQuiz}
-                            onChange={selectedQuiz}
-                            options={options}
+                            onChange={setSelectedQuiz}
+                            options={quizzes}
                         />
                     </div>
 
