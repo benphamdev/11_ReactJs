@@ -11,13 +11,13 @@ import {toast} from "react-toastify";
 import {v4 as uuidv4} from 'uuid'
 import {createAnswerByQuestionId} from "../../../../services/api/AnswerService";
 import {createQuestionByQuizId} from "../../../../services/api/QuestionService";
-import {retrieveAllQuiz} from "../../../../services/api/QuizService";
+import {getQuizWithQA, retrieveAllQuiz} from "../../../../services/api/QuizService";
 
 export const Questions = () => {
-    // state
-    const [selectedQuiz, setSelectedQuiz] = useState({});
-    const [isZoomed, setIsZoomed] = useState(null)
-    const [questions, setQuestions] = useState([
+    // const
+    const typeAction = ['ADD', 'REMOVE'];
+    const typeChange = ['QUESTION', 'ANSWER'];
+    const initQuestion = [
         {
             id: uuidv4(),
             description: '',
@@ -30,20 +30,27 @@ export const Questions = () => {
                     isCorrect: false
                 },]
         },
-    ]);
+    ]
+
+    // state
+    const [selectedQuiz, setSelectedQuiz] = useState(null);
+    const [isZoomed, setIsZoomed] = useState(null)
+    const [questions, setQuestions] = useState(initQuestion);
     const [quizzes, setQuizzes] = useState([])
 
-    // const
-    const typeAction = ['ADD', 'REMOVE'];
-    const typeChange = ['QUESTION', 'ANSWER'];
-
+    // effect
     useEffect(() => {
         getAllQuiz();
     }, []);
 
+    useEffect(() => {
+        if (selectedQuiz) {
+            getQuizWithQuestion();
+        }
+    }, [selectedQuiz]);
+
     const getAllQuiz = async () => {
         let response = await retrieveAllQuiz();
-        console.log('response', response)
         if (response && response.EC === 0) {
             let data = response.DT;
             let temp = []
@@ -126,33 +133,91 @@ export const Questions = () => {
             let cloneQuestions = _.cloneDeep(questions);
             let newQuestion = cloneQuestions.find((question) => question.id === questionId);
             newQuestion.imageFile = event.target.files[0];
+            console.log(event.target.files[0]);
             newQuestion.imageName = event.target.files[0].name;
             setQuestions(cloneQuestions);
         }
     }
 
+    const validateQuiz = () => {
+        if (!selectedQuiz.value) {
+            toast.error('Please select quiz');
+            return true;
+        }
+
+        for (let i = 0; i < questions.length; i++) {
+            if (!questions[i].description) {
+                toast.error(`Please enter question ${i + 1} description`);
+                return true;
+            }
+            for (let j = 0; j < questions[i].answers.length; j++) {
+                if (!questions[i].answers[j].description) {
+                    toast.error(`Please enter question ${i + 1} answer  ${j + 1} description`);
+                    return true;
+                }
+            }
+        }
+    }
+
     const handleSubmitQuiz = async () => {
+        // validate
+        if (validateQuiz()) return;
         // console.log('questions', questions, selectedQuiz);
 
-        for await (const question of questions) {
-            let data = {
-                quiz_id: selectedQuiz.value,
-                description: question.description,
-                questionImage: question.imageFile
-            };
-            let response = await createQuestionByQuizId(data);
-
-            // console.log('response', response);
-
-            for await (const answer of question.answers) {
-                let dataAnswer = {
-                    question_id: response.DT.id,
-                    description: answer.description,
-                    correct_answer: answer.isCorrect
+        try {
+            for await (const question of questions) {
+                let data = {
+                    quiz_id: selectedQuiz.value,
+                    description: question.description,
+                    questionImage: question.imageFile
                 };
-                let resAnswer = await createAnswerByQuestionId(dataAnswer);
-                // console.log('resAnswer', resAnswer)
+                let response = await createQuestionByQuizId(data);
+
+                // console.log('response', response);
+
+                for await (const answer of question.answers) {
+                    let dataAnswer = {
+                        question_id: response.DT.id,
+                        description: answer.description,
+                        correct_answer: answer.isCorrect
+                    };
+                    let resAnswer = await createAnswerByQuestionId(dataAnswer);
+                    // console.log('resAnswer', resAnswer)
+                }
             }
+            toast.success('Create quiz success')
+            setQuestions(initQuestion);
+        } catch (e) {
+            toast.error(e.message)
+        }
+    }
+
+    const urlToFile = async (url, filename, mimeType) => {
+        const res = await fetch(url);
+        const buf = await res.arrayBuffer();
+        return new File([buf], filename, {type: mimeType});
+    };
+
+    const getQuizWithQuestion = async () => {
+        let response = await getQuizWithQA(selectedQuiz.value);
+        if (response && response.EC === 0) {
+            let data = response.DT;
+            // console.log(data)
+            let res = [];
+            for await (const question of data.qa) {
+                // console.log(question);
+                if (question.imageFile) {
+                    let file = await urlToFile(`data:image/png+jpg;base64,${question.imageFile}`, `${question.id}`, 'image/png+jpg');
+                    question.imageFile = file;
+                    question.imageName = `${question.id}.png`;
+                }
+                res.push(question);
+            }
+            // console.log(res)
+            setQuestions(res);
+        } else {
+            console.log(response);
+            toast.error(response.EM);
         }
     }
 
@@ -170,6 +235,7 @@ export const Questions = () => {
                             value={selectedQuiz}
                             onChange={setSelectedQuiz}
                             options={quizzes}
+                            placeholder={"Select quiz"}
                         />
                     </div>
 
@@ -209,7 +275,7 @@ export const Questions = () => {
                                             {
                                                 question.imageFile
                                                     ? <span onClick={() => setIsZoomed(question)}>
-                                                        {question.imageName}
+                                                        {question.id}-{question.imageName}
                                                     </span>
                                                     : <span>No file upload</span>
                                             }

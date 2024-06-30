@@ -1,9 +1,9 @@
-import ModalUser from "./ModalUser";
-import './ManageUser.scss';
 import {useEffect, useState} from "react";
-import TableUser from "./TableUser";
 import {getParticipants, getParticipantsWithPagination} from "../../../../services/api/AuthService";
 import ModalDeleteUser from "./ModalDeleteUser";
+import ModalUser from "./ModalUser";
+import './ManageUser.scss';
+import TableUser from "./TableUser";
 
 const ManageUser = (props) => {
     // props
@@ -22,7 +22,7 @@ const ManageUser = (props) => {
     const LIMIT_PAGE = 3;
 
     useEffect(() => {
-        // console.log("ManageUser.js useEffect")
+        // console.log("ManageUser.jsx useEffect")
         fetchUsersWithPagination(currentPage);
     }, []);
 
