@@ -133,6 +133,7 @@ export const DetailQuiz = () => {
     return (
         <>
             <div className={"detail-quiz-container"}>
+
                 <div className={"left-content"}>
 
                     <div className={"title"}>
@@ -147,11 +148,7 @@ export const DetailQuiz = () => {
 
                     <div className={"q-content"}>
                         <Question
-                            question={
-                                (questions && questions.length > 0)
-                                    ? questions[currentQuestion] : []
-                            }
-
+                            question={(questions && questions.length > 0) ? questions[currentQuestion] : []}
                             handleCheckAnswer={handleCheckAnswer}
                         />
                     </div>
@@ -169,8 +166,10 @@ export const DetailQuiz = () => {
                     <RightPanelContent
                         questions={questions}
                         handleSubmit={handleSubmit}
+                        setCurrentQuestion={setCurrentQuestion}
                     />
                 </div>
+
 
                 <ModalSubmitAnswer
                     show={showModalSubmitAnswer}

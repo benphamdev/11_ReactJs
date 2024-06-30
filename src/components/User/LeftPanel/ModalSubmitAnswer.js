@@ -21,12 +21,14 @@ const ModalSubmitAnswer = (props) => {
                         You are about to submit your answers
                     </Modal.Title>
                 </Modal.Header>
+
                 <Modal.Body>
                     <div>Total questions : <b>{answerQuiz.countTotal}</b>
                     </div>
                     <div>Total questions : <b>{answerQuiz.countCorrect}</b>
                     </div>
                 </Modal.Body>
+
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel

@@ -17,8 +17,8 @@ export const Question = (props) => {
     return (
         <>
             {
-                question.image ?
-                    <div className={"img-question"}>
+                question.image
+                    ? <div className={"img-question"}>
                         <img
                             src={`data:image/svg+xml+jpeg+png;base64,${question.image}`}
                             onClick={() => setIsZoomed(true)}

@@ -80,6 +80,34 @@
         align-items: center;
         font-weight: bold;
         cursor: pointer;
+
+        &:hover {
+          background-color: #fee6e6;
+          color: #887373;
+        }
+
+        &.selected {
+          background-color: #2e1a1a;
+          color: white;
+        }
+
+        &.clicked {
+          background-color: #ded4d4;
+          color: #d52626;
+        }
+
+        &.correct {
+          background-color: rgb(44, 176, 131);
+          color: rgb(242, 58, 48);
+          border-width: 0px;
+          border-color: rgb(242, 58, 48);
+        }
+
+        &.wrong {
+          background-color: rgb(242, 58, 48);
+          color: white;
+          border-width: 0px;
+        }
       }
     }
   }

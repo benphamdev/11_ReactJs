@@ -4,7 +4,7 @@ import {formatTime} from "../../../utils/Utils";
 
 export const Timer = (props) => {
     // state
-    const [time, setTime] = useState(10);
+    const [time, setTime] = useState(10000);
 
     useEffect(() => {
         if (time === 0) {
@@ -16,7 +16,7 @@ export const Timer = (props) => {
         const interval = setInterval(() => {
             setTime(time => time - 1);
         }, 1000);
-    
+
         return () => clearInterval(interval);
     }, [time]);
 
