@@ -1,12 +1,21 @@
 import './ManageQuiz.scss'
-import Select from 'react-select'
 import {useRef, useState} from "react";
-import {createNewQuiz} from "../../../../services/api/QuizService";
-import {toast} from "react-toastify";
-import TableQuiz from "./TableQuiz";
 import {Accordion} from "react-bootstrap";
+import Select from 'react-select'
+import {toast} from "react-toastify";
+import {createNewQuiz} from "../../../../services/api/QuizService";
+import {Questions} from "../Question/Questions";
+import {AssignQuiz} from "./AssignQuiz";
+import TableQuiz from "./TableQuiz";
 
 export const ManageQuiz = () => {
+    // constant
+    const options = [
+        {value: 'EASY', label: 'EASY'},
+        {value: 'MEDIUM', label: 'MEDIUM'},
+        {value: 'HARD', label: 'HARD'}
+    ]
+
     // state
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -14,12 +23,7 @@ export const ManageQuiz = () => {
     const [image, setImage] = useState('');
     const [isAdd, setIsAdd] = useState(false);
     const inputRef = useRef(null);
-
-    const options = [
-        {value: 'EASY', label: 'EASY'},
-        {value: 'MEDIUM', label: 'MEDIUM'},
-        {value: 'HARD', label: 'HARD'}
-    ]
+    const [isUpdateQuiz, setIsUpdateQuiz] = useState(false);
 
     const handleUploadImage = (event) => {
         if (event.target.files && event.target.files[0]) {
@@ -60,7 +64,7 @@ export const ManageQuiz = () => {
     return (
         <>
             <div className={"quiz-container"}>
-                <Accordion defaultActiveKey={['0']} alwaysOpen>
+                <Accordion defaultActiveKey={[]}>
                     <Accordion.Item eventKey="0">
                         <Accordion.Header>Manage Quiz</Accordion.Header>
                         <Accordion.Body>
@@ -115,12 +119,33 @@ export const ManageQuiz = () => {
 
                                 </fieldset>
                             </div>
+
+                            <div className={"list-detail"}>
+                                <TableQuiz isAdd={isAdd}/>
+                            </div>
+                        </Accordion.Body>
+                    </Accordion.Item>
+
+                    <Accordion.Item eventKey="1">
+                        <Accordion.Header>Update Q&A</Accordion.Header>
+
+                        <Accordion.Body>
+                            <Questions
+                                isUpdateQuiz={isUpdateQuiz}
+                                setIsUpdateQuiz={setIsUpdateQuiz}
+                            />
+                        </Accordion.Body>
+                        
+                    </Accordion.Item>
+
+                    <Accordion.Item eventKey="2">
+                        <Accordion.Header>Assign Quiz For User</Accordion.Header>
+                        <Accordion.Body>
+                            <AssignQuiz/>
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>
-                <div className={"list-detail"}>
-                    <TableQuiz isAdd={isAdd}/>
-                </div>
+
             </div>
         </>
     )

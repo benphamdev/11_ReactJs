@@ -1,9 +1,9 @@
-import Table from 'react-bootstrap/Table';
 import {useEffect, useState} from "react";
+import Table from 'react-bootstrap/Table';
 import {toast} from "react-toastify";
 import {retrieveAllQuiz} from "../../../../services/api/QuizService";
-import ModalQuiz from "./ModalQuiz";
 import ModalDeleteQuiz from "./ModalDeleteQuiz";
+import ModalQuiz from "./ModalQuiz";
 
 const TableQuiz = (props) => {
 
@@ -55,7 +55,7 @@ const TableQuiz = (props) => {
         setQuizDelete(quiz);
     }
 
-    console.log("render TableQuiz", quiz);
+    // console.log("render TableQuiz", quiz);
     return (
         <>
             <div>List quizzes</div>

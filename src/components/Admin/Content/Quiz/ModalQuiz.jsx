@@ -27,7 +27,7 @@ function ModalQuiz(props) {
     const inputRef = useRef(null);
 
     useEffect(() => {
-        console.log("Modal useEffect Quiz: ", quiz);
+        // console.log("Modal useEffect Quiz: ", quiz);
         if (quiz !== null) {
             setName(quiz?.name || '');
             setDescription(quiz?.description || '');
@@ -80,7 +80,7 @@ function ModalQuiz(props) {
         }
     }
 
-    console.log("render modalquiz", quiz);
+    // console.log("render modalquiz", quiz);
     return (
         <>
             <Modal

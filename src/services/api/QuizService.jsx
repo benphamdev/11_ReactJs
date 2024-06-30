@@ -70,7 +70,29 @@ const updateQuiz = (data) => {
     })
 }
 
+const assignQuizForParticipant = (data) => {
+    return axios.post("api/v1/quiz-assign-to-user", data)
+        .then(res => {
+            console.log("quiz service : ", res);
+            return res;
+        }).catch(err => {
+            console.log(err)
+            return Promise.reject(err);
+        });
+}
+
+const getQuizWithQA = (quizId) => {
+    return axios.get(`api/v1/quiz-with-qa/${quizId}`)
+        .then(res => {
+            console.log("quiz service : ", res);
+            return res;
+        }).catch(err => {
+            console.log(err)
+            return Promise.reject(err);
+        });
+}
+
 export {
     getQuizByParticipantId, getQuestionByQuizId, createNewQuiz, retrieveAllQuiz,
-    deleteQuizById, updateQuiz
+    deleteQuizById, updateQuiz, assignQuizForParticipant, getQuizWithQA
 };
