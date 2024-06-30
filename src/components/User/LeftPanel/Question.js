@@ -1,15 +1,37 @@
+import _ from "lodash";
+import React, {useState} from "react";
+import Lightbox from "react-awesome-lightbox";
+
 export const Question = (props) => {
+    // constant
+
+    // props
     const {question, handleCheckAnswer} = props;   // question = {questionId, description, image, answers}
+
+    // state
+    const [isZoomed, setIsZoomed] = useState(false)
+
     if (question === undefined || question.length === 0) return (<></>);
 
     // console.log("question", question)
-
     return (
         <>
             {
                 question.image ?
                     <div className={"img-question"}>
-                        <img src={`data:image/svg+xml+jpeg+png;base64,${question.image}`}/>
+                        <img
+                            src={`data:image/svg+xml+jpeg+png;base64,${question.image}`}
+                            onClick={() => setIsZoomed(true)}
+                            style={{cursor: 'pointer'}}
+                        />
+                        {
+                            isZoomed &&
+                            <Lightbox
+                                image={`data:image/svg+xml+jpeg+png;base64,${question.image}`}
+                                title={'Zoom'}
+                                onClose={() => setIsZoomed(false)}
+                            />
+                        }
                     </div>
                     : <div className={"img-question"}></div>
             }

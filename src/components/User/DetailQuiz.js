@@ -3,10 +3,11 @@ import {useEffect, useState} from "react";
 import {useLocation, useParams} from "react-router-dom";
 import {getQuestionByQuizId} from "../../services/api/QuizService";
 import "./DetailQuizz.scss";
-import {Question} from "./Question";
+import {Question} from "./LeftPanel/Question";
 import {submitAnswer} from "../../services/api/AnswerService";
 import {toast} from "react-toastify";
-import ModalSubmitAnswer from "./ModalSubmitAnswer";
+import ModalSubmitAnswer from "./LeftPanel/ModalSubmitAnswer";
+import {RightPanelContent} from "./RightPanel/RightPanelContent";
 
 export const DetailQuiz = () => {
     // hooks
@@ -164,7 +165,12 @@ export const DetailQuiz = () => {
                     </div>
                 </div>
 
-                <div className={"right-content"}>count down</div>
+                <div className={"right-content"}>
+                    <RightPanelContent
+                        questions={questions}
+                        handleSubmit={handleSubmit}
+                    />
+                </div>
 
                 <ModalSubmitAnswer
                     show={showModalSubmitAnswer}

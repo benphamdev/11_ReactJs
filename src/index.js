@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from 'react-redux';
@@ -8,6 +7,8 @@ import {Layout} from "./Layout";
 import {PersistGate} from "redux-persist/integration/react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-perfect-scrollbar/dist/css/styles.css';
+import "react-awesome-lightbox/build/style.css";
+import React from "react";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

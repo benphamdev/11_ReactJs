@@ -37,4 +37,9 @@ const urlToFile = async (url, filename, mimeType) => {
     return new File([buf], filename, {type: mimeType});
 };
 
-export {validateEmail, validatePass, genId, toBase64, urlToFile}
+const formatTime = (time) => {
+    return new Date(time * 1000)
+        .toISOString()
+        .slice(11, 19);
+}
+export {validateEmail, validatePass, genId, toBase64, urlToFile, formatTime}

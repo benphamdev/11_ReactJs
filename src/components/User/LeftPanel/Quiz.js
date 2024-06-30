@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {getQuizByParticipantId} from "../../services/api/QuizService";
+import {getQuizByParticipantId} from "../../../services/api/QuizService";
 import './Quiz.scss'
 import {useNavigate} from "react-router-dom";
 
