@@ -135,7 +135,7 @@ export const ManageQuiz = () => {
                                 setIsUpdateQuiz={setIsUpdateQuiz}
                             />
                         </Accordion.Body>
-                        
+
                     </Accordion.Item>
 
                     <Accordion.Item eventKey="2">

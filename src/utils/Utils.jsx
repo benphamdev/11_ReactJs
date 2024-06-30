@@ -24,4 +24,17 @@ const genId = (length) => {
     return res;
 }
 
-export {validateEmail, validatePass, genId}
+const toBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+});
+
+const urlToFile = async (url, filename, mimeType) => {
+    const res = await fetch(url);
+    const buf = await res.arrayBuffer();
+    return new File([buf], filename, {type: mimeType});
+};
+
+export {validateEmail, validatePass, genId, toBase64, urlToFile}
