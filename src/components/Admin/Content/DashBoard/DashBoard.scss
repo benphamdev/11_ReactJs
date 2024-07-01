@@ -7,26 +7,40 @@
 
   .content {
     display: flex;
-    height: 500px;
+    gap: 20px;
 
     .left-panel {
       width: 40%;
-      border: 1px solid red;
       display: flex;
       flex-wrap: wrap;
+      gap: 20px;
 
       .child {
-        width: 50%;
+        width: calc(50% - 10px);
         border: 1px solid #ccc;
         align-items: center;
         display: flex;
         justify-content: center;
+        border-radius: 10px;
+        height: 150px;
+        flex-direction: column;
+
+        .text-1 {
+          font-size: 1.25rem;
+          font-weight: 600;
+        }
+
+        .text-2 {
+          font-size: 1rem;
+          font-weight: 500;
+        }
       }
     }
 
     .right-panel {
       width: 60%;
-      border: 1px solid blue;
+      border: 1px solid #7fd12e;
+      border-radius: 10px;
     }
   }
 }

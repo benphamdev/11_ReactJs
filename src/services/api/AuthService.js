@@ -3,7 +3,7 @@ import axios from "../../configs/AxiosCustomize";
 const login = (data) => {
     return axios.post("api/v1/login", data)
         .then(res => {
-            console.log("api service : ", res);
+            console.log("auth service : ", res);
             return res;
         }).catch(err => {
             console.log(err)
@@ -14,7 +14,7 @@ const login = (data) => {
 const register = (data) => {
     return axios.post("api/v1/register", data)
         .then(res => {
-            console.log("api service : ", res);
+            console.log("auth service : ", res);
             return res;
         }).catch(err => {
             console.log(err)
@@ -25,7 +25,7 @@ const register = (data) => {
 const logout = (email, refresh_token) => {
     return axios.post("api/v1/logout", {email, refresh_token})
         .then(res => {
-            console.log("api service : ", res);
+            console.log("auth service : ", res);
             return res;
         }).catch(err => {
             console.log(err)
@@ -33,6 +33,17 @@ const logout = (email, refresh_token) => {
         })
 }
 
+const getDashboardData = () => {
+    return axios.get("api/v1/overview")
+        .then(res => {
+            console.log("auth service : ", res);
+            return res;
+        }).catch(err => {
+            console.log(err)
+            return Promise.reject(err);
+        });
+}
+
 export {
-    login, register, logout
+    login, register, logout, getDashboardData
 };
