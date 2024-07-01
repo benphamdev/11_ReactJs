@@ -11,9 +11,10 @@ import {toast} from "react-toastify";
 import {v4 as uuidv4} from 'uuid'
 import {createAnswerByQuestionId} from "../../../../services/api/AnswerService";
 import {createQuestionByQuizId} from "../../../../services/api/QuestionService";
-import {getQuizWithQA, retrieveAllQuiz} from "../../../../services/api/QuizService";
+import {getQuizWithQA, retrieveAllQuiz, upsertQuiz} from "../../../../services/api/QuizService";
+import {toBase64, urlToFile} from "../../../../utils/Utils";
 
-export const Questions = () => {
+export const Questions = (props) => {
     // const
     const typeAction = ['ADD', 'REMOVE'];
     const typeChange = ['QUESTION', 'ANSWER'];
@@ -38,16 +39,19 @@ export const Questions = () => {
     const [questions, setQuestions] = useState(initQuestion);
     const [quizzes, setQuizzes] = useState([])
 
+    // props
+    const {isUpdateQuiz, setIsUpdateQuiz} = props;
+
     // effect
     useEffect(() => {
         getAllQuiz();
     }, []);
 
     useEffect(() => {
-        if (selectedQuiz) {
+        if (selectedQuiz && isUpdateQuiz !== undefined) {
             getQuizWithQuestion();
         }
-    }, [selectedQuiz]);
+    }, [selectedQuiz, isUpdateQuiz]);
 
     const getAllQuiz = async () => {
         let response = await retrieveAllQuiz();
@@ -161,9 +165,41 @@ export const Questions = () => {
 
     const handleSubmitQuiz = async () => {
         // validate
-        if (validateQuiz()) return;
+        if (validateQuiz()) {
+            return
+        }
         // console.log('questions', questions, selectedQuiz);
+        if (isUpdateQuiz !== undefined) {
+            upsertQuizWithQA();
+        } else {
+            createQuestion();
+        }
 
+    }
+    console.log(isUpdateQuiz)
+    const upsertQuizWithQA = async () => {
+        let cloneQuestions = _.cloneDeep(questions);
+
+        for (const question of cloneQuestions) {
+            if (question.imageFile) {
+                question.imageFile = await toBase64(question.imageFile);
+            }
+        }
+
+        let payload = {
+            "quizId": selectedQuiz.value,
+            "questions": cloneQuestions
+        }
+
+        let response = await upsertQuiz(payload);
+        if (response && response.EC === 0) {
+            toast.success(response.EM);
+        } else {
+            toast.error(response.EM);
+        }
+    };
+
+    const createQuestion = async () => {
         try {
             for await (const question of questions) {
                 let data = {
@@ -191,13 +227,6 @@ export const Questions = () => {
             toast.error(e.message)
         }
     }
-
-    const urlToFile = async (url, filename, mimeType) => {
-        const res = await fetch(url);
-        const buf = await res.arrayBuffer();
-        return new File([buf], filename, {type: mimeType});
-    };
-
     const getQuizWithQuestion = async () => {
         let response = await getQuizWithQA(selectedQuiz.value);
         if (response && response.EC === 0) {

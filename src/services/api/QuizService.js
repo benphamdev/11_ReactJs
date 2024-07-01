@@ -92,7 +92,18 @@ const getQuizWithQA = (quizId) => {
         });
 }
 
+const upsertQuiz = (data) => {
+    return axios.post("api/v1/quiz-upsert-qa", data)
+        .then(res => {
+            console.log("quiz service : ", res);
+            return res;
+        }).catch(err => {
+            console.log(err)
+            return Promise.reject(err);
+        });
+}
+
 export {
     getQuizByParticipantId, getQuestionByQuizId, createNewQuiz, retrieveAllQuiz,
-    deleteQuizById, updateQuiz, assignQuizForParticipant, getQuizWithQA
+    deleteQuizById, updateQuiz, assignQuizForParticipant, getQuizWithQA, upsertQuiz
 };

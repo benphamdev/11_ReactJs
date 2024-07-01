@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Timer} from "./Timer";
 
 export const RightPanelContent = (props) => {
@@ -10,11 +10,15 @@ export const RightPanelContent = (props) => {
     ];
 
     // props
-    const {questions, handleSubmit} = props;
+    const {questions, handleSubmit, currentQuestion, setCurrentQuestion} = props;
 
     // state
     const [isStay, setIsStay] = useState(0);
 
+    useEffect(() => {
+        setIsStay(currentQuestion);
+    }, [currentQuestion]);
+    
     const onTimeOut = () => {
         handleSubmit();
     }

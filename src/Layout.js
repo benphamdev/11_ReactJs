@@ -54,21 +54,19 @@ export const Layout = () => {
 
                     <Route path="*" element={<PageNotFound/>}/>
                 </Routes>
-
-
-                <ToastContainer
-                    position="top-center"
-                    autoClose={4000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss={false}
-                    draggable
-                    pauseOnHover={false}
-                    theme="light"
-                />
             </Suspense>
+            <ToastContainer
+                position="top-center"
+                autoClose={4000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable
+                pauseOnHover={false}
+                theme="light"
+            />
         </>
     )
 }

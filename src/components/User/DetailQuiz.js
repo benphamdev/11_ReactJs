@@ -166,6 +166,7 @@ export const DetailQuiz = () => {
                     <RightPanelContent
                         questions={questions}
                         handleSubmit={handleSubmit}
+                        currentQuestion={currentQuestion}
                         setCurrentQuestion={setCurrentQuestion}
                     />
                 </div>
