@@ -1,5 +1,7 @@
 import {useState} from "react";
 import './Admin.scss'
+import {NavDropdown} from "react-bootstrap";
+import {Language} from "../Header/Language";
 import SideBar from "./SideBar";
 import {FaBars} from "react-icons/fa";
 import {Outlet} from "react-router-dom";
@@ -16,9 +18,22 @@ const Admin = (props) => {
             </div>
 
             <div className="admin-content">
-
                 <div className="admin-header">
-                    <FaBars onClick={() => setCollapsed(!collapsed)}/>
+                    <span className={'left-view'}>
+                        <FaBars onClick={() => setCollapsed(!collapsed)}/>
+                    </span>
+
+                    <div className={'right-view'}>
+                        <Language/>
+                        <NavDropdown title="Settings" id="basic-nav-setting">
+                            <NavDropdown.Item>Profile</NavDropdown.Item>
+                            <NavDropdown.Item>Login</NavDropdown.Item>
+                            <NavDropdown.Divider/>
+                            <NavDropdown.Item>
+                                Log out
+                            </NavDropdown.Item>
+                        </NavDropdown>
+                    </div>
                 </div>
 
                 <div className="admin-main">

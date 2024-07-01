@@ -176,11 +176,10 @@ export const Questions = (props) => {
         }
 
     }
-    console.log(isUpdateQuiz)
     const upsertQuizWithQA = async () => {
         let cloneQuestions = _.cloneDeep(questions);
 
-        for (const question of cloneQuestions) {
+        for await (const question of cloneQuestions) {
             if (question.imageFile) {
                 question.imageFile = await toBase64(question.imageFile);
             }
@@ -194,6 +193,7 @@ export const Questions = (props) => {
         let response = await upsertQuiz(payload);
         if (response && response.EC === 0) {
             toast.success(response.EM);
+            getQuizWithQuestion();
         } else {
             toast.error(response.EM);
         }

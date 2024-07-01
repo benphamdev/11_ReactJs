@@ -1,0 +1,32 @@
+.dashboard-container {
+  .title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .content {
+    display: flex;
+    height: 500px;
+
+    .left-panel {
+      width: 40%;
+      border: 1px solid red;
+      display: flex;
+      flex-wrap: wrap;
+
+      .child {
+        width: 50%;
+        border: 1px solid #ccc;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+      }
+    }
+
+    .right-panel {
+      width: 60%;
+      border: 1px solid blue;
+    }
+  }
+}

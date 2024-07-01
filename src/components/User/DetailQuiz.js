@@ -33,7 +33,7 @@ export const DetailQuiz = () => {
             const rawQuestions = response.DT;
 
             // way not using lodash
-            // console.log("raw questions", rawQuestions);
+            console.log("raw questions", rawQuestions);
             // const groupQuestions = Map.groupBy(
             //     rawQuestions,
             //     (question) => question.id,
@@ -170,7 +170,6 @@ export const DetailQuiz = () => {
                         setCurrentQuestion={setCurrentQuestion}
                     />
                 </div>
-
 
                 <ModalSubmitAnswer
                     show={showModalSubmitAnswer}

@@ -3,7 +3,7 @@ import {Route, Routes} from "react-router-dom";
 import {ToastContainer} from "react-toastify";
 import App from "./App";
 import Admin from "./components/Admin/Admin";
-import DashBoard from "./components/Admin/Content/DashBoard";
+import DashBoard from "./components/Admin/Content/DashBoard/DashBoard";
 import {Questions} from "./components/Admin/Content/Question/Questions";
 import {ManageQuiz} from "./components/Admin/Content/Quiz/ManageQuiz";
 import ManageUser from "./components/Admin/Content/User/ManageUser";

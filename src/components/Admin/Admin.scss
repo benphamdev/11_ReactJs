@@ -18,7 +18,17 @@
       padding: 1rem;
       background-color: #f4f4f4;
       height: 40px;
-      border: 1px solid red;
+      border-bottom: 1px solid #845555;
+      cursor: pointer;
+
+      .left-view {
+        color: #1986a5;
+      }
+
+      .right-view {
+        display: flex;
+        gap: 20px;
+      }
     }
 
     .admin-main {
