@@ -15,6 +15,7 @@ import {DetailQuiz} from "./components/User/DetailQuiz";
 import {Quiz} from "./components/User/LeftPanel/Quiz";
 import 'react-medium-image-zoom/dist/styles.css'
 import "react-awesome-lightbox/build/style.css";
+import {PrivateRoute} from "./routes/PrivateRoute";
 
 export const Layout = () => {
     return (
@@ -22,10 +23,22 @@ export const Layout = () => {
             <Routes>
                 <Route path="/" element={<App/>}>
                     <Route index element={<HomePage/>}/>
-                    <Route path="/users/*" element={<Quiz/>}/>
+                    <Route path="/users/"
+                           element={
+                               <PrivateRoute>
+                                   <Quiz/>
+                               </PrivateRoute>
+                           }
+                    />
                 </Route>
 
-                <Route path="/admins/" element={<Admin/>}>
+                <Route path="/admins/"
+                       element={
+                           <PrivateRoute>
+                               <Admin/>
+                           </PrivateRoute>
+                       }
+                >
                     <Route index element={<DashBoard/>}/>
                     <Route path="manage-users" element={<ManageUser/>}/>
                     <Route path="manage-quizzes" element={<ManageQuiz/>}/>

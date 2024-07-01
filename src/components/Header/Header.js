@@ -5,11 +5,10 @@ import {NavLink, useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {NavDropdown} from "react-bootstrap";
 
-
 function Header() {
     const navigate = useNavigate();
     const isAuthenticated = useSelector((state) => state.userReducer.isAuthenticated);
-
+    const account = useSelector((state) => state.userReducer.account);
 
     const handleLogin = () => {
         navigate("/login");

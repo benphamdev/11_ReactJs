@@ -20,8 +20,6 @@ export const RightPanelContent = (props) => {
     }
 
     const getClassName = (question, index) => {
-        console.log("question", question)
-
         let dataAnswer = question.answers;
         for (const dataAnswerKey in dataAnswer) {
             if (dataAnswer[dataAnswerKey].isSelected)
