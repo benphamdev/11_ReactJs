@@ -2,13 +2,18 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import {NavLink, useNavigate} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {NavDropdown} from "react-bootstrap";
+import {toast} from "react-toastify";
+import {doLogout} from "../../redux/action/UserAction";
+import {logout} from "../../services/api/AuthService";
+import {Language} from "./Language";
 
 function Header() {
     const navigate = useNavigate();
     const isAuthenticated = useSelector((state) => state.userReducer.isAuthenticated);
     const account = useSelector((state) => state.userReducer.account);
+    const dispatch = useDispatch();
 
     const handleLogin = () => {
         navigate("/login");
@@ -17,6 +22,19 @@ function Header() {
     const handleRegister = () => {
         navigate("/register");
     }
+
+    const handleLogout = async () => {
+        let response = await logout(account.email, account.refresh_token);
+        if (response && response.EC === 0) {
+            // clear data redux
+            dispatch(doLogout());
+            toast.success(response.EM);
+            navigate("/login");
+        } else {
+            toast.error(response.EM);
+        }
+
+    };
 
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
@@ -45,11 +63,12 @@ function Header() {
                                     <NavDropdown.Item>Profile</NavDropdown.Item>
                                     <NavDropdown.Item>Login</NavDropdown.Item>
                                     <NavDropdown.Divider/>
-                                    <NavDropdown.Item>
+                                    <NavDropdown.Item onClick={() => handleLogout()}>
                                         Log out
                                     </NavDropdown.Item>
                                 </NavDropdown>
                         }
+                        <Language/>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

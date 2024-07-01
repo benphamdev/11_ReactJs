@@ -13,6 +13,12 @@ body {
   }
 }
 
+.language {
+  .dropdown-toggle:after {
+    content: none !important;
+  }
+}
+
 .app-container {
   .header-container {
     //.navbar-nav .nav-link.active {
@@ -57,6 +63,8 @@ body {
         }
       }
     }
+
+
   }
 
   .homepage-container {

@@ -7,6 +7,7 @@ import {doLogin} from "../../redux/action/UserAction";
 import {login} from "../../services/api/AuthService";
 import "./Login.scss";
 import {validateEmail} from "../../utils/Utils";
+import {Language} from "../Header/Language";
 
 export const Login = () => {
     // state
@@ -80,6 +81,11 @@ export const Login = () => {
         navigate("/register");
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            handleSubmit(e);
+        }
+    };
     return (
         <div className={"login-container"}>
             <div className={"header"}>
@@ -88,6 +94,7 @@ export const Login = () => {
                     Sign up
                 </button>
                 <span>Contact us</span>
+                <Language/>
             </div>
 
             <div className={"title col-4 mx-auto"}>Duy Chiến</div>
@@ -99,6 +106,9 @@ export const Login = () => {
                     className="row g-3 needs-validation"
                     onSubmit={handleSubmit}
                     noValidate
+                    onKeyDown={(e) => {
+                        handleKeyDown(e)
+                    }}
                 >
                     <div className="form-group">
                         <label htmlFor="validationTooltipUsername" className="form-label">
@@ -124,7 +134,6 @@ export const Login = () => {
                                     // }
                                 }}
                             />
-
                             <div className="invalid-tooltip">{userNameError}</div>
                         </div>
                     </div>
@@ -150,6 +159,7 @@ export const Login = () => {
                                 onBlur={() => {
                                     validatePassword(password);
                                 }}
+
                             />
 
                             <div className="invalid-tooltip">{passwordError}</div>
@@ -171,9 +181,7 @@ export const Login = () => {
                                 <ImSpinner8 className={"loader-icon"}/>
                                 <a>Loading</a>
                             </div>
-                        ) : (
-                            <a>Login</a>
-                        )}
+                        ) : (<a>Login</a>)}
                     </button>
                 </div>
 

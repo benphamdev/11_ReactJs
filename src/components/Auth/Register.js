@@ -7,6 +7,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import {BiHide, BiShow} from "react-icons/bi";
 import './Register.scss';
 import {validateEmail} from "../../utils/Utils";
+import {Language} from "../Header/Language";
 
 export const Register = () => {
     const [email, setEmail] = useState('');
@@ -89,6 +90,7 @@ export const Register = () => {
             <div className={"header"}>
                 <span>Already have an account?</span>
                 <button className={"btn btn-dark mx-3"} onClick={navigateLogin}>Login</button>
+                <Language/>
             </div>
 
             <div className={"title col-4 mx-auto"}>
@@ -171,13 +173,14 @@ export const Register = () => {
                     </Form.Group>
 
                 </Form>
+
                 <div className="col-12">
                     <button className="btn btn-primary" type="submit" onClick={handleSubmit}>Signup</button>
                 </div>
+
                 <div className={"back-home"}>
                     <span onClick={navigateToHome}> &#60;&#60; &#160; Go to back home</span>
                 </div>
-
             </div>
         </div>
     );

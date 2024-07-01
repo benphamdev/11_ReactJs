@@ -90,3 +90,7 @@ npm install --save-exact nprogress@0.2.0
 npm install --save-exact redux-persist
 npm install --save-exact react-select@5.8.0
 npm install --save-exact react-perfect-scrollbar
+npm install --save-exact i18next@21.8.16 react-i18next@11.18.3 i18next-browser- languagedetector@6.1.4
+i18next-http-backend@1.4.1
+
+

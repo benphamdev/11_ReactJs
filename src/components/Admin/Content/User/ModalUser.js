@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import 'react-toastify/dist/ReactToastify.css';
 import {toast} from "react-toastify";
-import {createNewUser, updateUser} from "../../../../services/api/AuthService";
+import {createNewUser, updateUser} from "../../../../services/api/ParticipantService";
 import {validateEmail} from "../../../../utils/Utils";
 
 function ModalUser(props) {

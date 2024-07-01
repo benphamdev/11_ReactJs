@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import Select from "react-select";
 import {toast} from "react-toastify";
-import {getParticipants} from "../../../../services/api/AuthService";
+import {getParticipants} from "../../../../services/api/ParticipantService";
 import {assignQuizForParticipant, retrieveAllQuiz} from "../../../../services/api/QuizService";
 
 export const AssignQuiz = () => {

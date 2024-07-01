@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {getParticipants, getParticipantsWithPagination} from "../../../../services/api/AuthService";
+import {getParticipants, getParticipantsWithPagination} from "../../../../services/api/ParticipantService";
 import ModalDeleteUser from "./ModalDeleteUser";
 import ModalUser from "./ModalUser";
 import './ManageUser.scss';

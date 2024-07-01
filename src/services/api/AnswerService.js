@@ -22,4 +22,5 @@ const createAnswerByQuestionId = async data => {
             return Promise.reject(err);
         })
 }
+
 export {submitAnswer, createAnswerByQuestionId};
