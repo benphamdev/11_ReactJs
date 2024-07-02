@@ -1,4 +1,4 @@
-import {Quiz} from "./LeftPanel/Quiz";
+import {Quiz} from "./Quiz";
 
 const User = (props) => {
     return (

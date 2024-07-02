@@ -6,5 +6,41 @@
       "start": "Bắt đầu ngay",
       "free": "Bắt đầu—miễn phí"
     }
+  },
+  "header": {
+    "features": "Tính năng",
+    "pricing": "Giá",
+    "contact": "Liên hệ",
+    "signup": "Đăng ký",
+    "home": "Trang chủ",
+    "user": "Người dùng",
+    "admin": "Quản trị viên",
+    "settings": "Cài đặt",
+    "profile": "Thông tin cá nhân",
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất"
+  },
+  "admin": {
+    "dashboard": "Trang quản trị",
+    "features": "Tính năng",
+    "new": "Mới",
+    "manageUsers": "Quản lí ngừoi dùng",
+    "mangaQuestions": "Quản lí câu hỏi",
+    "manageQuizzes": "Quản lí bài thi"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Mật khẩu",
+    "remember": "Ghi nhớ",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "gobackhome": "Quay lại trang chủ",
+    "forgotpassword": "Quên mật khẩu ?",
+    "title": "Chào bạn, chào mừng bạn đến với chúng tôi!",
+    "contact": "Liên hệ với chúng tôi",
+    "header": {
+      "title": "Bạn đã có tài khoản?"
+    },
+    "username": "Tên đăng nhập",
+    "password": "Mật khẩu"
   }
 }

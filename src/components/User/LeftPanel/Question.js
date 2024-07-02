@@ -1,6 +1,7 @@
 import _ from "lodash";
 import React, {useState} from "react";
 import Lightbox from "react-awesome-lightbox";
+import {imgSrcBase64} from "../../../utils/Utils";
 
 export const Question = (props) => {
     // constant
@@ -8,10 +9,10 @@ export const Question = (props) => {
     // props
     const {question, handleCheckAnswer} = props;   // question = {questionId, description, image, answers}
 
+    if (question === undefined || question.length === 0) return (<></>);
+
     // state
     const [isZoomed, setIsZoomed] = useState(false)
-
-    if (question === undefined || question.length === 0) return (<></>);
 
     // console.log("question", question)
     return (
@@ -20,14 +21,14 @@ export const Question = (props) => {
                 question.image
                     ? <div className={"img-question"}>
                         <img
-                            src={`data:image/svg+xml+jpeg+png;base64,${question.image}`}
+                            src={`${imgSrcBase64},${question.image}`}
                             onClick={() => setIsZoomed(true)}
                             style={{cursor: 'pointer'}}
                         />
                         {
                             isZoomed &&
                             <Lightbox
-                                image={`data:image/svg+xml+jpeg+png;base64,${question.image}`}
+                                image={`${imgSrcBase64},${question.image}`}
                                 title={'Zoom'}
                                 onClose={() => setIsZoomed(false)}
                             />
@@ -48,12 +49,13 @@ export const Question = (props) => {
                         <div className="form-check q-answer" key={index}>
                             <input className="form-check-input" type="checkbox"
                                    checked={answer.isSelected}
-                                   id="flexCheckDefault"
+                                   id={`flexCheckDefault ${question.questionId} ${answer.id}`}
                                    onChange={(e) => {
                                        handleCheckAnswer(e, question.questionId, answer.id);
                                    }}
                             />
-                            <label className="form-check-label" htmlFor="flexCheckDefault"
+                            <label className="form-check-label"
+                                   htmlFor={`flexCheckDefault ${question.questionId} ${answer.id}`}
                                    checked={answer.isSelected}>
                                 {answer.description}
                             </label>

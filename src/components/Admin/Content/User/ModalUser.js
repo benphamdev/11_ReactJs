@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import 'react-toastify/dist/ReactToastify.css';
 import {toast} from "react-toastify";
 import {createNewUser, updateUser} from "../../../../services/api/ParticipantService";
-import {validateEmail} from "../../../../utils/Utils";
+import {imgSrcBase64, validateEmail} from "../../../../utils/Utils";
 
 function ModalUser(props) {
     // props
@@ -35,7 +35,7 @@ function ModalUser(props) {
             setEmail(infoUser?.email || '');
             setRole(infoUser?.role || 'USER');
             if (infoUser?.image)
-                setPreviewImage(`data:image/svg+xml+jpeg+png;base64,${infoUser.image}`);
+                setPreviewImage(`${imgSrcBase64},${infoUser.image}`);
         }
     }, [infoUser]);
 

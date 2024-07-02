@@ -4,6 +4,9 @@ import 'nprogress/nprogress.css';
 import nprogress from 'nprogress';
 import './nprogressConfig';
 import {store} from "../redux/store";
+import axiosRetry from 'axios-retry';
+
+axiosRetry(axios, {retries: 3});
 
 const instance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -35,6 +38,9 @@ instance.interceptors.response.use(function (response) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     nprogress.done();
+    if (error.response.data && error.response.data.EC === -999) {
+        store.dispatch({type: 'LOGOUT'});
+    }
     return error && error.response && error.response.data ? error.response.data : Promise.reject(error);
 });
 

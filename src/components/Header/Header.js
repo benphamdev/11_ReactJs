@@ -1,6 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import {useTranslation} from "react-i18next";
 import {NavLink, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {NavDropdown} from "react-bootstrap";
@@ -10,10 +11,12 @@ import {logout} from "../../services/api/AuthService";
 import {Language} from "./Language";
 
 function Header() {
-    const navigate = useNavigate();
     const isAuthenticated = useSelector((state) => state.userReducer.isAuthenticated);
     const account = useSelector((state) => state.userReducer.account);
+    //hook
+    const navigate = useNavigate();
     const dispatch = useDispatch();
+    const {t, i18n} = useTranslation();
 
     const handleLogin = () => {
         navigate("/login");
@@ -44,9 +47,9 @@ function Header() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <NavLink to={"/"} className={"nav-link"}>Home</NavLink>
-                        <NavLink to={"/users"} className={"nav-link"}>User</NavLink>
-                        <NavLink to={"/admins"} className={"nav-link"}>Admin</NavLink>
+                        <NavLink to={"/"} className={"nav-link"}>{t('header.home')}</NavLink>
+                        <NavLink to={"/users"} className={"nav-link"}>{t('header.user')}</NavLink>
+                        <NavLink to={"/admins"} className={"nav-link"}>{t('header.admin')}</NavLink>
                         {/*<Nav.Link href="/">Home</Nav.Link>*/}
                         {/*<Nav.Link href="/users">User</Nav.Link>*/}
                         {/*<Nav.Link href="/admins">Admin</Nav.Link>*/}
@@ -59,12 +62,12 @@ function Header() {
                                     <button className="btn-login" onClick={() => handleLogin()}> Login</button>
                                     <button className="btn-signup" onClick={handleRegister}> Signup</button>
                                 </>
-                                : <NavDropdown title="Settings" id="basic-nav-setting">
-                                    <NavDropdown.Item>Profile</NavDropdown.Item>
-                                    <NavDropdown.Item>Login</NavDropdown.Item>
+                                : <NavDropdown title={t('header.settings')} id="basic-nav-setting">
+                                    <NavDropdown.Item>{t('header.profile')}</NavDropdown.Item>
+                                    <NavDropdown.Item>{t('header.login')}</NavDropdown.Item>
                                     <NavDropdown.Divider/>
                                     <NavDropdown.Item onClick={() => handleLogout()}>
-                                        Log out
+                                        {t('header.logout')}
                                     </NavDropdown.Item>
                                 </NavDropdown>
                         }

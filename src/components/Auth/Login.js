@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {useTranslation} from "react-i18next";
 import {ImSpinner8} from "react-icons/im";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
@@ -20,6 +21,7 @@ export const Login = () => {
     // hooks
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const {t, i18n} = useTranslation();
 
     const validateUsername = (value) => {
         if (value === null || !validateEmail(value)) {
@@ -89,17 +91,17 @@ export const Login = () => {
     return (
         <div className={"login-container"}>
             <div className={"header"}>
-                <span>Don't have an account yet?</span>
+                <span>{t('auth.header.title')}</span>
                 <button className={"btn btn-dark mx-3"} onClick={navigateToRegister}>
-                    Sign up
+                    {t('header.signup')}
                 </button>
-                <span>Contact us</span>
+                <span>{t('auth.contact')}</span>
                 <Language/>
             </div>
 
             <div className={"title col-4 mx-auto"}>Duy Chiến</div>
 
-            <div className={"welcome col-4 mx-auto"}>Hello, who’s this?</div>
+            <div className={"welcome col-4 mx-auto"}>{t('auth.title')}</div>
 
             <div className={"content-form col-4 mx-auto"}>
                 <form
@@ -112,7 +114,7 @@ export const Login = () => {
                 >
                     <div className="form-group">
                         <label htmlFor="validationTooltipUsername" className="form-label">
-                            <b>Username</b>
+                            <b>{t('auth.username')}</b>
                         </label>
                         <div className="input-group has-validation">
                             <input
@@ -140,7 +142,7 @@ export const Login = () => {
 
                     <div className="form-group">
                         <label htmlFor="validationCustom02" className="form-label">
-                            <b>Password</b>
+                            <b>{t('auth.password')}</b>
                         </label>
                         <div className="input-group has-validation">
                             <input
@@ -167,7 +169,7 @@ export const Login = () => {
                     </div>
                 </form>
 
-                <span>Forgot password?</span>
+                <span>{t('auth.forgotpassword')}</span>
 
                 <div className="col-12">
                     <button
@@ -188,7 +190,7 @@ export const Login = () => {
                 <div className={"back-home"}>
 					<span onClick={navigateToHome}>
 						{" "}
-                        &#60;&#60; &#160; Go to back home
+                        &#60;&#60; &#160; {t('auth.gobackhome')}
 					</span>
                 </div>
             </div>

@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import 'react-toastify/dist/ReactToastify.css';
 import {toast} from "react-toastify";
 import {updateQuiz} from "../../../../services/api/QuizService";
+import {imgSrcBase64} from "../../../../utils/Utils";
 
 function ModalQuiz(props) {
     // props
@@ -33,7 +34,7 @@ function ModalQuiz(props) {
             setDescription(quiz?.description || '');
             setDifficulty(quiz?.difficulty || 'USER');
             if (quiz?.image)
-                setPreviewImage(`data:image/svg+xml+jpeg+png;base64,${quiz.image}`);
+                setPreviewImage(`${imgSrcBase64},${quiz.image}`);
         }
     }, [props.quiz]);
 

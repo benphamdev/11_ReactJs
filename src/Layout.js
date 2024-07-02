@@ -12,7 +12,7 @@ import {Register} from "./components/Auth/Register";
 import HomePage from "./components/Home/HomePage";
 import {PageNotFound} from "./components/PageNotFound";
 import {DetailQuiz} from "./components/User/DetailQuiz";
-import {Quiz} from "./components/User/LeftPanel/Quiz";
+import {Quiz} from "./components/User/Quiz";
 import 'react-medium-image-zoom/dist/styles.css'
 import "react-awesome-lightbox/build/style.css";
 import {PrivateRoute} from "./routes/PrivateRoute";

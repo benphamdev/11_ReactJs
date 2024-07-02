@@ -1,4 +1,5 @@
 import 'react-pro-sidebar/dist/css/styles.css';
+import {useTranslation} from "react-i18next";
 import {Menu, MenuItem, ProSidebar, SidebarContent, SidebarFooter, SidebarHeader, SubMenu,} from 'react-pro-sidebar';
 
 import {FaGem, FaGithub, FaTachometerAlt} from 'react-icons/fa';
@@ -10,6 +11,7 @@ import {Link, useNavigate} from "react-router-dom";
 const SideBar = (props) => {
     const {image, collapsed, toggled, handleToggleSidebar} = props;
     const navigate = useNavigate();
+    const {t, i18n} = useTranslation();
 
     return (
         <>
@@ -43,26 +45,29 @@ const SideBar = (props) => {
                     <Menu iconShape="circle">
                         <MenuItem
                             icon={<FaTachometerAlt/>}
-                            suffix={<span className="badge red">New</span>}
+                            suffix={<span className="badge red">{t('admin.new')}</span>}
                         >
-                            Dashboard
+                            {t('admin.dashboard')}
                             <Link to="/admins"/>
                         </MenuItem>
 
                         <SubMenu
-                            title="Features"
+                            title={t('admin.features')}
                             icon={<FaGem/>}
                             suffix={<span className="badge yellow">3</span>}
                         >
-                            <MenuItem>Manage Users
+                            <MenuItem>
+                                {t('admin.manageUsers')}
                                 <Link to="/admins/manage-users"/>
                             </MenuItem>
 
-                            <MenuItem>Manage Quizzes
+                            <MenuItem>
+                                {t('admin.manageQuizzes')}
                                 <Link to="/admins/manage-quizzes"/>
                             </MenuItem>
 
-                            <MenuItem>Manage Questions
+                            <MenuItem>
+                                {t('admin.mangaQuestions')}
                                 <Link to="/admins/questions"/>
                             </MenuItem>
                         </SubMenu>

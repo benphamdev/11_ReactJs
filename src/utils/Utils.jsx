@@ -1,3 +1,5 @@
+export const imgSrcBase64 = "data:image/svg+xml+jpeg+png;base64";
+
 const validateEmail = (email) => {
     return String(email)
         .toLowerCase()

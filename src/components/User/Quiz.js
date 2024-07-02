@@ -1,7 +1,8 @@
 import {useEffect, useState} from "react";
-import {getQuizByParticipantId} from "../../../services/api/QuizService";
+import {getQuizByParticipantId} from "../../services/api/QuizService";
 import './Quiz.scss'
 import {useNavigate} from "react-router-dom";
+import {imgSrcBase64} from "../../utils/Utils";
 
 export const Quiz = () => {
     const [listQuiz, setListQuiz] = useState([]);
@@ -24,8 +25,8 @@ export const Quiz = () => {
                 {
                     listQuiz.length > 0 && listQuiz.map((quiz, index) => {
                         return (
-                            <div className="card" key={index} style={{width: '18rem'}}>
-                                <img src={`data:image/svg+xml+png;base64,${quiz.image}`} className="card-img-top"/>
+                            <div className="card card-item" key={index} style={{width: '18rem'}}>
+                                <img src={`${imgSrcBase64},${quiz.image}`} className="card-img-top"/>
                                 <div className="card-body">
                                     <h5 className="card-title">{quiz.id}</h5>
                                     <p className="card-text">{quiz.description}</p>

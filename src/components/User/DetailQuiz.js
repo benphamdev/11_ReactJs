@@ -1,6 +1,7 @@
 import _ from "lodash";
 import {useEffect, useState} from "react";
-import {useLocation, useParams} from "react-router-dom";
+import {Breadcrumb} from "react-bootstrap";
+import {NavLink, useLocation, useParams} from "react-router-dom";
 import {getQuestionByQuizId} from "../../services/api/QuizService";
 import "./DetailQuizz.scss";
 import {Question} from "./LeftPanel/Question";
@@ -132,19 +133,27 @@ export const DetailQuiz = () => {
 
     return (
         <>
+            <Breadcrumb className={'breadcrumb'}>
+                <NavLink to={'/'} className={'breadcrumb-item'}>
+                    Home
+                </NavLink>
+                <NavLink to={'/users'} className={'breadcrumb-item'}>
+                    User
+                </NavLink>
+                <Breadcrumb.Item active>
+                    Quiz {quizId}
+                </Breadcrumb.Item>
+            </Breadcrumb>
+
             <div className={"detail-quiz-container"}>
 
                 <div className={"left-content"}>
 
                     <div className={"title"}>
-                        <h1>Quiz {quizId} : {quizName}</h1>
+                        Quiz {quizId} : {quizName}
                     </div>
 
                     <hr/>
-
-                    <div className={"q-body"}>
-                        <img/>
-                    </div>
 
                     <div className={"q-content"}>
                         <Question

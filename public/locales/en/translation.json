@@ -6,5 +6,41 @@
       "start": "Get started now",
       "free": "Get started—it's free"
     }
+  },
+  "header": {
+    "features": "Features",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "signup": "Sign up",
+    "home": "Home",
+    "user": "User",
+    "admin": "Admin",
+    "settings": "Settings",
+    "profile": "Profile",
+    "login": "Login",
+    "logout": "Logout"
+  },
+  "admin": {
+    "dashboard": "Dashboard",
+    "new": "New",
+    "features": "Features",
+    "manageUsers": "Manage Users",
+    "mangaQuestions": "Manage Questions",
+    "manageQuizzes": "Manage Quizzes"
+  },
+  "auth": {
+    "email": "email",
+    "password": "password",
+    "remember": "Remember me",
+    "confirmPassword": "Confirm password",
+    "gobackhome": "Go back home",
+    "forgotpassword": "Forgot password ? ",
+    "title": "Hello, Who's this?",
+    "contact": "Contact us",
+    "header": {
+      "title": "Don't have an account yet?"
+    },
+    "username": "Username",
+    "password": "Password"
   }
 }

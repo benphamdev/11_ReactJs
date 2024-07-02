@@ -1,3 +1,4 @@
+import axiosRetry from "axios-retry";
 import axios from "../../configs/AxiosCustomize";
 
 const login = (data) => {
@@ -44,6 +45,18 @@ const getDashboardData = () => {
         });
 }
 
+const refreshToken = (data) => {
+    return axios.post('api/v1/refresh-token', data)
+        .then(res => {
+            console.log("auth service : ", res);
+            return res;
+        })
+        .catch(err => {
+            console.log(err)
+            return Promise.reject(err);
+        });
+}
+
 export {
-    login, register, logout, getDashboardData
+    login, register, logout, getDashboardData, refreshToken
 };

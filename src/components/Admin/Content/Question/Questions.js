@@ -12,7 +12,7 @@ import {v4 as uuidv4} from 'uuid'
 import {createAnswerByQuestionId} from "../../../../services/api/AnswerService";
 import {createQuestionByQuizId} from "../../../../services/api/QuestionService";
 import {getQuizWithQA, retrieveAllQuiz, upsertQuiz} from "../../../../services/api/QuizService";
-import {toBase64, urlToFile} from "../../../../utils/Utils";
+import {imgSrcBase64, toBase64, urlToFile} from "../../../../utils/Utils";
 
 export const Questions = (props) => {
     // const
@@ -236,7 +236,7 @@ export const Questions = (props) => {
             for await (const question of data.qa) {
                 // console.log(question);
                 if (question.imageFile) {
-                    let file = await urlToFile(`data:image/png+jpg;base64,${question.imageFile}`, `${question.id}`, 'image/png+jpg');
+                    let file = await urlToFile(`${imgSrcBase64},${question.imageFile}`, `${question.id}`, 'image/png+jpg');
                     question.imageFile = file;
                     question.imageName = `${question.id}.png`;
                 }
