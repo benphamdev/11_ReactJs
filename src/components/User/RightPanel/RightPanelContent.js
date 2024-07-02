@@ -10,7 +10,7 @@ export const RightPanelContent = (props) => {
     ];
 
     // props
-    const {questions, handleSubmit, currentQuestion, setCurrentQuestion} = props;
+    const {questions, handleSubmit, currentQuestion, setCurrentQuestion, isShowAnswer, listCorrectAnswer} = props;
 
     // state
     const [isStay, setIsStay] = useState(0);
@@ -18,20 +18,29 @@ export const RightPanelContent = (props) => {
     useEffect(() => {
         setIsStay(currentQuestion);
     }, [currentQuestion]);
-    
+
     const onTimeOut = () => {
         handleSubmit();
     }
 
     const getClassName = (question, index) => {
         let dataAnswer = question.answers;
+
+        if (isShowAnswer) {
+            if (listCorrectAnswer[index].isCorrect)
+                return typeClassAnsSheet[2];
+            return typeClassAnsSheet[3];
+        }
+
         for (const dataAnswerKey in dataAnswer) {
             if (dataAnswer[dataAnswerKey].isSelected)
                 return typeClassAnsSheet[0];
         }
+
         if (isStay === index) {
             return typeClassAnsSheet[1];
         }
+        
         return typeClassAnsSheet[4];
     };
 

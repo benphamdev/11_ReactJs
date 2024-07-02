@@ -1,13 +1,14 @@
 import _ from "lodash";
 import React, {useState} from "react";
 import Lightbox from "react-awesome-lightbox";
+import {AiFillCheckCircle, AiFillCloseCircle} from "react-icons/ai";
 import {imgSrcBase64} from "../../../utils/Utils";
 
 export const Question = (props) => {
     // constant
 
     // props
-    const {question, handleCheckAnswer} = props;   // question = {questionId, description, image, answers}
+    const {question, handleCheckAnswer, isShowAnswer} = props;   // question = {questionId, description, image, answers}
 
     if (question === undefined || question.length === 0) return (<></>);
 
@@ -53,12 +54,26 @@ export const Question = (props) => {
                                    onChange={(e) => {
                                        handleCheckAnswer(e, question.questionId, answer.id);
                                    }}
+                                   disabled={isShowAnswer}
                             />
                             <label className="form-check-label"
                                    htmlFor={`flexCheckDefault ${question.questionId} ${answer.id}`}
                                    checked={answer.isSelected}>
                                 {answer.description}
                             </label>
+
+                            {
+                                isShowAnswer &&
+                                <>
+                                    {
+                                        !answer.isCorrect && answer.isSelected &&
+                                        <AiFillCloseCircle color={'red'} className={'mx-2'}/>
+                                    }
+                                    {
+                                        answer.isCorrect && <AiFillCheckCircle color={'green'} className={'mx-2'}/>
+                                    }
+                                </>
+                            }
                         </div>
                     ))
                 }

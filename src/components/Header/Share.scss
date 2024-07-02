@@ -1,0 +1,37 @@
+.modal-user {
+  .img-preview {
+    width: 100%;
+    height: 100px;
+    border: 1px dashed #3c2626;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #737782;
+
+    img {
+      max-height: 100%;
+      max-width: 100%;
+      border-radius: 5px;
+    }
+  }
+}
+
+.password-group {
+  display: flex;
+  gap: 20px;
+  margin: 10px 20px;
+
+  .change-password {
+    cursor: pointer;
+    width: 50%;
+
+    &:hover {
+      color: #007bff;
+    }
+  }
+}
+
+.confirm-pass {
+  padding: 20px;
+}

@@ -8,6 +8,11 @@ const ModalSubmitAnswer = (props) => {
         setShow(false)
     }
 
+    const handleShowAnswer = () => {
+        setShow(false)
+        props.setIsShowAnswer(true)
+    }
+
     return (
         <>
             <Modal
@@ -30,10 +35,9 @@ const ModalSubmitAnswer = (props) => {
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Cancel
+                    <Button variant="secondary" onClick={handleClose}>Cancel
                     </Button>
-                    <Button variant="primary">Show answer</Button>
+                    <Button variant="primary" onClick={handleShowAnswer}>Show answer</Button>
                 </Modal.Footer>
             </Modal>
         </>

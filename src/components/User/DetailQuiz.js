@@ -22,6 +22,9 @@ export const DetailQuiz = () => {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [showModalSubmitAnswer, setShowModalSubmitAnswer] = useState(false);
     const [answerQuiz, setAnswerQuiz] = useState({});
+    const [isSubmit, setIsSubmit] = useState(false);
+    const [isShowAnswer, setIsShowAnswer] = useState(false);
+    const [listCorrectAnswer, setListCorrectAnswer] = useState([]);
 
     useEffect(() => {
         fetchQuestions();
@@ -60,6 +63,7 @@ export const DetailQuiz = () => {
                     const answers = [];
                     value.forEach((item) => {
                         item.answers.isSelected = false;
+                        item.answers.isCorrect = false;
                         answers.push(item.answers);
                     });
 
@@ -117,7 +121,7 @@ export const DetailQuiz = () => {
             });
         })
 
-        // console.log("payload", payload)
+        console.log("payload", payload)
 
         let response = await submitAnswer(payload);
         if (response && response.EC === 0) {
@@ -125,7 +129,34 @@ export const DetailQuiz = () => {
             console.log("detail quiz", response);
             setShowModalSubmitAnswer(true);
             let res = response.DT;
-            setAnswerQuiz(res)
+
+            const quizData = res.quizData;
+
+            setListCorrectAnswer(quizData);
+
+            console.log(quizData)
+
+            for (let i = 0; i < questions.length; i++) {
+                let question = questions[i];
+                // console.log(question)
+                if (quizData[i].isCorrect) {
+                    for (let j = 0; j < question.answers.length; j++) {
+                        question.answers[j].isCorrect = question.answers[j].isSelected;
+                    }
+                } else {
+                    quizData[i].systemAnswers.forEach((item) => {
+                        for (let j = 0; j < question.answers.length; j++) {
+                            if (question.answers[j].id === item.id) {
+                                question.answers[j].isCorrect = true;
+                                break;
+                            }
+                        }
+                    })
+                }
+            }
+            // console.log(res);
+            setAnswerQuiz(res);
+            setIsSubmit(true);
         } else {
             toast.error("Submit answer failed");
         }
@@ -159,6 +190,7 @@ export const DetailQuiz = () => {
                         <Question
                             question={(questions && questions.length > 0) ? questions[currentQuestion] : []}
                             handleCheckAnswer={handleCheckAnswer}
+                            isShowAnswer={isShowAnswer}
                         />
                     </div>
 
@@ -167,7 +199,7 @@ export const DetailQuiz = () => {
 
                         <button className={"btn btn-primary"} onClick={handleNextQuestion}>Next</button>
 
-                        <button className={"btn btn-warning"} onClick={handleSubmit}>Submit</button>
+                        <button className={"btn btn-warning"} onClick={handleSubmit} disabled={isSubmit}>Submit</button>
                     </div>
                 </div>
 
@@ -177,6 +209,8 @@ export const DetailQuiz = () => {
                         handleSubmit={handleSubmit}
                         currentQuestion={currentQuestion}
                         setCurrentQuestion={setCurrentQuestion}
+                        isShowAnswer={isShowAnswer}
+                        listCorrectAnswer={listCorrectAnswer}
                     />
                 </div>
 
@@ -184,6 +218,7 @@ export const DetailQuiz = () => {
                     show={showModalSubmitAnswer}
                     setShow={setShowModalSubmitAnswer}
                     answerQuiz={answerQuiz}
+                    setIsShowAnswer={setIsShowAnswer}
                 />
             </div>
         </>

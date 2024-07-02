@@ -26,6 +26,7 @@ const genId = (length) => {
     return res;
 }
 
+// Convert file to Base64
 const toBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -33,6 +34,7 @@ const toBase64 = file => new Promise((resolve, reject) => {
     reader.onerror = reject;
 });
 
+// Convert url to Object file
 const urlToFile = async (url, filename, mimeType) => {
     const res = await fetch(url);
     const buf = await res.arrayBuffer();
@@ -44,4 +46,17 @@ const formatTime = (time) => {
         .toISOString()
         .slice(11, 19);
 }
-export {validateEmail, validatePass, genId, toBase64, urlToFile, formatTime}
+
+// 2024-06-27T14:48:38.000Z => 14:48:38 27/06/2024
+const convertTimeToISO = (time) => {
+    // another way to using package moment
+    return new Date(time)
+        .toISOString()
+        .replace(/T/, " ")
+        .replace(/\..+/, "")
+        .split(" ")
+        .reverse()
+        .join(" ");
+}
+
+export {validateEmail, validatePass, genId, toBase64, urlToFile, formatTime, convertTimeToISO}
