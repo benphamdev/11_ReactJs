@@ -63,7 +63,8 @@ function Header() {
                             {/*<Nav.Link href="/admins">Admin</Nav.Link>*/}
                         </Nav>
 
-                        <Nav>{
+                        <Nav>
+                            {
                             !isAuthenticated
                                 ? <>
                                     <button className="btn-login" onClick={() => handleLogin()}> Login</button>

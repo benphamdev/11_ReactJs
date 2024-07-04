@@ -7,7 +7,6 @@ const HomePage = (props) => {
     const isAuthenticated = useSelector((state) => state.userReducer.isAuthenticated);
     const navigate = useNavigate();
     const {t, i18n} = useTranslation('translation');
-
     return (
         <div className="homepage-container">
             <video autoPlay loop muted width="750px" height="500px">

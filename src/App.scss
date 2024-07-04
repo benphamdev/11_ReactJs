@@ -110,3 +110,19 @@ video {
   object-fit: cover; /* This ensures the video covers the whole area without stretching */
   z-index: -1; /* Puts the video behind other elements */
 }
+
+.for_light_theme{
+  --primary-color: #302ae6;
+  --secondary-color: #d2d2d2;
+  --font-color: #424242;
+  --bg-color: #fff;
+  --heading-color: #292922
+}
+
+.for_dark_theme{
+  --primary-color: #9a97f3;
+  --secondary-color: #818cab;
+  --font-color: #e1e1ff;
+  --bg-color: #161625;
+  --heading-color: #818cab
+}
