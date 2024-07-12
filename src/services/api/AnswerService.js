@@ -1,26 +1,11 @@
 import axios from '../../configs/AxiosCustomize.js';
 
 const submitAnswer = (data) => {
-    return axios.post("api/v1/quiz-submit", data)
-        .then(res => {
-            console.log("Quiz service : ", res);
-            return res;
-        })
-        .catch(err => {
-            console.log("quiz service", err)
-            return Promise.reject(err);
-        })
+    return axios.post("api/v1/quiz-submit", data);
 }
 
 const createAnswerByQuestionId = async data => {
-    return await axios.post("api/v1/answer", data)
-        .then(res => {
-            console.log("answer service : ", res);
-            return res;
-        }).catch(err => {
-            console.log(err)
-            return Promise.reject(err);
-        })
+    return await axios.post("api/v1/answer", data);
 }
 
-export {submitAnswer, createAnswerByQuestionId};
+export { submitAnswer, createAnswerByQuestionId };

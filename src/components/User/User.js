@@ -1,10 +1,10 @@
-import {Quiz} from "./Quiz";
+import { Quiz } from "./Quiz";
 
 const User = (props) => {
     return (
         <div>
-            <Quiz/>
+            <Quiz />
         </div>
-    )
-}
+    );
+};
 export default User;

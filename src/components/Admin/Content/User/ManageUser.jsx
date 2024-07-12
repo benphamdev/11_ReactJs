@@ -1,6 +1,6 @@
-import {useEffect, useState} from "react";
-import {NavDropdown} from "react-bootstrap";
-import {getParticipants, getParticipantsWithPagination} from "../../../../services/api/ParticipantService";
+import { useEffect, useState } from "react";
+import { NavDropdown } from "react-bootstrap";
+import { getParticipants, getParticipantsWithPagination } from "../../../../services/api/ParticipantService";
 import ModalDeleteUser from "./ModalDeleteUser";
 import ModalUser from "./ModalUser";
 import './ManageUser.scss';
@@ -26,7 +26,7 @@ const ManageUser = (props) => {
     useEffect(() => {
         // console.log("ManageUser.jsx useEffect")
         fetchUsersWithPagination(currentPage);
-    }, []);
+    }, [limitPerPage]);
 
     const fetchUsers = async () => {
         let res = await getParticipants();
@@ -94,6 +94,8 @@ const ManageUser = (props) => {
                         pageCount={pageCount}
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
+                        limitPerPage={limitPerPage}
+                        setLimitPerPage={setLimitPerPage}
                     />
                 </div>
 
@@ -114,17 +116,6 @@ const ManageUser = (props) => {
                     setCurrentPage={setCurrentPage}
                 />
 
-                <NavDropdown title="Dropdown" id="nav-dropdown">
-                    <NavDropdown.Item eventKey="1" onClick={() => setLimitPerPage(LIMIT_PAGE_LIMIT[0])}>
-                        item {LIMIT_PAGE_LIMIT[0]} per page
-                    </NavDropdown.Item>
-                    <NavDropdown.Item eventKey="2" onClick={() => setLimitPerPage(LIMIT_PAGE_LIMIT[1])}>
-                        item {LIMIT_PAGE_LIMIT[1]} per page
-                    </NavDropdown.Item>
-                    <NavDropdown.Item eventKey="3" onClick={() => setLimitPerPage(LIMIT_PAGE_LIMIT[2])}>
-                        item {LIMIT_PAGE_LIMIT[2]} per page
-                    </NavDropdown.Item>
-                </NavDropdown>
 
             </div>
 

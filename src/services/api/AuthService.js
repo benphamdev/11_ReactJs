@@ -2,71 +2,27 @@ import axiosRetry from "axios-retry";
 import axios from "../../configs/AxiosCustomize";
 
 const login = (data) => {
-    return axios.post("api/v1/login", data)
-        .then(res => {
-            console.log("auth service : ", res);
-            return res;
-        }).catch(err => {
-            console.log(err)
-            return Promise.reject(err);
-        })
+    return axios.post("api/v1/login", data);
 }
 
 const register = (data) => {
-    return axios.post("api/v1/register", data)
-        .then(res => {
-            console.log("auth service : ", res);
-            return res;
-        }).catch(err => {
-            console.log(err)
-            return Promise.reject(err);
-        })
+    return axios.post("api/v1/register", data);
 }
 
 const logout = (email, refresh_token) => {
-    return axios.post("api/v1/logout", {email, refresh_token})
-        .then(res => {
-            console.log("auth service : ", res);
-            return res;
-        }).catch(err => {
-            console.log(err)
-            return Promise.reject(err);
-        })
+    return axios.post("api/v1/logout", { email, refresh_token });
 }
 
 const getDashboardData = () => {
-    return axios.get("api/v1/overview")
-        .then(res => {
-            console.log("auth service : ", res);
-            return res;
-        }).catch(err => {
-            console.log(err)
-            return Promise.reject(err);
-        });
+    return axios.get("api/v1/overview");
 }
 
 const refreshToken = (data) => {
-    return axios.post('api/v1/refresh-token', data)
-        .then(res => {
-            console.log("auth service : ", res);
-            return res;
-        })
-        .catch(err => {
-            console.log(err)
-            return Promise.reject(err);
-        });
+    return axios.post('api/v1/refresh-token', data);
 }
 
 const changePassword = (data) => {
-    return axios.post('api/v1/change-password', data)
-        .then(res => {
-            console.log("auth service : ", res);
-            return res;
-        })
-        .catch(err => {
-            console.log(err)
-            return Promise.reject(err);
-        });
+    return axios.post('api/v1/change-password', data);
 }
 
 const updateProfile = (data) => {
@@ -77,26 +33,11 @@ const updateProfile = (data) => {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
-    })
-        .then(res => {
-            console.log("auth service : ", res);
-            return res;
-        })
-        .catch(err => {
-            console.log(err)
-            return Promise.reject(err);
-        });
+    });
 }
 
 const getHistoryQuiz = () => {
-    return axios.get("api/v1/history")
-        .then(res => {
-            console.log("auth service : ", res);
-            return res;
-        }).catch(err => {
-            console.log(err)
-            return Promise.reject(err);
-        });
+    return axios.get("api/v1/history");
 }
 
 export {

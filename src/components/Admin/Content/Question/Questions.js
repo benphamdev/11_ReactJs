@@ -1,46 +1,47 @@
-import _ from 'lodash';
-import React, {useEffect, useState} from "react";
+import _ from "lodash";
+import React, { useEffect, useState } from "react";
 import Lightbox from "react-awesome-lightbox";
-import {FloatingLabel} from "react-bootstrap";
-import Form from 'react-bootstrap/Form';
-import {FaRegImage} from "react-icons/fa";
-import {LuBadgeMinus, LuBadgePlus} from "react-icons/lu";
-import "./Questions.scss";
+import { FloatingLabel } from "react-bootstrap";
+import Form from "react-bootstrap/Form";
+import { FaRegImage } from "react-icons/fa";
+import { LuBadgeMinus, LuBadgePlus } from "react-icons/lu";
 import Select from "react-select";
-import {toast} from "react-toastify";
-import {v4 as uuidv4} from 'uuid'
-import {createAnswerByQuestionId} from "../../../../services/api/AnswerService";
-import {createQuestionByQuizId} from "../../../../services/api/QuestionService";
-import {getQuizWithQA, retrieveAllQuiz, upsertQuiz} from "../../../../services/api/QuizService";
-import {imgSrcBase64, toBase64, urlToFile} from "../../../../utils/Utils";
+import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
+import { createAnswerByQuestionId } from "../../../../services/api/AnswerService";
+import { createQuestionByQuizId } from "../../../../services/api/QuestionService";
+import { getQuizWithQA, retrieveAllQuiz, upsertQuiz } from "../../../../services/api/QuizService";
+import { imgSrcBase64, toBase64, urlToFile } from "../../../../utils/Utils";
+import "./Questions.scss";
 
 export const Questions = (props) => {
     // const
-    const typeAction = ['ADD', 'REMOVE'];
-    const typeChange = ['QUESTION', 'ANSWER'];
+    const typeAction = ["ADD", "REMOVE"];
+    const typeChange = ["QUESTION", "ANSWER"];
     const initQuestion = [
         {
             id: uuidv4(),
-            description: '',
-            imageFile: '',
-            imageName: '',
+            description: "",
+            imageFile: "",
+            imageName: "",
             answers: [
                 {
                     id: uuidv4(),
-                    description: '',
-                    isCorrect: false
-                },]
+                    description: "",
+                    isCorrect: false,
+                },
+            ],
         },
-    ]
+    ];
 
     // state
     const [selectedQuiz, setSelectedQuiz] = useState(null);
-    const [isZoomed, setIsZoomed] = useState(null)
+    const [isZoomed, setIsZoomed] = useState(null);
     const [questions, setQuestions] = useState(initQuestion);
-    const [quizzes, setQuizzes] = useState([])
+    const [quizzes, setQuizzes] = useState([]);
 
     // props
-    const {isUpdateQuiz, setIsUpdateQuiz} = props;
+    const { isUpdateQuiz, setIsUpdateQuiz } = props;
 
     // effect
     useEffect(() => {
@@ -57,31 +58,32 @@ export const Questions = (props) => {
         let response = await retrieveAllQuiz();
         if (response && response.EC === 0) {
             let data = response.DT;
-            let temp = []
+            let temp = [];
             data.forEach((item) => {
-                return temp.push({value: `${item.id}`, label: `${item.id} ${item.name}`})
-            })
+                return temp.push({ value: `${item.id}`, label: `${item.id} ${item.name}` });
+            });
             setQuizzes(temp);
         } else {
             console.log(response);
             toast.error(response.EM);
         }
-    }
+    };
 
     const handleQuestion = (type, id) => {
         switch (type) {
             case typeAction[0]:
                 let newQuestion = {
                     id: uuidv4(),
-                    description: '',
-                    imageFile: '',
-                    imageName: '',
+                    description: "",
+                    imageFile: "",
+                    imageName: "",
                     answers: [
                         {
                             id: uuidv4(),
-                            description: '',
-                            isCorrect: false
-                        }]
+                            description: "",
+                            isCorrect: false,
+                        },
+                    ],
                 };
                 setQuestions([...questions, newQuestion]);
                 break;
@@ -92,7 +94,7 @@ export const Questions = (props) => {
             default:
                 break;
         }
-    }
+    };
 
     const handleAnswer = (type, questionId, answerId) => {
         let cloneQuestions = _.cloneDeep(questions);
@@ -101,15 +103,15 @@ export const Questions = (props) => {
         if (type == typeAction[0]) {
             let newAnswer = {
                 id: uuidv4(),
-                description: '',
-                isCorrect: false
+                description: "",
+                isCorrect: false,
             };
             newQuestion.answers.push(newAnswer);
         } else if (type == typeAction[1])
             newQuestion.answers = newQuestion.answers.filter((answer) => answer.id !== answerId);
 
         setQuestions(cloneQuestions);
-    }
+    };
 
     const handleChange = (e, type, arrId, value) => {
         let cloneQuestions = _.cloneDeep(questions);
@@ -121,14 +123,12 @@ export const Questions = (props) => {
             newQuestion.description = value;
         } else if (type === typeChange[1]) {
             let newAnswer = newQuestion.answers.find((answer) => answer.id === arrId[1]);
-            if (e.target.type === 'checkbox')
-                newAnswer.isCorrect = value;
-            else
-                newAnswer.description = value;
+            if (e.target.type === "checkbox") newAnswer.isCorrect = value;
+            else newAnswer.description = value;
         }
 
         setQuestions(cloneQuestions);
-    }
+    };
 
     const handleUploadImage = (event, questionId) => {
         if (event && event.target.files[0]) {
@@ -141,11 +141,11 @@ export const Questions = (props) => {
             newQuestion.imageName = event.target.files[0].name;
             setQuestions(cloneQuestions);
         }
-    }
+    };
 
     const validateQuiz = () => {
         if (!selectedQuiz.value) {
-            toast.error('Please select quiz');
+            toast.error("Please select quiz");
             return true;
         }
 
@@ -161,12 +161,12 @@ export const Questions = (props) => {
                 }
             }
         }
-    }
+    };
 
     const handleSubmitQuiz = async () => {
         // validate
         if (validateQuiz()) {
-            return
+            return;
         }
         // console.log('questions', questions, selectedQuiz);
         if (isUpdateQuiz !== undefined) {
@@ -174,8 +174,7 @@ export const Questions = (props) => {
         } else {
             createQuestion();
         }
-
-    }
+    };
     const upsertQuizWithQA = async () => {
         let cloneQuestions = _.cloneDeep(questions);
 
@@ -186,9 +185,9 @@ export const Questions = (props) => {
         }
 
         let payload = {
-            "quizId": selectedQuiz.value,
-            "questions": cloneQuestions
-        }
+            quizId: selectedQuiz.value,
+            questions: cloneQuestions,
+        };
 
         let response = await upsertQuiz(payload);
         if (response && response.EC === 0) {
@@ -205,7 +204,7 @@ export const Questions = (props) => {
                 let data = {
                     quiz_id: selectedQuiz.value,
                     description: question.description,
-                    questionImage: question.imageFile
+                    questionImage: question.imageFile,
                 };
                 let response = await createQuestionByQuizId(data);
 
@@ -215,18 +214,18 @@ export const Questions = (props) => {
                     let dataAnswer = {
                         question_id: response.DT.id,
                         description: answer.description,
-                        correct_answer: answer.isCorrect
+                        correct_answer: answer.isCorrect,
                     };
                     let resAnswer = await createAnswerByQuestionId(dataAnswer);
                     // console.log('resAnswer', resAnswer)
                 }
             }
-            toast.success('Create quiz success')
+            toast.success("Create quiz success");
             setQuestions(initQuestion);
         } catch (e) {
-            toast.error(e.message)
+            toast.error(e.message);
         }
-    }
+    };
     const getQuizWithQuestion = async () => {
         let response = await getQuizWithQA(selectedQuiz.value);
         if (response && response.EC === 0) {
@@ -236,7 +235,11 @@ export const Questions = (props) => {
             for await (const question of data.qa) {
                 // console.log(question);
                 if (question.imageFile) {
-                    let file = await urlToFile(`${imgSrcBase64},${question.imageFile}`, `${question.id}`, 'image/png+jpg');
+                    let file = await urlToFile(
+                        `${imgSrcBase64},${question.imageFile}`,
+                        `${question.id}`,
+                        "image/png+jpg"
+                    );
                     question.imageFile = file;
                     question.imageName = `${question.id}.png`;
                 }
@@ -248,17 +251,15 @@ export const Questions = (props) => {
             console.log(response);
             toast.error(response.EM);
         }
-    }
+    };
 
     return (
         <>
-            <div className={'question-container'}>
-                <div className={'title'}>
-                    Questions
-                </div>
+            <div className={"question-container"}>
+                <div className={"title"}>Questions</div>
 
                 <div className={"body"}>
-                    <div className={'col-6'}>
+                    <div className={"col-6"}>
                         <label> Select quiz</label>
                         <Select
                             value={selectedQuiz}
@@ -268,130 +269,152 @@ export const Questions = (props) => {
                         />
                     </div>
 
-                    <div className={'my-1'}>
-                        Add question
-                    </div>
+                    <div className={"my-1"}>Add question</div>
 
-                    {
-                        questions && questions.length > 0 && questions.map((question, index) => {
+                    {questions &&
+                        questions.length > 0 &&
+                        questions.map((question, index) => {
                             return (
-                                <div className={'create-question my-4'} key={question.id}>
-                                    <div className={'question-content'}>
-                                        <div className={'form-floating description'}>
+                                <div className={"create-question my-4"} key={question.id}>
+                                    <div className={"question-content"}>
+                                        <div className={"form-floating description"}>
                                             <FloatingLabel
                                                 controlId="floatingInput"
                                                 label={`description ${index + 1}`}
                                             >
                                                 <Form.Control
-                                                    type="text" placeholder="description"
+                                                    type="text"
+                                                    placeholder="description"
                                                     value={question.description}
                                                     onChange={(e) =>
-                                                        handleChange(e, typeChange[0], [question.id, ''], e.target.value)
+                                                        handleChange(
+                                                            e,
+                                                            typeChange[0],
+                                                            [question.id, ""],
+                                                            e.target.value
+                                                        )
                                                     }
                                                 />
                                             </FloatingLabel>
                                         </div>
 
-                                        <div className={'group-upload'}>
+                                        <div className={"group-upload"}>
                                             <label htmlFor={`${question.id}`}>
-                                                <FaRegImage className={'label-upload'}/>
+                                                <FaRegImage className={"label-upload"} />
                                             </label>
                                             <input
                                                 id={`${question.id}`}
-                                                type={'file'} hidden
+                                                type={"file"}
+                                                hidden
                                                 onChange={(e) => handleUploadImage(e, question.id)}
                                             />
-                                            {
-                                                question.imageFile
-                                                    ? <span onClick={() => setIsZoomed(question)}>
-                                                        {question.id}-{question.imageName}
-                                                    </span>
-                                                    : <span>No file upload</span>
-                                            }
+                                            {question.imageFile ? (
+                                                <span onClick={() => setIsZoomed(question)}>
+                                                    {question.id}-{question.imageName}
+                                                </span>
+                                            ) : (
+                                                <span>No file upload</span>
+                                            )}
                                         </div>
 
-                                        <div className={'gr-btn'}>
-                                            <span onClick={() => handleQuestion(typeAction[0], '')}>
-                                                <LuBadgePlus className={'btn-add'}/>
+                                        <div className={"gr-btn"}>
+                                            <span onClick={() => handleQuestion(typeAction[0], "")}>
+                                                <LuBadgePlus className={"btn-add"} />
                                             </span>
-                                            {
-                                                questions.length > 1 &&
-                                                <span onClick={() => handleQuestion(typeAction[1], question.id)}>
-                                                    <LuBadgeMinus className={'btn-remove'}/>
+                                            {questions.length > 1 && (
+                                                <span
+                                                    onClick={() => handleQuestion(typeAction[1], question.id)}
+                                                >
+                                                    <LuBadgeMinus className={"btn-remove"} />
                                                 </span>
-                                            }
-
+                                            )}
                                         </div>
                                     </div>
 
-                                    {
-                                        question.answers && question.answers.length > 0 &&
+                                    {question.answers &&
+                                        question.answers.length > 0 &&
                                         question.answers.map((answer, index) => {
                                             return (
                                                 <div className={"answer-content"} key={answer.id}>
                                                     <input
-                                                        className="form-check-input isCorrect" type="checkbox"
+                                                        className="form-check-input isCorrect"
+                                                        type="checkbox"
                                                         id="flexCheckDefault"
                                                         checked={answer.isCorrect}
-                                                        onChange={(e) => handleChange(e, typeChange[1], [question.id, answer.id], e.target.checked)}
+                                                        onChange={(e) =>
+                                                            handleChange(
+                                                                e,
+                                                                typeChange[1],
+                                                                [question.id, answer.id],
+                                                                e.target.checked
+                                                            )
+                                                        }
                                                     />
 
-                                                    <div className={'form-floating answer'}>
+                                                    <div className={"form-floating answer"}>
                                                         <FloatingLabel
                                                             controlId="floatingInput"
                                                             label={`answer ${index + 1}`}
                                                         >
                                                             <Form.Control
-                                                                type="text" placeholder="answer"
+                                                                type="text"
+                                                                placeholder="answer"
                                                                 value={answer.description}
                                                                 onChange={(e) =>
-                                                                    handleChange(e, typeChange[1], [question.id, answer.id], e.target.value)
+                                                                    handleChange(
+                                                                        e,
+                                                                        typeChange[1],
+                                                                        [question.id, answer.id],
+                                                                        e.target.value
+                                                                    )
                                                                 }
                                                             />
                                                         </FloatingLabel>
                                                     </div>
 
-                                                    <div className={'gr-btn'}>
+                                                    <div className={"gr-btn"}>
                                                         <span
-                                                            onClick={() => handleAnswer(typeAction[0], question.id, '')}>
-                                                            <LuBadgePlus className={'btn-add'}/>
+                                                            onClick={() =>
+                                                                handleAnswer(typeAction[0], question.id, "")
+                                                            }
+                                                        >
+                                                            <LuBadgePlus className={"btn-add"} />
                                                         </span>
 
-                                                        {
-                                                            question.answers.length > 1 &&
+                                                        {question.answers.length > 1 && (
                                                             <span
-                                                                onClick={() => handleAnswer(typeAction[1], question.id, answer.id)}>
-                                                            <LuBadgeMinus className={'btn-remove'}/>
+                                                                onClick={() =>
+                                                                    handleAnswer(
+                                                                        typeAction[1],
+                                                                        question.id,
+                                                                        answer.id
+                                                                    )
+                                                                }
+                                                            >
+                                                                <LuBadgeMinus className={"btn-remove"} />
                                                             </span>
-                                                        }
+                                                        )}
                                                     </div>
                                                 </div>
-                                            )
-                                        })
-                                    }
+                                            );
+                                        })}
                                 </div>
                             );
-                        })
-                    }
+                        })}
 
-
-                    <button
-                        className={'btn btn-warning'}
-                        onClick={handleSubmitQuiz}
-                    >
+                    <button className={"btn btn-warning"} onClick={handleSubmitQuiz}>
                         Submit
                     </button>
 
-                    {
-                        !_.isNull(isZoomed) &&
+                    {!_.isNull(isZoomed) && (
                         <Lightbox
                             image={URL.createObjectURL(isZoomed.imageFile)}
                             title={isZoomed.imageName}
                             onClose={() => setIsZoomed(null)}
                         />
-                    }
+                    )}
                 </div>
             </div>
         </>
     );
-}
+};

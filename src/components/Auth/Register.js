@@ -1,50 +1,54 @@
-import {useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {register} from "../../services/api/AuthService";
-import {toast} from "react-toastify";
-import Form from 'react-bootstrap/Form';
+import { useState } from "react";
+import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import {BiHide, BiShow} from "react-icons/bi";
-import './Register.scss';
-import {validateEmail} from "../../utils/Utils";
-import {Language} from "../Header/Language";
+import { BiHide, BiShow } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { register } from "../../services/api/AuthService";
+import { validateEmail } from "../../utils/Utils";
+import { Language } from "../Header/Language";
+import "./Register.scss";
 
 export const Register = () => {
-    const [email, setEmail] = useState('');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [emailError, setEmailError] = useState('');
-    const [userNameError, setUserNameError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
+    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [userNameError, setUserNameError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
     const [validated, setValidated] = useState(false);
     const [isToggle, setIsToggle] = useState(true);
 
     const validateUsername = (value) => {
-        if (value === '') {
-            setUserNameError('Please enter a valid username. It contains only letters, numbers, and underscores.');
+        if (value === "") {
+            setUserNameError(
+                "Please enter a valid username. It contains only letters, numbers, and underscores."
+            );
             return false;
         }
-        setUserNameError('');
+        setUserNameError("");
         return true;
-    }
+    };
 
     const validEmail = (value) => {
-        if (value === '' && !validateEmail(value)) {
-            setEmailError('Please enter a valid username. It contains only letters, numbers, and underscores.');
+        if (value === "" && !validateEmail(value)) {
+            setEmailError(
+                "Please enter a valid username. It contains only letters, numbers, and underscores."
+            );
             return false;
         }
-        setEmailError('');
+        setEmailError("");
         return true;
-    }
+    };
 
     const validatePassword = (value) => {
-        if (value === '') {
-            setPasswordError('It contains only letters, numbers, and underscores.');
+        if (value === "") {
+            setPasswordError("It contains only letters, numbers, and underscores.");
             return false;
         }
-        setPasswordError('');
+        setPasswordError("");
         return true;
-    }
+    };
 
     const handleSubmit = async (event) => {
         const form = event.currentTarget;
@@ -61,41 +65,40 @@ export const Register = () => {
         setValidated(true);
 
         if (isValidEmail && isValidUsername && isValidPassword) {
-            let data = {email, username, password};
+            let data = { email, username, password };
             let response = await register(data);
             // console.log("response : ", response)
             if (response && response.EC == 0) {
-                toast.success('Register successfully');
+                toast.success("Register successfully");
                 navigateLogin();
             } else {
                 toast.error(response.EM);
             }
         }
-
-    }
+    };
 
     const navigate = useNavigate();
 
     const navigateLogin = () => {
-        console.log("navigate to login")
-        navigate('/login');
-    }
+        console.log("navigate to login");
+        navigate("/login");
+    };
 
     const navigateToHome = () => {
-        navigate('/');
-    }
+        navigate("/");
+    };
 
     return (
         <div className={"register-container"}>
             <div className={"header"}>
                 <span>Already have an account?</span>
-                <button className={"btn btn-dark mx-3"} onClick={navigateLogin}>Login</button>
-                <Language/>
+                <button className={"btn btn-dark mx-3"} onClick={navigateLogin}>
+                    Login
+                </button>
+                <Language />
             </div>
 
-            <div className={"title col-4 mx-auto"}>
-                Duy Chiến
-            </div>
+            <div className={"title col-4 mx-auto"}>Duy Chiến</div>
 
             <div className={"welcome col-4 mx-auto"}>
                 Get better data with conversational forms, surveys, quizzes & more.
@@ -115,7 +118,7 @@ export const Register = () => {
                                 onChange={(e) => setUsername(e.target.value)}
                             />
                             <Form.Control.Feedback type="invalid">
-                                {userNameError ? userNameError : 'Please choose a username.'}
+                                {userNameError ? userNameError : "Please choose a username."}
                             </Form.Control.Feedback>
                         </InputGroup>
                     </Form.Group>
@@ -126,13 +129,14 @@ export const Register = () => {
                             <Form.Control
                                 type="text"
                                 autoComplete={"email"}
-                                aria-describedby="inputGroupPrepend" required
+                                aria-describedby="inputGroupPrepend"
+                                required
                                 placeholder="benphamdev@gmail.com"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                             <Form.Control.Feedback type="invalid">
-                                {emailError ? emailError : 'Please choose a email.'}
+                                {emailError ? emailError : "Please choose a email."}
                             </Form.Control.Feedback>
                         </InputGroup>
                     </Form.Group>
@@ -141,8 +145,9 @@ export const Register = () => {
                         <Form.Label>Password</Form.Label>
                         <InputGroup hasValidation>
                             <Form.Control
-                                type={isToggle ? 'text' : 'password'}
-                                id="validationCustom02" required
+                                type={isToggle ? "text" : "password"}
+                                id="validationCustom02"
+                                required
                                 aria-describedby="validationTooltipPasswordPrepend"
                                 autoComplete={"current-password"}
                                 placeholder="At least 8 characters"
@@ -150,15 +155,17 @@ export const Register = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 onBlur={validatePassword}
                             />
-                            {
-                                isToggle
-                                    ? <span className={"icons-eye"}
-                                            onClick={() => setIsToggle(!isToggle)}><BiHide/></span>
-                                    : <span className={"icons-eye"}
-                                            onClick={() => setIsToggle(!isToggle)}><BiShow/></span>
-                            }
+                            {isToggle ? (
+                                <span className={"icons-eye"} onClick={() => setIsToggle(!isToggle)}>
+                                    <BiHide />
+                                </span>
+                            ) : (
+                                <span className={"icons-eye"} onClick={() => setIsToggle(!isToggle)}>
+                                    <BiShow />
+                                </span>
+                            )}
                             <Form.Control.Feedback type="invalid">
-                                {passwordError ? passwordError : 'Please choose a password.'}
+                                {passwordError ? passwordError : "Please choose a password."}
                             </Form.Control.Feedback>
                         </InputGroup>
                     </Form.Group>
@@ -171,11 +178,12 @@ export const Register = () => {
                             feedbackType="invalid"
                         />
                     </Form.Group>
-
                 </Form>
 
                 <div className="col-12">
-                    <button className="btn btn-primary" type="submit" onClick={handleSubmit}>Signup</button>
+                    <button className="btn btn-primary" type="submit" onClick={handleSubmit}>
+                        Signup
+                    </button>
                 </div>
 
                 <div className={"back-home"}>
@@ -184,4 +192,4 @@ export const Register = () => {
             </div>
         </div>
     );
-}
+};

@@ -5,6 +5,40 @@
     .btn-add-user {
       margin: 10px 0px;
     }
+
+    .footer-table-user {
+      display: flex;
+      justify-content: flex-end;
+      padding: 10px 0;
+      align-items: center;
+      gap: 20px;
+
+      .pagination {
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 20px;
+        margin-left: 40px;
+      }
+
+      .nav-item {
+        height: 40px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin: 0 32px;
+        cursor: pointer;
+        padding: 0px 8px;
+        border-radius: 5px;
+        background-color: #e9ecef;
+        color: #000;
+        transition: all 0.3s;
+
+        &:hover {
+          background-color: #3c2626;
+          color: #fff;
+        }
+      }
+    }
   }
 
   .title {
