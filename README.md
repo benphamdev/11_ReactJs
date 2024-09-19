@@ -94,3 +94,42 @@ npm install --save-exact i18next@21.8.16 react-i18next@11.18.3 i18next-browser-l
 i18next-http-backend@1.4.1
 npm install --save-exact axios-retry
 
+Note :
+get redux state outside component
+https://stackoverflow.com/questions/38460949/what-is-the-best-way-to-access-redux-store-outside-a-react-component
+
+axios call api with bearer token
+https://stackoverflow.com/questions/40988238/sending-the-bearer-token-with-axios
+
+dynamic segments
+https://reactrouter.com/en/main/start/overview#dynamic-segments
+
+navigate with state react router v6
+https://stackoverflow.com/questions/64566405/react-router-dom-v6-usenavigate-passing-value-to-another-component
+
+reactjs retrieve value from checkbox - Search
+https://www.bing.com/search?q=reactjs+retrieve+value+from+checkbox&qs=n&form=QBRE&sp=-1&lq=0&pq=reactjs+retrieve+value+from+checkbox&sc=11-36&sk=&cvid=B64AFB6947CE45B89C7A87989EE6E193&ghsh=0&ghacc=0&ghpl=
+
+reactjs retrieve value from checkbox
+https://stackoverflow.com/questions/39267669/retrieving-value-of-checkbox-in-react-js
+
+reactjs setting checked checkbox
+https://stackoverflow.com/questions/39120007/setting-a-checkbox-check-property-in-react
+
+bootstrap 5 legend is not working
+https://github.com/twbs/bootstrap/issues/32548
+
+reactjs reset form input type file
+https://bobbyhadz.com/blog/react-reset-file-input
+
+bootstrap dropdown hide caret
+https://stackoverflow.com/questions/48176321/bootstrap-4-remove-caret-from-dropdown-button
+
+reactjs rechart set full height
+https://stackoverflow.com/questions/52134350/set-height-and-width-for-responsive-chart-using-recharts-barchart
+
+pass data from express to ejs
+https://stackoverflow.com/questions/65977136/how-to-pass-data-from-express-to-ejs
+
+Docker bridge networking does not work in Ubuntu 22.04 - General Discussions - Docker Community Forums
+https://forums.docker.com/t/docker-bridge-networking-does-not-work-in-ubuntu-22-04/136326
